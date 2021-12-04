@@ -229,3 +229,8 @@ Content-Disposition: form-data; name="csrf"
 Ra1gXgVnwyebhHPsi3FWWSNBfY14epng
 ------WebKitFormBoundary2NUJ0mu3fL0Qhb2U--
 ````
+
+### >> 6. Remote code execution via polyglot web shell upload
+https://github.com/chinarulezzz/pixload/blob/master/README.md
+
+
