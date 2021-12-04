@@ -232,5 +232,5 @@ Ra1gXgVnwyebhHPsi3FWWSNBfY14epng
 
 ### >> 6. Remote code execution via polyglot web shell upload
 https://github.com/chinarulezzz/pixload/blob/master/README.md
-
+https://portswigger.net/web-security/file-upload#what-are-file-upload-vulnerabilities
 
