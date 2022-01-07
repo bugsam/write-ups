@@ -3,7 +3,7 @@
 ## Linux
 
 
-````
+````http
 POST /api/user/register HTTP/1.1
 Host: 10.10.11.120
 Accept-Encoding: gzip, deflate
@@ -21,7 +21,7 @@ Content-Length: 88
 }
 ````
 
-````
+````http
 POST /api/user/login HTTP/1.1
 Host: 10.10.11.120
 Accept-Encoding: gzip, deflate
@@ -38,7 +38,7 @@ Content-Length: 68
 }
 ````
 
-````
+````http
 HTTP/1.1 200 OK
 Server: nginx/1.18.0 (Ubuntu)
 Date: Fri, 07 Jan 2022 00:55:22 GMT
