@@ -7,12 +7,16 @@
 5. Criar JWT com usuario *theadmin*
 6. Adicionar chave ssh em authorized_keys do user
 7. Encontrar falha no código do arquivo com *SUID* de *core dump* e explorar
-8. Obter chave ssh
+9. Obter chave ssh
 
 * [JWT Cracker](https://github.com/lmammino/jwt-cracker)
 * [JWT.io](https://jwt.io)
 * [drt.sh htb-secret](https://drt.sh/posts/htb-secret/)
 
+````c
+//code that allows core dumps
+prctl(PR_SET_DUMPABLE, 1)
+````
 
 ````shell
 # Add ssh-key in authorized_keys
