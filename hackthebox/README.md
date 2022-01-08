@@ -71,7 +71,38 @@ auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ3OGY0YzMyNGI3MjA
 
 ````
 
-4. Avalie os arquivos .env e .git
+4. Verificar os arquivos dos diretórios
+
+O arquivo routes/private.js possui um endpoint com falha de command injection
+Para alcançar a vulnerabilidade, é necessário obter privilégio com usuário  theadmin
+
+````js
+router.get('/logs', verifytoken, (req, res) => {
+    const file = req.query.file;
+    const userinfo = { name: req.user }
+    const name = userinfo.name.name;
+    
+    if (name == 'theadmin'){
+        const getLogs = `git log --oneline ${file}`;
+        exec(getLogs, (err , output) =>{
+            if(err){
+                res.status(500).send(err);
+                return
+            }
+            res.json(output);
+        })
+    }
+    else{
+        res.json({
+            role: {
+                role: "you are normal user",
+                desc: userinfo.name.name
+            }
+        })
+    }
+}
+````
+
 
 ````bash
 # cat .env
@@ -155,6 +186,10 @@ Connection: close
 
 {"creds":{"role":"admin","username":"theadmin","desc":"welcome back admin"}}
 ````
+
+6. 
+````
+
 
 Tool to crack JWT:
 https://lmammino.github.io/jwt-cracker/
