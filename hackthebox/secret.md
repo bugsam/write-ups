@@ -10,7 +10,7 @@
 8. Obter chave ssh
 
 * [JWT Cracker](https://github.com/lmammino/jwt-cracker)
-* [JWT.io](https://jwt.io
+* [JWT.io](https://jwt.io)
 * [drt.sh htb-secret](https://drt.sh/posts/htb-secret/)
 
 
