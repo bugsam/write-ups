@@ -2,6 +2,8 @@
 
 ## Linux
 
+### Secret
+
 1. Criar usuario
 ````http
 POST /api/user/register HTTP/1.1
@@ -69,7 +71,7 @@ auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ3OGY0YzMyNGI3MjA
 
 ````
 
-
+https://lmammino.github.io/jwt-cracker/
 
 ## Windows
 
