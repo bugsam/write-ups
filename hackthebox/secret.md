@@ -6,7 +6,7 @@
 4. Encontrar TOKEN_SECRET que cria o JWT
 5. Criar JWT com usuario *theadmin*
 6. Adicionar chave ssh em authorized_keys do user
-7. Explorar aplicação com *SUID* por *core dump*
+7. Encontrar falha no código do arquivo com *SUID* de *core dump* e explorar
 8. Obter chave ssh
 
 * [JWT Cracker](https://github.com/lmammino/jwt-cracker)
