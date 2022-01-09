@@ -127,5 +127,10 @@ Content-Length: 135
 
 7. User hash is on /home/developer/user.txt
 
+````bash
+strapi@horizontall:~/myapi$ uname -a
+Linux horizontall 4.15.0-154-generic #161-Ubuntu SMP Fri Jul 30 13:04:17 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+````
+
 # Secrets
 * FLAG_USER = edb3997bc0e86f32c6c9f363dddeee33
