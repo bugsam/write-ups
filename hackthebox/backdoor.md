@@ -124,3 +124,8 @@ Content-Length: 135
   "port":"1337"
 }
 ````
+
+7. User hash is on /home/developer/user.txt
+
+# Secrets
+* FLAG_USER = d197735b9bed783f2c33030498f2ea8a
