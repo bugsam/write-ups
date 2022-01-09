@@ -128,4 +128,4 @@ Content-Length: 135
 7. User hash is on /home/developer/user.txt
 
 # Secrets
-* FLAG_USER = d197735b9bed783f2c33030498f2ea8a
+* FLAG_USER = edb3997bc0e86f32c6c9f363dddeee33
