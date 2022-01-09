@@ -52,7 +52,7 @@ $ apport-unpack /var/crash/_opt_count.1000.crash /tmp/crash-report
 $ strings /tmp/crash-report/CoreDump
 ````
 
-## SECRETS:
+## SECRETS
 
 
 
