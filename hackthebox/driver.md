@@ -141,6 +141,7 @@ user:[Guest] rid:[0x1f5]
 user:[tony] rid:[0x3eb]
 ````
 
+7. Attack (msfconsole version)
 ````
 msf6 auxiliary(scanner/winrm/winrm_cmd) > show options
 
@@ -234,6 +235,12 @@ msf6 auxiliary(scanner/winrm/winrm_cmd) > run
 [*] Scanned 1 of 1 hosts (100% complete)
 [*] Auxiliary module execution completed
 ````
+
+7. Attack (evil-winrm version)
+````
+# gem install evil-winrm
+````
+
 
 
 [Shell Command File](https://www.bleepingcomputer.com/news/security/you-can-steal-windows-login-credentials-via-google-chrome-and-scf-files/)
