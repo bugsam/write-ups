@@ -149,4 +149,5 @@ root@pandora:/root# cat root.txt
 
 # Secrets
 FLAG_USER = c06f3d03f86982c2cd7daa9fd244029f
-FLAG_ROOT = c06f3d03f86982c2cd7daa9fd244029f
+
+FLAG_ROOT = 4b0007bc3e164fba81e2052df250cd23
