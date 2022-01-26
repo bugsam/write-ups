@@ -30,8 +30,14 @@
     iget-object p1, p0, Lcom/example/apkey/MainActivity$a;->b:Lcom/example/apkey/MainActivity;
 
 ````
+3. Build and sign
 
-3. Wherever word you insert in login and password would now just shows the FLAG
+````
+$ apktool build base -o base4.apk
+$ objection signapk base4.apk
+````
+
+4. Wherever word you insert in login and password would now just shows the FLAG
 
 ## Secrets
 FLAG: HTB{m0r3_0bfusc4t1on_w0uld_n0t_hurt}
