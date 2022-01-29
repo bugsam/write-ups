@@ -311,6 +311,5 @@ ed0090c7bc96ec6aec981f300e8bfb8e
 
 
 # Secrets
-FLAG_USER = ed0090c7bc96ec6aec981f300e8bfb8e
-
-FLAG_ROOT = 
+* FLAG_USER = ed0090c7bc96ec6aec981f300e8bfb8e
+* FLAG_ROOT = 
