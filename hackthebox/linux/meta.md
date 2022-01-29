@@ -220,4 +220,5 @@ cd /var/www/dev01.artcorp.htb/convert_images/ && /usr/local/bin/mogrify -format 
 pkill mogrify
 ````
 
+https://insert-script.blogspot.com/2020/11/imagemagick-shell-injection-via-pdf.html
 
