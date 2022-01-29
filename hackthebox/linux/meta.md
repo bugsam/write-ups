@@ -108,3 +108,5 @@ Blue X                          : 0.15
 Blue Y                          : 0.05999
 ````
 
+* There is a know vulnerability for exiftool [CVE-2021-22204](https://nvd.nist.gov/vuln/detail/CVE-2021-22204) which leads to arbitrary code execution.
+
