@@ -303,3 +303,13 @@ M4ofDQ3csqhrNLlvA68QRPMaZ9bFgYjhB1A1pGxOmu9Do+LNu0qr2/GBcCvYY2kI4GFINe
 bhFErAeoncE3vJAAAACXJvb3RAbWV0YQE=
 -----END OPENSSH PRIVATE KEY-----
 ````
+
+````
+bash-5.0$ cat user.txt
+ed0090c7bc96ec6aec981f300e8bfb8e
+````
+
+
+# Secrets
+FLAG_USER = ed0090c7bc96ec6aec981f300e8bfb8e
+FLAG_ROOT = 
