@@ -112,6 +112,7 @@ Blue Y                          : 0.05999
 
 * Conviso have written about this vulnerability https://blog.convisoappsec.com/en/a-case-study-on-cve-2021-22204-exiftool-rce/
 
+## Exploit
 1. Create valid DjVu exploit file
 
 payload file
@@ -201,4 +202,22 @@ $ pwd
 /var/www/dev01.artcorp.htb/metaview
 $ 
 ````
+
+## Enumeration
+
+2. Executes [pspy](https://github.com/DominicBreuker/pspy/releases) 
+
+````
+2022/01/29 14:01:01 CMD: UID=1000 PID=4021   | /bin/bash /usr/local/bin/convert_images.sh 
+2022/01/29 14:01:01 CMD: UID=1000 PID=4020   | /bin/sh -c /usr/local/bin/convert_images.sh 
+2022/01/29 14:01:01 CMD: UID=1000 PID=4022   | /usr/local/bin/mogrify -format png *.* 
+````
+
+````
+$ cat  /usr/local/bin/convert_images.sh
+#!/bin/bash
+cd /var/www/dev01.artcorp.htb/convert_images/ && /usr/local/bin/mogrify -format png *.* 2>/dev/null
+pkill mogrify
+````
+
 
