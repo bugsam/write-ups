@@ -274,6 +274,49 @@ bash: no job control in this shell
 patrick@devzat:~/pets$
 ````
 
+````
+patrick@devzat:~/devzat$ ss -nlpt
+State     Recv-Q    Send-Q       Local Address:Port        Peer Address:Port    Process                                                                         
+LISTEN    0         4096             127.0.0.1:8443             0.0.0.0:*                                                                                       
+LISTEN    0         4096             127.0.0.1:5000             0.0.0.0:*        users:(("petshop",pid=844,fd=3))                                               
+LISTEN    0         4096         127.0.0.53%lo:53               0.0.0.0:*                                                                                       
+LISTEN    0         4096             127.0.0.1:8086             0.0.0.0:*                                                                                       
+LISTEN    0         128                0.0.0.0:22               0.0.0.0:*                                                                                       
+LISTEN    0         4096                     *:8000                   *:*        users:(("devchat",pid=859,fd=7))                                               
+LISTEN    0         511                      *:80                     *:*                                                                                       
+LISTEN    0         128                   [::]:22                  [::]:*                                                                                       
+patrick@devzat:~/devzat$
+````
+
+````
+patrick@devzat:~/devzat$ curl http://127.0.0.1:8086 -v
+*   Trying 127.0.0.1:8086...
+* TCP_NODELAY set
+* Connected to 127.0.0.1 (127.0.0.1) port 8086 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1:8086
+> User-Agent: curl/7.68.0
+> Accept: */*
+> 
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 404 Not Found
+< Content-Type: text/plain; charset=utf-8
+< X-Content-Type-Options: nosniff
+< X-Influxdb-Build: OSS
+< X-Influxdb-Version: 1.7.5
+< Date: Wed, 16 Mar 2022 12:13:01 GMT
+< Content-Length: 19
+< 
+404 page not found
+* Connection #0 to host 127.0.0.1 left intact
+<
+````
+X-Influxdb-Version: 1.7.5
+
+## InfluxDB vuln
+> InfluxDB before 1.7.6 has an authentication bypass vulnerability in the authenticate function in services/httpd/handler.go because a JWT token may have an empty SharedSecret (aka shared secret). 
+CVE: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-20933
+
 
 
 # Root
