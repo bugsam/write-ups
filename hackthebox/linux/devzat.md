@@ -331,8 +331,29 @@ curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --d
 ````python
 import jwt      #pip install pyjwt https://pyjwt.readthedocs.io/en/stable/
 import time
-jwt.encode({"exp": time.time()+10000, "username": "patrick"}, "", algorithm="HS256")
+jwt.encode({"exp": time.time()+10000, "username":"admin"}, "", algorithm="HS256")
 ````
+
+````
+curl -G 'http://127.0.0.1:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT \"value\" FROM \"cpu_load_short\" WHERE \"region\"='us-west'" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDc0NDQ4MDIuNDIyMjMzOCwidXNlcm5hbWUiOiJhZG1pbiJ9.XIGMScKMjU22mursx2ZTXr4zi38PBL4SHd3uiSMS9yI"
+````
+
+
+"q=SHOW DATABASES"
+````
+curl -G 'http://127.0.0.1:8086/query?pretty=true' --data-urlencode "q=SHOW DATABASES" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDc0NDQ4MDIuNDIyMjMzOCwidXNlcm5hbWUiOiJhZG1pbiJ9.XIGMScKMjU22mursx2ZTXr4zi38PBL4SHd3uiSMS9yI"
+{"results":[{"statement_id":0,"series":[{"name":"databases","columns":["name"],"values":[["devzat"],["_internal"]]}]}]}
+````
+`devzat`
+`_internal`
+
+
+"SHOW Measurements"
+````
+curl -G 'http://127.0.0.1:8086/query?pretty=true' --data-urlencode "db=devzat" --data-urlencode "q=SHOW Measurements" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDc0NDQ4MDIuNDIyMjMzOCwidXNlcm5hbWUiOiJhZG1pbiJ9.XIGMScKMjU22mursx2ZTXr4zi38PBL4SHd3uiSMS9yI"
+{"results":[{"statement_id":0,"series":[{"name":"measurements","columns":["name"],"values":[["user"]]}]}]}
+````
+
 
 
 
