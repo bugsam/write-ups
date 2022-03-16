@@ -354,9 +354,11 @@ curl -G 'http://127.0.0.1:8086/query?pretty=true' --data-urlencode "db=devzat" -
 {"results":[{"statement_id":0,"series":[{"name":"measurements","columns":["name"],"values":[["user"]]}]}]}
 ````
 
-
-
-
+"q=select * from \"user\""
+````
+curl -G 'http://127.0.0.1:8086/query?pretty=true' --data-urlencode "db=devzat" --data-urlencode "q=select * from \"user\"" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDc0NDQ4MDIuNDIyMjMzOCwidXNlcm5hbWUiOiJhZG1pbiJ9.XIGMScKMjU22mursx2ZTXr4zi38PBL4SHd3uiSMS9yI"
+{"results":[{"statement_id":0,"series":[{"name":"user","columns":["time","enabled","password","username"],"values":[["2021-06-22T20:04:16.313965493Z",false,"WillyWonka2021","wilhelm"],["2021-06-22T20:04:16.320782034Z",true,"woBeeYareedahc7Oogeephies7Aiseci","catherine"],["2021-06-22T20:04:16.996682002Z",true,"RoyalQueenBee$","charles"]]}]}]}
+````
 
 
 # Root
