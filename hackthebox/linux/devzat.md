@@ -316,6 +316,18 @@ X-Influxdb-Version: 1.7.5
 ## InfluxDB vuln
 > InfluxDB before 1.7.6 has an authentication bypass vulnerability in the authenticate function in services/httpd/handler.go because a JWT token may have an empty SharedSecret (aka shared secret). 
 CVE: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-20933
+Research's blog: https://www.komodosec.com/post/when-all-else-fails-find-a-0-day
+
+This site shows how to query InfluxDB with curl
+https://docs.influxdata.com/influxdb/v1.8/guides/query_data/#query-data-with-influxql
+
+````
+curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --data-urlencode "q=SELECT \"value\" FROM \"cpu_load_short\" WHERE \"region\"='us-west'"
+{
+    "error": "unable to parse authentication credentials"
+}
+````
+
 
 
 
