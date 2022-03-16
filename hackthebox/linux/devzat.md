@@ -328,6 +328,13 @@ curl -G 'http://localhost:8086/query?pretty=true' --data-urlencode "db=mydb" --d
 }
 ````
 
+````python
+import jwt      #pip install pyjwt https://pyjwt.readthedocs.io/en/stable/
+import time
+jwt.encode({"exp": time.time()+10000, "username": "patrick"}, "", algorithm="HS256")
+````
+
+
 
 
 
