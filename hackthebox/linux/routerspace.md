@@ -23,4 +23,6 @@ Memory dumped to file: ./dump_2
 
 # Root
 
+`https://github.com/worawit/CVE-2021-3156/blob/main/exploit_nss.py`
+
 # Secrets
