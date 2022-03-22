@@ -178,7 +178,94 @@ mail1req.send();
 
 :new: s3-testing.stacked.htb
 
+## Aws Enumeration
+
+````
+$ curl http://s3-testing.stacked.htb
+{"status": "running"}
+````
+
+````
+$ aws configure 
+AWS Access Key ID [None]: test
+AWS Secret Access Key [None]: test
+Default region name [None]: us-east-1
+Default output format [None]: 
+````
+
+````
+$ aws lambda list-functions --endpoint-url http://s3-testing.stacked.htb
+````
+
 # User
+## Creating lambda function
+````
+    --function-name - whatever I want to call my function
+    --zip-file - the name of the package I want to upload with the code in it
+    --handler - the function to call, in the format [filename].[function]
+    --role - the Amazon Resource Name (ARN) of the function’s execition role
+    --runtime - what interpreter will be running the code (ie python, nodejs, etc)
+````
+
+role:
+````
+arn:aws:iam::123456789012:role/lambda-role
+````
+
+[AWS Lambda function (example)](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html)
+````node
+exports.handler =  async function(event, context) {
+  console.log("EVENT: \n" + JSON.stringify(event, null, 2))
+  return context.logStreamName
+}
+````
+
+````
+$ zip index.zip index.js 
+  adding: index.js (deflated 14%)
+````
+
+````
+$ aws lambda create-function --function-name ex --zip-file fileb://index.zip --role arn:aws:iam::123456789012:role/lambda-role --endpoint-url http://s3-testing.stacked.htb --handler index.handler --runtime nodejs12.x
+
+{
+    "FunctionName": "ex",
+    "FunctionArn": "arn:aws:lambda:us-east-1:000000000000:function:ex",
+    "Runtime": "nodejs12.x",
+    "Role": "arn:aws:iam::123456789012::role/lambda-role",
+    "Handler": "index.handler",
+    "CodeSize": 291,
+    "Description": "",
+    "Timeout": 3,
+    "LastModified": "2022-03-22T11:02:03.964+0000",
+    "CodeSha256": "jQSuEbbhD8NXlJtr3KluBdDVBUuV5JbSzTV8/mVlhoA=",
+    "Version": "$LATEST",
+    "VpcConfig": {},
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "0ac16d0c-7c92-4170-9501-e8ae1ce1d499",
+    "State": "Active",
+    "LastUpdateStatus": "Successful",
+    "PackageType": "Zip"
+}
+````
+
+````
+$ aws lambda invoke --function-name ex --endpoint-url http://s3-testing.stacked.htb out.json
+{
+    "StatusCode": 200,
+    "LogResult": "",
+    "ExecutedVersion": "$LATEST"
+}
+
+$ cat out.json 
+"2022/03/22/[$LATEST]fd82d52adbe51e0b29829df056a8fc90"
+````
+
+## RCE on LocalStack
+
+
 
 # Root
 
