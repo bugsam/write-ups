@@ -347,8 +347,13 @@ id
 uid=1001(localstack) gid=1001(localstack) groups=1001(localstack)
 ````
 
-
+````
+bash-5.0$  cat /home/localstack/user.txt
+c877918fc5f7cb38e0631f7849c20b1b
+````
 
 # Root
 
 # Secrets
+* FLAG_USER = c877918fc5f7cb38e0631f7849c20b1b
+* FLAG_ROOT = 
