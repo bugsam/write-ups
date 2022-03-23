@@ -107,6 +107,77 @@ Set-Cookie: auth=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWV
 }
 ````
 
+Generating a JWK
+````java
+package com.company;
+import java.security.*;
+import java.security.interfaces.*;
+import java.util.*;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.KeyUse;
+import com.nimbusds.jose.jwk.RSAKey;
+
+public class Main {
+
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        // write your code here
+        // Generate the RSA key pair
+        KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
+        gen.initialize(2048);
+        KeyPair keyPair = gen.generateKeyPair();
+
+        // Convert to JWK format
+        JWK jwk = new RSAKey.Builder((RSAPublicKey)keyPair.getPublic())
+        .privateKey((RSAPrivateKey)keyPair.getPrivate())
+        .keyUse(KeyUse.SIGNATURE)
+        .keyID(UUID.randomUUID().toString())
+        .build();
+
+        //Printing on screen
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(JsonParser.parseString(jwk.toJSONString())));
+    }
+}
+
+new JWK
+````json
+{
+  "p": "y2wRyFxKRSh1bQUdViGOX2GWXmRRcmMWUnoIBst8OVhTr79iO2qilGmno5Ca9_9bSQ6PCNpCKZYXugFEUuUIiGlW1IdRdpb_v3YIvPl7IpqCL3UQVkUSSJEXQIi5bkZooOpgduzg7maHzoXAZwb_ZxImFm6ldv4NdJcS85yarsU",
+  "kty": "RSA",
+  "q": "veNZ9gbHv5wG-xnKmjAYrVH2OheotK1BVkNvNh0BwQ3F72QjOilFcQjamaiWK8ueoWrvv5N8-lR1GDsxf-PDkauLzNT3kBpu33D6vedmnEa8RKEKLpP6tTORXt9SStT0tE1HboRwwqMn8hvs-HPwDTSwVNQMLZldll51bZeWwgM",
+  "d": "A-JQ7j0hn7emmxpXCGuAEbQF0iGuJFrc_GZ_vKMF_ynKc0qEI9gwHRCaP-tj8U2u--IIxWNkTwydbZLK-DwT_EZ3UL3l71v1fED6JGlG93R_cA4sekRaKFumPbP7j_8jQPdkx7i63FJVE3qWdF15TbQsVnpLYloAla8LW9RfRYrF7Cy0uzncVnqh_vITzST0lNlchAAisr3xpY2wZs71aUGcwj4sIjMuk3qn4fBvewaemg-b0NmylTFwHeQknfhuMgaMyOopW_zCzw8sV2tEH3tSEwSikHFM8qU0kSTiisFKezqPi6UxRMPsFxw1i8X6EAUVGWkRTz24x4bVFmqTOQ",
+  "e": "AQAB",
+  "use": "sig",
+  "kid": "d763bd50-698a-44d6-802e-920b37ea1fd3",
+  "qi": "SqRQjiUx9yp-3qZ0KNQz-F-tS76NlajEhxgD_-heqapDIPD4UuY1cTJFqQVgk2pVu9r8QmgA249T7c1M8qzilxvbssJBcLRV2L7QHIPnabHP7TEpU_KHlchNQEEd_RBcTLi3_wep5dBiOB-aMxkjx-3uJynWUDjufI209Mb0ArU",
+  "dp": "YGFMr5yih8_aixPQSX3OofxvrTtkp4ixC9TLtsR0kAr8Y5mO5k3ox96jUcjy06uGSb__HxeiH2gAx91PzOK9PzyBqmKOw1xZwhIfo8GkiMmiAvA5FFbXidBMrwPYr5nmes9xcwdarzmfAMe4WFglbGVZ7GjyNsW6BFKL5SZ-120",
+  "dq": "HKNZQf2ryn4hn2U4ZSCz2A_wbrp6uyUWIYhyEVs2lIMbQwt7NJ5c1rtbHKmMXHaNKhMSrXX091wdfNYQlRUovaN9phrIa3dRGWnUpydrFk6kvkT7YCL5QLLSTdiodJjBfx_YkhZvWyt4Ls9_Yck6fwNfRKvmWkozDyaX1ztxhTk",
+  "n": "luNxcMI3qzbUkABS-Fd7QDQhGsinO3x8Unkdw2p40fzoCUBoJ4EhugAzERfNuYgpg2rHT2OnJGh5uyO-TAiIBTpcckyVgvFolk0l_wBcX9LqFJQwBPtcOB4jG4AdvVY7MqFsEALR4FBV3HCWYDKiPwxMRs-SO2RyrKI5zA-lPcZF7QgH0rIMGl8KH9PemRbYxg3KAl-gcbX0PBM6jkGdj67K-N6XxxfwmzZrcf6E-2Y1PPq-LfA4iZX5Ij9FXy_6SJfKGYH5NcZzx0ufFaF8hwVUHmfY7asFWPC8SqzVIDH3-IjnwAlyNR2YugChfPzIfyiIeJcLX0agUUghqK9WTw"
+}
+````
+
+jwks.json
+````json
+{
+    "keys": [
+        {
+            "kty": "RSA",
+            "use": "sig",
+            "kid": "hackthebox",
+            "alg": "RS256",
+            "n": "luNxcMI3qzbUkABS-Fd7QDQhGsinO3x8Unkdw2p40fzoCUBoJ4EhugAzERfNuYgpg2rHT2OnJGh5uyO-TAiIBTpcckyVgvFolk0l_wBcX9LqFJQwBPtcOB4jG4AdvVY7MqFsEALR4FBV3HCWYDKiPwxMRs-SO2RyrKI5zA-lPcZF7QgH0rIMGl8KH9PemRbYxg3KAl-gcbX0PBM6jkGdj67K-N6XxxfwmzZrcf6E-2Y1PPq-LfA4iZX5Ij9FXy_6SJfKGYH5NcZzx0ufFaF8hwVUHmfY7asFWPC8SqzVIDH3-IjnwAlyNR2YugChfPzIfyiIeJcLX0agUUghqK9WTw",
+            "e": "AQAB"
+        }
+    ]
+}
+````
+
+
+
 # User
 
 
