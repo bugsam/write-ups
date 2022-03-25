@@ -254,6 +254,33 @@ code@code:~$ cat user.txt
 
 # Root
 
+## Enumeration
+````
+$ sudo -l
+Matching Defaults entries for code on code:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User code may run the following commands on code:
+    (root) NOPASSWD: /usr/bin/treport
+````
+
+````
+sudo /usr/bin/treport
+1.Create Threat Report.
+2.Read Threat Report.
+3.Download A Threat Report.
+4.Quit.
+Enter your choice:3
+Enter the IP/file_name:blahah
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (6) Could not resolve host: blahah
+````
+
+:new: curl with root might give a command injection?
+
+
 # Secrets
 
 * FLAG_USER = 5ecb2ce89e7a1d0f01010095b0e6c99e
