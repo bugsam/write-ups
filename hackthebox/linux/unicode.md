@@ -280,6 +280,109 @@ Enter the IP/file_name:blahah
 
 :new: curl with root might give a command injection?
 
+````
+ python3 /opt/pyinstxtractor/pyinstxtractor.py treport 
+[+] Processing treport
+[+] Pyinstaller version: 2.1+
+[+] Python version: 38
+[+] Length of package: 6798297 bytes
+[+] Found 46 files in CArchive
+[+] Beginning extraction...please standby
+[+] Possible entry point: pyiboot01_bootstrap.pyc
+[+] Possible entry point: pyi_rth_pkgutil.pyc
+[+] Possible entry point: pyi_rth_multiprocessing.pyc
+[+] Possible entry point: pyi_rth_inspect.pyc
+[+] Possible entry point: treport.pyc
+[!] Warning: This script is running in a different Python version than the one used to build the executable.
+[!] Please run this script in Python38 to prevent extraction errors during unmarshalling
+[!] Skipping pyz extraction
+[+] Successfully extracted pyinstaller archive: treport
+
+You can now use a python decompiler on the pyc files within the extracted directory
+````
+
+````
+zrax/pycdc > cmake CMakeLists.txt
+zrax/pycdc > make
+````
+
+````python
+/opt/pycdc/pycdc treport_extracted/treport.pyc 
+# Source Generated with Decompyle++
+# File: treport.pyc (Python 3.9)
+
+Unsupported opcode: <255>
+import os
+import sys
+from datetime import datetime
+import re
+
+class threat_report:
+    
+    def create(self):
+Unsupported opcode: <255>
+        file_name = input('Enter the filename:')
+        content = input('Enter the report:')
+        if '../' in file_name:
+            print('NOT ALLOWED')
+            sys.exit(0)
+        file_path = '/root/reports/' + file_name
+    # WARNING: Decompyle incomplete
+
+    
+    def list_files(self):
+        file_list = os.listdir('/root/reports/')
+        files_in_dir = ' '.join((lambda .0: [ str(elem) for elem in .0 ])(file_list))
+        print('ALL THE THREAT REPORTS:')
+        print(files_in_dir)
+
+    
+    def read_file(self):
+Unsupported opcode: <255>
+        file_name = input('\nEnter the filename:')
+        if '../' in file_name:
+            print('NOT ALLOWED')
+            sys.exit(0)
+        contents = ''
+        file_name = '/root/reports/' + file_name
+    # WARNING: Decompyle incomplete
+
+    
+    def download(self):
+        now = datetime.now()
+        current_time = now.strftime('%H_%M_%S')
+        command_injection_list = [
+            '$',
+            '`',
+            ';',
+            '&',
+            '|',
+            '||',
+            '>',
+            '<',
+            '?',
+            "'",
+            '@',
+            '#',
+            '$',
+            '%',
+            '^',
+            '(',
+            ')']
+        ip = input('Enter the IP/file_name:')
+        res = bool(re.search('\\s', ip))
+        if res:
+            print('INVALID IP')
+            sys.exit(0)
+        if 'file' in ip and 'gopher' in ip or 'mysql' in ip:
+            print('INVALID URL')
+            sys.exit(0)
+        cmd = '/bin/bash -c "curl ' + ip + ' -o /root/reports/threat_report_' + current_time + '"'
+        os.system(cmd)
+
+
+# WARNING: Decompyle incomplete
+````
 
 # Secrets
 
