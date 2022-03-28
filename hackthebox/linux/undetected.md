@@ -142,6 +142,11 @@ steven1:x:1000:1000:,,,:/home/steven:/bin/bash
 > LinPEAS
 > LinEnum
 
+````
+══════════╣ Interesting writable files owned by me or writable by everyone (not in Home) (max 500)
+╚ https://book.hacktricks.xyz/linux-unix/privilege-escalation#writable-files                                                                                 
+/var/backups/info
+````
 
 
 # Root
