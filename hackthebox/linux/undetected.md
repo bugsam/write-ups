@@ -352,14 +352,14 @@ backdoor.extend(p32(0xf7bbfdc8))
 backdoor.extend(p32(0xfdb3d6e7))
 backdoor.extend(p64(0xb2d6f4a0fda0b3d6))
 backdoor.extend(p32(0xbcf0b5e3))
-backdoor.extend((p32(0xa9f4a5)))
+backdoor.extend(p32(0xa5a9f4))
 
 key = b'\x96'
 for byte in backdoor[0:31]:
      sys.stdout.write(chr(byte ^ ord(key)))
 ````
 
-`@=qfe5%2^k-aq@%k@%6k6b@$u#f*3b?`
+`@=qfe5%2^k-aq@%k@%6k6b@$u#f*b?3`
 
 
 
