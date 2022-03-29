@@ -361,10 +361,17 @@ for byte in backdoor[0:31]:
 
 `@=qfe5%2^k-aq@%k@%6k6b@$u#f*b?3`
 
-
-
+````
+# ssh root@10.10.11.146
+root@10.10.11.146's password: 
+Last login: Tue Feb  8 20:11:45 2022 from 10.10.14.23
+root@production:~# id
+uid=0(root) gid=0(root) groups=0(root)
+root@production:~# cat root.txt
+84888d8365a8ae125aadeb4ec5caae0c
+````
 
 # Secrets
 
 * FLAG_USER = 121cc1fdbcf41987aa4c1976572b6d90
-* FLAG_PASS = 
+* FLAG_PASS = 84888d8365a8ae125aadeb4ec5caae0c
