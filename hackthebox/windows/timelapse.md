@@ -32,6 +32,255 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 81.30 seconds
 ````
 
+````
+enum4linux -a -u "blah" -p "" 10.10.11.152
+Starting enum4linux v0.8.9 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Fri Apr  1 07:42:17 2022
+
+ ========================== 
+|    Target Information    |
+ ========================== 
+Target ........... 10.10.11.152
+RID Range ........ 500-550,1000-1050
+Username ......... 'blah'
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+ ==================================================== 
+|    Enumerating Workgroup/Domain on 10.10.11.152    |
+ ==================================================== 
+[E] Can't find workgroup/domain
+
+
+ ============================================ 
+|    Nbtstat Information for 10.10.11.152    |
+ ============================================ 
+Looking up status of 10.10.11.152
+No reply from 10.10.11.152
+
+ ===================================== 
+|    Session Check on 10.10.11.152    |
+ ===================================== 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 437.
+[+] Server 10.10.11.152 allows sessions using username 'blah', password ''
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 451.
+[+] Got domain/workgroup name: 
+
+ =========================================== 
+|    Getting domain SID for 10.10.11.152    |
+ =========================================== 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 359.
+Bad SMB2 signature for message
+[0000] 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00   ........ ........
+[0000] C4 E1 35 83 F3 85 3E DB   43 3B 63 A3 E6 0A E7 45   ..5...>. C;c....E
+Cannot connect to server.  Error was NT_STATUS_ACCESS_DENIED
+[+] Can't determine if host is part of domain or part of a workgroup
+
+ ====================================== 
+|    OS information on 10.10.11.152    |
+ ====================================== 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 458.
+Use of uninitialized value $os_info in concatenation (.) or string at ./enum4linux.pl line 464.
+[+] Got OS info for 10.10.11.152 from smbclient: 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 467.
+[+] Got OS info for 10.10.11.152 from srvinfo:
+Bad SMB2 signature for message
+[0000] 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00   ........ ........
+[0000] 30 A8 A1 2A 43 93 13 0F   47 ED 67 AB 00 EA 69 46   0..*C... G.g...iF
+Cannot connect to server.  Error was NT_STATUS_ACCESS_DENIED
+
+ ============================= 
+|    Users on 10.10.11.152    |
+ ============================= 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 866.
+[E] Couldn't find users using querydispinfo: NT_STATUS_ACCESS_DENIED
+
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 881.
+[E] Couldn't find users using enumdomusers: NT_STATUS_ACCESS_DENIED
+
+ ========================================= 
+|    Share Enumeration on 10.10.11.152    |
+ ========================================= 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 640.
+do_connect: Connection to 10.10.11.152 failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        ADMIN$          Disk      Remote Admin
+        C$              Disk      Default share
+        IPC$            IPC       Remote IPC
+        NETLOGON        Disk      Logon server share 
+        Shares          Disk      
+        SYSVOL          Disk      Logon server share 
+Reconnecting with SMB1 for workgroup listing.
+Unable to connect with SMB1 -- no workgroup available
+
+[+] Attempting to map shares on 10.10.11.152
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 654.
+//10.10.11.152/ADMIN$   Mapping: DENIED, Listing: N/A
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 654.
+//10.10.11.152/C$       Mapping: DENIED, Listing: N/A
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 654.
+//10.10.11.152/IPC$     [E] Can't understand response:
+NT_STATUS_INVALID_INFO_CLASS listing \*                                                                                                                      
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 654.
+//10.10.11.152/NETLOGON Mapping: OK     Listing: DENIED
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 654.
+//10.10.11.152/Shares   Mapping: OK, Listing: OK
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 654.
+//10.10.11.152/SYSVOL   Mapping: OK     Listing: DENIED
+
+ ==================================================== 
+|    Password Policy Information for 10.10.11.152    |
+ ==================================================== 
+[E] Unexpected error from polenum:
+
+
+[+] Attaching to 10.10.11.152 using blah
+
+[+] Trying protocol 139/SMB...
+
+        [!] Protocol failed: Cannot request session (Called Name:10.10.11.152)
+
+[+] Trying protocol 445/SMB...
+
+        [!] Protocol failed: SAMR SessionError: code: 0xc0000022 - STATUS_ACCESS_DENIED - {Access Denied} A process has requested access to an object but has not been granted those access rights.
+
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 501.
+
+[E] Failed to get password policy with rpcclient
+
+
+ ============================== 
+|    Groups on 10.10.11.152    |
+ ============================== 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 542.
+
+[+] Getting builtin groups:
+
+[+] Getting builtin group memberships:
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 542.
+
+[+] Getting local groups:
+
+[+] Getting local group memberships:
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 593.
+
+[+] Getting domain groups:
+
+[+] Getting domain group memberships:
+
+ ======================================================================= 
+|    Users on 10.10.11.152 via RID cycling (RIDS: 500-550,1000-1050)    |
+ ======================================================================= 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 710.
+[E] Couldn't get SID: NT_STATUS_ACCESS_DENIED.  RID cycling not possible.
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 742.
+
+ ============================================= 
+|    Getting printer info for 10.10.11.152    |
+ ============================================= 
+Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 991.
+Bad SMB2 signature for message
+[0000] 00 00 00 00 00 00 00 00   00 00 00 00 00 00 00 00   ........ ........
+[0000] E4 5D 46 96 E7 6F 01 F5   11 6F E8 23 6B BB C2 54   .]F..o.. .o.#k..T
+Cannot connect to server.  Error was NT_STATUS_ACCESS_DENIED
+
+
+enum4linux complete on Fri Apr  1 07:43:02 2022
+````
+:new: Shares
+
+````
+root@kali:~/Desktop/htb/timelapse# smbclient //10.10.11.152/Shares -U guest
+Enter WORKGROUP\guest's password: 
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Mon Oct 25 11:39:15 2021
+  ..                                  D        0  Mon Oct 25 11:39:15 2021
+  Dev                                 D        0  Mon Oct 25 15:40:06 2021
+  HelpDesk                            D        0  Mon Oct 25 11:48:42 2021
+
+                6367231 blocks of size 4096. 1538792 blocks available
+smb: \> ls Dev/
+  .                                   D        0  Mon Oct 25 15:40:06 2021
+  ..                                  D        0  Mon Oct 25 15:40:06 2021
+  winrm_backup.zip                    A     2611  Mon Oct 25 11:46:42 2021
+
+                6367231 blocks of size 4096. 1538792 blocks available
+smb: \> ls HelpDesk/
+  .                                   D        0  Mon Oct 25 11:48:42 2021
+  ..                                  D        0  Mon Oct 25 11:48:42 2021
+  LAPS.x64.msi                        A  1118208  Mon Oct 25 10:57:50 2021
+  LAPS_Datasheet.docx                 A   104422  Mon Oct 25 10:57:46 2021
+  LAPS_OperationsGuide.docx           A   641378  Mon Oct 25 10:57:40 2021
+  LAPS_TechnicalSpecification.docx      A    72683  Mon Oct 25 10:57:44 2021
+
+                6367231 blocks of size 4096. 1538792 blocks available
+smb: \> 
+
+smb: \Dev\> get winrm_backup.zip
+getting file \Dev\winrm_backup.zip of size 2611 as winrm_backup.zip (4.4 KiloBytes/sec) (average 4.4 KiloBytes/sec)
+````
+
+````
+7z l winrm_backup.zip 
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,1 CPU Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz (906EA),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 2611 bytes (3 KiB)
+
+Listing archive: winrm_backup.zip
+
+--
+Path = winrm_backup.zip
+Type = zip
+Physical Size = 2611
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+2021-10-25 10:21:20 .....         2555         2405  legacyy_dev_auth.pfx
+------------------- ----- ------------ ------------  ------------------------
+2021-10-25 10:21:20               2555         2405  1 files
+````
+
+````
+# 7z l -slt winrm_backup.zip 
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,1 CPU Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz (906EA),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 2611 bytes (3 KiB)
+
+Listing archive: winrm_backup.zip
+
+--
+Path = winrm_backup.zip
+Type = zip
+Physical Size = 2611
+
+----------
+Path = legacyy_dev_auth.pfx
+Folder = -
+Size = 2555
+Packed Size = 2405
+Modified = 2021-10-25 10:21:20
+Created = 
+Accessed = 
+Attributes = _ -rwxr-xr-x
+Encrypted = +
+Comment = 
+CRC = 12EC5683
+Method = ZipCrypto Deflate
+Host OS = Unix
+Version = 20
+Volume Index = 0
+````
+ZipCrypto Deflate is vulnerable to known plaintext attack
+
 
 ## User
 
