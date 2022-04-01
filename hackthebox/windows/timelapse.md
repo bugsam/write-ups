@@ -300,7 +300,7 @@ Session completed.
 ````
 
 ````
-$ pfx2john legacyy_dev_auth.pfx > hash_pfx
+$ python2 /opt/2john/pfx2john.py legacyy_dev_auth.pfx > hash_pfx
 
 $ john --wordlist=/root/rockyou.txt hash_pfx
 
