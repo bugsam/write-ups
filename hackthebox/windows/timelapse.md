@@ -191,6 +191,7 @@ enum4linux complete on Fri Apr  1 07:43:02 2022
 ````
 :new: Shares
 
+## User 
 ````
 root@kali:~/Desktop/htb/timelapse# smbclient //10.10.11.152/Shares -U guest
 Enter WORKGROUP\guest's password: 
@@ -332,8 +333,10 @@ $ evil-winrm -i 10.10.11.152 -S -c cert.crt -k prv.key -p -u
 
 
 
-## User
+
 
 ## Root
 
 ## Secrets
+
+* FLAG_USER = 8acd93fced1257b5205467e86f96d6ff
