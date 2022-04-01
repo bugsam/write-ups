@@ -302,9 +302,19 @@ Session completed.
 ````
 $ python2 /opt/2john/pfx2john.py legacyy_dev_auth.pfx > hash_pfx
 
-$ john --wordlist=/root/rockyou.txt hash_pfx
+$ john --wordlist=/root/rockyou.txt --format=pfx pfx_hash 
 
+Using default input encoding: UTF-8
+Loaded 1 password hash (pfx, (.pfx, .p12) [PKCS#12 PBE (SHA1/SHA2) 256/256 AVX2 8x])
+Cost 1 (iteration count) is 2000 for all loaded hashes
+Cost 2 (mac-type [1:SHA1 224:SHA224 256:SHA256 384:SHA384 512:SHA512]) is 1 for all loaded hashes
+Press 'q' or Ctrl-C to abort, almost any other key for status
+thuglegacy       (legacyy_dev_auth.pfx)     
+1g 0:00:02:12 DONE (2022-04-01 08:33) 0.007568g/s 24451p/s 24451c/s 24451C/s thuglife06..thuglady01
+Use the "--show" opti
 ````
+
+
 
 
 ## User
