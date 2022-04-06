@@ -28,6 +28,42 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 14.56 seconds
 ````
 
+````
+gobuster dir -x php,txt,html,bak,zip -e -t 100 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://timing.htb/
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://timing.htb/
+[+] Method:                  GET
+[+] Threads:                 100
+[+] Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Extensions:              txt,html,bak,zip,php
+[+] Expanded:                true
+[+] Timeout:                 10s
+===============================================================
+2022/04/05 08:18:58 Starting gobuster in directory enumeration mode
+===============================================================
+http://timing.htb/images               (Status: 301) [Size: 309] [--> http://timing.htb/images/]
+http://timing.htb/index.php            (Status: 302) [Size: 0] [--> ./login.php]                
+http://timing.htb/image.php            (Status: 200) [Size: 0]                                  
+http://timing.htb/login.php            (Status: 200) [Size: 5609]                               
+http://timing.htb/header.php           (Status: 302) [Size: 0] [--> ./login.php]                
+http://timing.htb/profile.php          (Status: 302) [Size: 0] [--> ./login.php]                
+http://timing.htb/upload.php           (Status: 302) [Size: 0] [--> ./login.php]                
+http://timing.htb/footer.php           (Status: 200) [Size: 3937]                               
+http://timing.htb/css                  (Status: 301) [Size: 306] [--> http://timing.htb/css/]   
+http://timing.htb/js                   (Status: 301) [Size: 305] [--> http://timing.htb/js/]    
+http://timing.htb/logout.php           (Status: 302) [Size: 0] [--> ./login.php]                
+http://timing.htb/server-status        (Status: 403) [Size: 275]                                
+                                                                                                
+===============================================================
+2022/04/05 08:53:17 Finished
+
+````
+
 # User
 
 # Root
