@@ -19,10 +19,21 @@
 
 [![image](https://user-images.githubusercontent.com/44240720/162812350-a68b2dcb-45ec-49f4-a4c2-cf6c41a3779f.png)](https://github.com/sensepost/objection)
 
+# Environment
 
-# Cracking
+AVD:
+* Galaxy Nexus
+* x86 Images: S API 31
+* Google API: none
 
-## 
+
+
+
+
+
+
+
+
 
 
 onCreate
