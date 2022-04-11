@@ -1,6 +1,6 @@
 /// <reference path="frida-gum.d.ts" />
 
-function rootLib(){
+function securityBypass(){
     var b = Java.use("sg.vantagepoint.a.b");    
     var c = Java.use("sg.vantagepoint.a.c");
     
@@ -26,5 +26,5 @@ function rootLib(){
 };
 
 Java.perform(function () {
-    rootLib();
+    securityBypass();
 })
