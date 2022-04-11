@@ -1,8 +1,11 @@
 # OWASP - UnCrackable Level 1
 
+onCreate
 ![image](https://user-images.githubusercontent.com/44240720/162810400-42ee8c7e-351b-4127-8cf1-ff421cceb856.png)
 
 
+cipher.doFinal
+![image](https://user-images.githubusercontent.com/44240720/162810809-4153bfa0-c313-4d0e-a8f3-4891c0afb87c.png)
 
 
 
