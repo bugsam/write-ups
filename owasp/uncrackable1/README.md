@@ -129,10 +129,54 @@ Java.perform(function () {
 })
 ````
 
+````
+> frida -U -f "owasp.mstg.uncrackable1" -l .\hooking.ts
+````
 
+![image](https://user-images.githubusercontent.com/44240720/162834388-90ffe12e-a8db-455b-9e2d-e7611e2e8a2e.png)
 
+# Patch apk
+````
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="owasp.mstg.uncrackable1">
+    <application android:debuggable="true" android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme">
+        <activity android:label="@string/app_name" android:name="sg.vantagepoint.uncrackable1.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+````
 
+````
+> apktool build .\base\ -o app.apk
+I: Using Apktool 2.6.1
+I: Checking whether sources has changed...
+I: Smaling smali folder into classes.dex...
+I: Checking whether resources has changed...
+I: Building resources...
+I: Building apk file...
+I: Copying unknown files/dir...
+I: Built apk...
 
+> objection signapk .\app.apk 
+Performing zipalign
+Zipalign completed
+Signing new APK.
+Signed the new APK
+Copying final apk from C:\Users\samue\AppData\Local\Temp\tmp4znt2tva.apktemp.aligned.objection.apk to .\app.objection.apk in current directory...
+Cleaning up temp files...
+
+> adb uninstall owasp.mstg.uncrackable1
+Success
+
+> adb install .\app.objection.apk
+````
+
+````
+> frida -U -f "owasp.mstg.uncrackable1" -l .\hooking.ts
+````
 
 
 
