@@ -26,6 +26,12 @@ AVD:
 * x86 Images: S API 31
 * Google API: none
 
+Check:
+````
+> adb devices
+> adb root
+> adb shell
+````
 
 
 
