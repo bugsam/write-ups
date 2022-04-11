@@ -1,10 +1,38 @@
 # OWASP - UnCrackable Level 1
 
+[![image](https://user-images.githubusercontent.com/44240720/162812993-b4b3038e-cb3b-404a-96b8-00ee3fc0b3e9.png)](https://github.com/OWASP/owasp-mstg)
+
+
+# Tools
+
+* Apktool:
+
+[![image](https://user-images.githubusercontent.com/44240720/130667779-c16910bc-fa14-4c8d-89fe-c53991ce0abc.png)](https://ibotpeaches.github.io/Apktool/documentation/)
+
+
+* Frida
+
+[![image](https://user-images.githubusercontent.com/44240720/130668692-7a4f9339-05c8-43b2-b97f-1eb0c613b246.png)](https://frida.re/)
+
+
+* Objection
+
+[![image](https://user-images.githubusercontent.com/44240720/162812350-a68b2dcb-45ec-49f4-a4c2-cf6c41a3779f.png)](https://github.com/sensepost/objection)
+
+
+# Cracking
+
+## 
+
+
 onCreate
+
 ![image](https://user-images.githubusercontent.com/44240720/162810400-42ee8c7e-351b-4127-8cf1-ff421cceb856.png)
 
 
+
 cipher.doFinal
+
 ![image](https://user-images.githubusercontent.com/44240720/162810809-4153bfa0-c313-4d0e-a8f3-4891c0afb87c.png)
 
 
