@@ -27,6 +27,14 @@ Android Virtual Device:
 * Target: Android 11.0
 * Google API: none
 
+Remove wait for debug
+````
+1. Go to Settings -> About emulated device
+2. Click Build number 7 times (or till it says that you're a developer now).
+3. Go back and go to System -> Advanced -> Developer options
+4. Developer options > Wait for debugger (uncheck)
+````
+
 Check:
 ````
 > adb devices
@@ -50,20 +58,89 @@ LISTEN     0      10      127.0.0.1:27042            0.0.0.0:*                  
 LISTEN     0      4       *:5037                     *:*                         users:(("adbd",pid=2459,fd=8))
 ````
 
+# Application
+````
+> adb install .\UnCrackable-Level1.apk
+````
+
+![image](https://user-images.githubusercontent.com/44240720/162827148-f3031296-ca4e-4332-9f97-29e3769ab729.png)
 
 
+# Decode
 
+````
+> apktool decode .\UnCrackable-Level1.apk -o base
+I: Using Apktool 2.6.1 on UnCrackable-Level1.apk
+I: Loading resource table...
+I: Decoding AndroidManifest.xml with resources...
+I: Loading resource table from file: C:\Users\samue\AppData\Local\apktool\framework\1.apk
+I: Regular manifest package...
+I: Decoding file-resources...
+I: Decoding values */* XMLs...
+I: Baksmaling classes.dex...
+I: Copying assets and libs...
+I: Copying unknown files...
+I: Copying original files...
+````
 
+# Static analyze
 
-onCreate
+sg.vantagepoint.uncrackable1.MainActivity.onCreate()
+| method | desc |
+|---|---|
+| c.a()  | check_su |
+| c.b()  | check_signKey  |
+| c.c()  | check_binaries  |
+| b.a()  | check_isDebuggable |
+
 
 ![image](https://user-images.githubusercontent.com/44240720/162810400-42ee8c7e-351b-4127-8cf1-ff421cceb856.png)
 
+# Root Detection bypass
+
+````typescript
+function securityBypass(){
+    var b = Java.use("sg.vantagepoint.a.b");    
+    var c = Java.use("sg.vantagepoint.a.c");
+    
+    b.a.overload('android.content.Context').implementation = function(v1){
+        console.log("isDebuggable bypass");
+        return false;
+    }
+
+    c.a.overload().implementation = function(){
+        console.log("suExist bypass");
+        return false;
+    }
+
+    c.b.overload().implementation = function(){
+        console.log("signKey bypass");
+        return false;
+    }
+
+    c.c.overload().implementation = function(){
+        console.log("binariesExist bypass");
+        return false;
+    }
+};
+
+Java.perform(function () {
+    securityBypass();
+})
+````
 
 
-cipher.doFinal
+
+
+
+
+
+
+
 
 ![image](https://user-images.githubusercontent.com/44240720/162810809-4153bfa0-c313-4d0e-a8f3-4891c0afb87c.png)
+
+
 
 
 
