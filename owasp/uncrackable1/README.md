@@ -137,7 +137,9 @@ Java.perform(function () {
 
 # Patch apk
 ````
-<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="owasp.mstg.uncrackable1">
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="owasp.mstg.uncrackable1">
+<uses-permission android:name="android.permission.SET_DEBUG_APP"></uses-permission>
     <application android:debuggable="true" android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme">
         <activity android:label="@string/app_name" android:name="sg.vantagepoint.uncrackable1.MainActivity">
             <intent-filter>
