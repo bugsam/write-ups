@@ -41,9 +41,10 @@ x86_64
 > adb push .\frida-server-15.1.17-android-x86_64 /data/media/
 .\frida-server-15.1.17-android-x86_64: 1 file pushed, 0 skipped. 141.4 MB/s (99288680 bytes in 0.670s)
 
->  # ./frida-server-15.1.17-android-x86_64 &
+> adb shell "/data/media/frida-server-15.1.17-android-x86_64 &"
 [1] 2486
-generic_x86_64:/data/media # ss -nlpt
+
+> adb shell ss -nlpt
 State      Recv-Q Send-Q  Local Address:Port         Peer Address:Port
 LISTEN     0      10      127.0.0.1:27042            0.0.0.0:*                   users:(("frida-server-15",pid=2486,fd=7))
 LISTEN     0      4       *:5037                     *:*                         users:(("adbd",pid=2459,fd=8))
