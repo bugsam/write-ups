@@ -22,18 +22,25 @@
 # Environment
 
 AVD:
-* Galaxy Nexus
-* x86 Images: S API 31
+* Nexus 6
+* x86 Images: R API 30
+* Target: Android 11.0
 * Google API: none
 
 Check:
 ````
 > adb devices
+List of devices attached
+emulator-5554   device
 > adb root
-> adb shell
+> adb shell getprop ro.product.cpu.abilist
+x86_64
 ````
 
-
+````
+> adb push .\frida-server-15.1.17-android-x86_64 /data/media/
+.\frida-server-15.1.17-android-x86_64: 1 file pushed, 0 skipped. 141.4 MB/s (99288680 bytes in 0.670s)
+````
 
 
 
