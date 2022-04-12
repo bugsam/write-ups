@@ -144,7 +144,7 @@ sg.vantagepoint.a.a.a(p0,p1)
 ![image](https://user-images.githubusercontent.com/44240720/162810809-4153bfa0-c313-4d0e-a8f3-4891c0afb87c.png)
 
 ````
-frida-ps -Uai
+> frida-ps -Uai
  PID  Name           Identifier
 ----  -------------  --------------------------
 2891  Calendar       com.android.calendar
@@ -163,7 +163,7 @@ frida-ps -Uai
 ````
 
 ````
- frida-trace -U -p 3970 -j "*Cipher*!*doFinal*"
+> frida-trace -U -p 3970 -j "*Cipher*!*doFinal*"
 Instrumenting...
 AndroidKeyStoreAuthenticatedAESCipherSpi$BufferAllOutputUntilDoFinalStreamer.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\android.security.keystore.AndroidKeyStoreAuthenticatedAESCipherSpi_BufferAllOutputUntilDoFinalStreamer\\doFinal.js"
 PaddedBufferedBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\com.android.org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher\\doFinal.js"
@@ -284,8 +284,23 @@ Pattern matched at 24 addresses
 
 ![image](https://user-images.githubusercontent.com/44240720/162924838-72623794-9a9a-4b04-bf91-6e6ce98dbe99.png)
 
+Patch code
+````
 
+````
 
+````
+> apktool build .\base\ -o app.apk
+I: Using Apktool 2.6.1
+I: Checking whether sources has changed...
+I: Smaling smali folder into classes.dex...
+I: Checking whether resources has changed...
+I: Building apk file...
+I: Copying unknown files/dir...
+I: Built apk...
+
+> 
+````
 
 
 
