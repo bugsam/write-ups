@@ -109,6 +109,7 @@ Java.perform(function () {
 })
 ````
 
+🔗 https://github.com/frida/frida/releases/download/15.1.17/frida-server-15.1.17-android-x86.xz
 ````
 > adb push .\frida-server-15.1.17-android-x86 /data/media/
 .\frida-server-15.1.17-android-x86: 1 file pushed, 0 skipped. 141.4 MB/s (99288680 bytes in 0.670s)
@@ -125,50 +126,63 @@ LISTEN     0      4       *:5037                     *:*                        
 ````
 > frida -U -f "owasp.mstg.uncrackable1" -l .\hooking.ts
 ````
-
 ![image](https://user-images.githubusercontent.com/44240720/162917186-a8f9e240-3d32-4e09-b18b-593c6569181f.png)
 
 
+# Secret
 
+![image](https://user-images.githubusercontent.com/44240720/162917949-a4550576-1bb6-40ac-af35-7949d6afa60a.png)
 
+# Static analyze (again)
 
-
+sg.vantagepoint.a.a.a(p0,p1)
+| method | desc |
+|---|---|
+| Cipher.doFinal()  | Finishes a multiple-part encryption or decryption operation, depending on how this cipher was initialized. |
+🔗 https://docs.oracle.com/javase/7/docs/api/javax/crypto/Cipher.html#doFinal(byte[],%20int)
 
 ![image](https://user-images.githubusercontent.com/44240720/162810809-4153bfa0-c313-4d0e-a8f3-4891c0afb87c.png)
 
-
-
-
-
+````
+frida-ps -Uai
+ PID  Name           Identifier
+----  -------------  --------------------------
+2891  Calendar       com.android.calendar
+2547  Clock          com.android.deskclock
+3384  Email          com.android.email
+3433  Gallery        com.android.gallery3d
+3079  Phone          com.android.dialer
+2426  Settings       com.android.settings
+3970  Uncrackable1   owasp.mstg.uncrackable1
+   -  Camera         com.android.camera2
+   -  Contacts       com.android.contacts
+   -  Files          com.android.documentsui
+   -  Messaging      com.android.messaging
+   -  Search         com.android.quicksearchbox
+   -  WebView Shell  org.chromium.webview_shell
+````
 
 ````
-$ frida-trace -U -p 18207 -j "*Cipher*!*doFinal*"
+ frida-trace -U -p 3970 -j "*Cipher*!*doFinal*"
 Instrumenting...
-AndroidKeyStoreAuthenticatedAESCipherSpi$BufferAllOutputUntilDoFinalStreamer.doFinal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\android.security.keystore.AndroidKeyStoreAuthenticatedAESCipherSpi_BufferAllOutputUntilDoFinalStreamer\\doFinal.js"
-PaddedBufferedBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher\\doFinal.js"
-BufferedBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.bouncycastle.crypto.BufferedBlockCipher\\doFinal.js"
-BaseBlockCipher$BufferedGenericBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.bouncycastle.jcajce.provider.symmetric.util.BaseBlockCipher_BufferedGenericBlockCipher\\doFinal.js"
-BaseBlockCipher$GenericBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.bouncycastle.jcajce.provider.symmetric.util.BaseBlockCipher_GenericBlockCipher\\doFinal.js"
-BaseBlockCipher$AEADGenericBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.bouncycastle.jcajce.provider.symmetric.util.BaseBlockCipher_AEADGenericBlockCipher\\doFinal.js"
-Cipher.doFinal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\javax.crypto.Cipher\\doFinal.js"
-OpenSSLEvpCipher.doFinalInternal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.conscrypt.OpenSSLEvpCipher\\doFinalInternal.js"
-OpenSSLCipherChaCha20.doFinalInternal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.conscrypt.OpenSSLCipherChaCha20\\doFinalInternal.js"
-OpenSSLCipher.doFinalInternal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.conscrypt.OpenSSLCipher\\doFinalInternal.js"
-OpenSSLAeadCipher.doFinalInternal: Auto-generated handler at "C:\\Users\\offsec\\Documents\\android\\owasp.mstg.uncrackable1\\frida\\__handlers__\\com.android.org.conscrypt.OpenSSLAeadCipher\\doFinalInternal.js"
-Started tracing 11 functions. Press Ctrl+C to stop.
-           /* TID 0x471f */
-  5466 ms  Cipher.doFinal([-27,66,98,21,-53,91,-102,6,-61,-96,-75,-26,-92,-67,118,-102,73,-24,-16,116,-8,46,-1,29,-107,-85,124,23,20,118,24,-25])
-  5467 ms     | BaseBlockCipher$BufferedGenericBlockCipher.doFinal([73,32,119,97,110,116,32,116,111,32,98,101,108,105,101,118,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 16)
-  5468 ms     |    | PaddedBufferedBlockCipher.doFinal([73,32,119,97,110,116,32,116,111,32,98,101,108,105,101,118,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 16)
-  5469 ms     |    | <= 1
-  5469 ms     | <= 1
-  5469 ms  <= [73,32,119,97,110,116,32,116,111,32,98,101,108,105,101,118,101]
+AndroidKeyStoreAuthenticatedAESCipherSpi$BufferAllOutputUntilDoFinalStreamer.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\android.security.keystore.AndroidKeyStoreAuthenticatedAESCipherSpi_BufferAllOutputUntilDoFinalStreamer\\doFinal.js"
+PaddedBufferedBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\com.android.org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher\\doFinal.js"
+BufferedBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\com.android.org.bouncycastle.crypto.BufferedBlockCipher\\doFinal.js"
+BaseBlockCipher$BufferedGenericBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\com.android.org.bouncycastle.jcajce.provider.symmetric.util.BaseBlockCipher_BufferedGenericBlockCipher\\doFinal.js"
+BaseBlockCipher$GenericBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\com.android.org.bouncycastle.jcajce.provider.symmetric.util.BaseBlockCipher_GenericBlockCipher\\doFinal.js"
+BaseBlockCipher$AEADGenericBlockCipher.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\com.android.org.bouncycastle.jcajce.provider.symmetric.util.BaseBlockCipher_AEADGenericBlockCipher\\doFinal.js"
+Cipher.doFinal: Auto-generated handler at "C:\\Users\\samue\\__handlers__\\javax.crypto.Cipher\\doFinal.js"
+Started tracing 7 functions. Press Ctrl+C to stop.
+           /* TID 0xf82 */
+  6688 ms  Cipher.doFinal([-27,66,98,21,-53,91,-102,6,-61,-96,-75,-26,-92,-67,118,-102,73,-24,-16,116,-8,46,-1,29,-107,-85,124,23,20,118,24,-25])
+  6688 ms     | BaseBlockCipher$BufferedGenericBlockCipher.doFinal([73,32,119,97,110,116,32,116,111,32,98,101,108,105,101,118,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 16)
+  6689 ms     |    | PaddedBufferedBlockCipher.doFinal([73,32,119,97,110,116,32,116,111,32,98,101,108,105,101,118,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 16)
+  6689 ms     |    | <= 1
+  6690 ms     | <= 1
+  6690 ms  <= [73,32,119,97,110,116,32,116,111,32,98,101,108,105,101,118,101]
 ````
 
 
-Remove wait for debug
-````
-1. Go to Settings -> About emulated device
-2. Click Build number 7 times (or till it says that you're a developer now).
-3. Go back and go to System -> Advanced -> Developer options
-4. Developer options > Wait for debugger (uncheck)
+
+
+
