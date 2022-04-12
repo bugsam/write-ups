@@ -289,5 +289,9 @@ Pattern matched at 24 addresses
 
 
 
+:link: http://pallergabor.uw.hu/androidblog/dalvik_opcodes.html
+
+
+
 
 
