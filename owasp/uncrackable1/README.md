@@ -308,6 +308,7 @@ Copying final apk from C:\Users\samue\AppData\Local\Temp\tmppn18sufl.apktemp.ali
 Cleaning up temp files...
 ````
 
+![image](https://user-images.githubusercontent.com/44240720/162935126-faa43df8-cb59-43bb-a2ac-e380cf802122.png)
 
 
 
