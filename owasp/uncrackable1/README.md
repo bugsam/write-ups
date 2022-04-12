@@ -282,6 +282,10 @@ Pattern matched at 24 addresses
 
 # Method 2: Root Detection bypass
 
+![image](https://user-images.githubusercontent.com/44240720/162924838-72623794-9a9a-4b04-bf91-6e6ce98dbe99.png)
+
+
+
 
 
 
