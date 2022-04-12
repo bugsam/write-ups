@@ -22,18 +22,11 @@
 # Environment
 
 Android Virtual Device:
-* Nexus 6
-* x86 Images: R API 30
-* Target: Android 11.0
+* Nexus X
+* x86 Images: R API 29 | x86
+* Target: Android 10.0
 * Google API: none
 
-Remove wait for debug
-````
-1. Go to Settings -> About emulated device
-2. Click Build number 7 times (or till it says that you're a developer now).
-3. Go back and go to System -> Advanced -> Developer options
-4. Developer options > Wait for debugger (uncheck)
-````
 
 Check:
 ````
@@ -45,25 +38,12 @@ emulator-5554   device
 x86_64
 ````
 
-````
-> adb push .\frida-server-15.1.17-android-x86_64 /data/media/
-.\frida-server-15.1.17-android-x86_64: 1 file pushed, 0 skipped. 141.4 MB/s (99288680 bytes in 0.670s)
-
-> adb shell "/data/media/frida-server-15.1.17-android-x86_64 &"
-[1] 2486
-
-> adb shell ss -nlpt
-State      Recv-Q Send-Q  Local Address:Port         Peer Address:Port
-LISTEN     0      10      127.0.0.1:27042            0.0.0.0:*                   users:(("frida-server-15",pid=2486,fd=7))
-LISTEN     0      4       *:5037                     *:*                         users:(("adbd",pid=2459,fd=8))
-````
-
 # Application
 ````
 > adb install .\UnCrackable-Level1.apk
 ````
 
-![image](https://user-images.githubusercontent.com/44240720/162827148-f3031296-ca4e-4332-9f97-29e3769ab729.png)
+![image](https://user-images.githubusercontent.com/44240720/162916922-2d5007da-c60a-4298-a749-6b364da687aa.png)
 
 
 # Decode
@@ -130,55 +110,25 @@ Java.perform(function () {
 ````
 
 ````
-> frida -U -f "owasp.mstg.uncrackable1" -l .\hooking.ts
-````
+> adb push .\frida-server-15.1.17-android-x86 /data/media/
+.\frida-server-15.1.17-android-x86: 1 file pushed, 0 skipped. 141.4 MB/s (99288680 bytes in 0.670s)
 
-![image](https://user-images.githubusercontent.com/44240720/162834388-90ffe12e-a8db-455b-9e2d-e7611e2e8a2e.png)
+> adb shell "/data/media/frida-server-15.1.17-android-x86 &"
+[1] 2486
 
-# Patch apk
-````
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="owasp.mstg.uncrackable1">
-<uses-permission android:name="android.permission.SET_DEBUG_APP"></uses-permission>
-    <application android:debuggable="true" android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme">
-        <activity android:label="@string/app_name" android:name="sg.vantagepoint.uncrackable1.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-    </application>
-</manifest>
-````
-
-````
-> apktool build .\base\ -o app.apk
-I: Using Apktool 2.6.1
-I: Checking whether sources has changed...
-I: Smaling smali folder into classes.dex...
-I: Checking whether resources has changed...
-I: Building resources...
-I: Building apk file...
-I: Copying unknown files/dir...
-I: Built apk...
-
-> objection signapk .\app.apk 
-Performing zipalign
-Zipalign completed
-Signing new APK.
-Signed the new APK
-Copying final apk from C:\Users\samue\AppData\Local\Temp\tmp4znt2tva.apktemp.aligned.objection.apk to .\app.objection.apk in current directory...
-Cleaning up temp files...
-
-> adb uninstall owasp.mstg.uncrackable1
-Success
-
-> adb install .\app.objection.apk
+> adb shell ss -nlpt
+State      Recv-Q Send-Q  Local Address:Port         Peer Address:Port
+LISTEN     0      10      127.0.0.1:27042            0.0.0.0:*                   users:(("frida-server-15",pid=2486,fd=7))
+LISTEN     0      4       *:5037                     *:*                         users:(("adbd",pid=2459,fd=8))
 ````
 
 ````
 > frida -U -f "owasp.mstg.uncrackable1" -l .\hooking.ts
 ````
+
+![image](https://user-images.githubusercontent.com/44240720/162917186-a8f9e240-3d32-4e09-b18b-593c6569181f.png)
+
+
 
 
 
@@ -214,3 +164,11 @@ Started tracing 11 functions. Press Ctrl+C to stop.
   5469 ms     | <= 1
   5469 ms  <= [73,32,119,97,110,116,32,116,111,32,98,101,108,105,101,118,101]
 ````
+
+
+Remove wait for debug
+````
+1. Go to Settings -> About emulated device
+2. Click Build number 7 times (or till it says that you're a developer now).
+3. Go back and go to System -> Advanced -> Developer options
+4. Developer options > Wait for debugger (uncheck)
