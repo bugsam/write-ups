@@ -299,14 +299,16 @@ I: Building apk file...
 I: Copying unknown files/dir...
 I: Built apk...
 
-> 
+> objection signapk .\app.apk
+Performing zipalign
+Zipalign completed
+Signing new APK.
+Signed the new APK
+Copying final apk from C:\Users\samue\AppData\Local\Temp\tmppn18sufl.apktemp.aligned.objection.apk to .\app.objection.apk in current directory...
+Cleaning up temp files...
 ````
 
 
 
+
 :link: http://pallergabor.uw.hu/androidblog/dalvik_opcodes.html
-
-
-
-
-
