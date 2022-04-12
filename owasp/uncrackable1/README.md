@@ -35,7 +35,7 @@ List of devices attached
 emulator-5554   device
 > adb root
 > adb shell getprop ro.product.cpu.abilist
-x86_64
+x86
 ````
 
 # Application
