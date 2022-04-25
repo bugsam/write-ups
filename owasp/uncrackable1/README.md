@@ -22,7 +22,7 @@
 # Environment
 
 Android Virtual Device:
-* Nexus X
+* Nexus 5
 * x86 Images: R API 29 | x86
 * Target: Android 10.0
 * Google API: none
