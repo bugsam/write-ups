@@ -29,3 +29,10 @@ Connection: close
 ````
 
 ### >> 2. 
+
+````
+Your username is: wiener
+Your email is: wiener@hotdog.com
+Your API Key is: ux9JvKvqHiuWs4byoGWJ8Bp4AtRij6Ce
+
+````
