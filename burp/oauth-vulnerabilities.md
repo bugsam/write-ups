@@ -5,7 +5,7 @@
 
 Solution: 
 - Change the payload to reflect the email address and username of Carlos
-````
+````http
 POST /authenticate HTTP/1.1
 Host: ac2e1fea1e94ca5bc1979089008c00ce.web-security-academy.net
 Cookie: session=AYlXg9S3SS3Yb7OjYfXNTGl8gFqgRvdt
