@@ -87,7 +87,7 @@ Connection: close
 
 - Use the code in a new login session
 
-````
+````http
 GET /oauth-callback?code=E-byTvzsUdz-fhc2hWBYqFs7mJiEf2OvWchcO2dEEVL HTTP/1.1
 Host: acad1f4d1e6072bec0507d00006d00e4.web-security-academy.net
 Cookie: session=FEmgoUPOnicODVY4VMMdZRbz8ozTJ570
