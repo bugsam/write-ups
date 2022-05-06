@@ -30,6 +30,8 @@ Connection: close
 
 ### >> 2. Lab: Forced OAuth profile linking
 
+>> This lab gives you the option to attach a social media profile to your account so that you can log in via OAuth instead of using the normal username and password. Due to the insecure implementation of the OAuth flow by the client application, an attacker can manipulate this functionality to obtain access to other users' accounts. To solve the lab, use a CSRF attack to attach your own social media profile to the admin user's account on the blog website, then access the admin panel and delete Carlos. The admin user will open anything you send from the exploit server and they always have an active session on the blog website. You can log in to your own accounts using the following credentials: Blog website account: wiener:peter Social media profile: peter.wiener:hotdog
+
 - The request sends the authorization code to the /oauth-login `redirect_uri`
 - There is no `state` parameter in the oauth, so it might be vulnerable to CSRF
 ````
@@ -45,6 +47,8 @@ https://oauth-ac4e1f2d1eaf72afc0ae569802f400e3.web-security-academy.net/auth?cli
 - Click now in Login with Social Media and delete the Carlos user to complete the lab
 
 ### >> 3. Lab: OAuth account hijacking via redirect_uri
+
+>> This lab uses an OAuth service to allow users to log in with their social media account. A misconfiguration by the OAuth provider makes it possible for an attacker to steal authorization codes associated with other users' accounts.  To solve the lab, steal an authorization code associated with the admin user, then use it to access their account and delete Carlos. The admin user will open anything you send from the exploit server and they always have an active session with the OAuth service. You can log in with your own social media account using the following credentials: wiener:peter.
 
 - There is a redirect_url vulnerability where you can change the destination of the callback.
 
