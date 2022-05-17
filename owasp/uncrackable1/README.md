@@ -162,6 +162,7 @@ sg.vantagepoint.a.a.a(p0,p1)
    -  WebView Shell  org.chromium.webview_shell
 ````
 
+`frida-trace -U -p 7972 -j 'javax.crypto.Cipher!doFinal'` 
 ````
 > frida-trace -U -p 3970 -j "*Cipher*!*doFinal*"
 Instrumenting...
