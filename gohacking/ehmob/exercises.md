@@ -45,8 +45,7 @@ $ objection signapk exercise1_raw.apk
 
 $ adb install exercise1_raw.objection.apk
 `````
-
-<img width="320" alt="Screen Shot 2022-05-29 at 20 50 25" src="https://user-images.githubusercontent.com/44240720/170896297-ac7bf14f-ce31-4166-bfdb-bbb98803163d.png">
+<img width="220" src="https://user-images.githubusercontent.com/44240720/170896297-ac7bf14f-ce31-4166-bfdb-bbb98803163d.png">
 
 
 ## Lab 2
