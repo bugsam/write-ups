@@ -140,4 +140,84 @@ Commenting two if-eqz
 
 ## Lab 3
 
+> Objetivo do LAB parte 3: 
+> - Inserir um código no onCreate da Activity RegistroActivity 
+> Código pra inserir: 
+> Log.e(“ehmob”, “Registro criado com sucesso!”)
+
+Patch the RegistroActivity.smali adding the following lines
+(see patched comment)
+````smali
+.method public onCreate(Landroid/os/Bundle;)V
+    .locals 2
+
+    .line 26
+    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;->onCreate(Landroid/os/Bundle;)V
+
+    .line 27
+    invoke-virtual {p0}, Lbr/com/ehmob/lab001/RegistroActivity;->getLayoutInflater()Landroid/view/LayoutInflater;
+
+    move-result-object p1
+
+    invoke-static {p1}, Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;->inflate(Landroid/view/LayoutInflater;)Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;
+
+    move-result-object p1
+
+    iput-object p1, p0, Lbr/com/ehmob/lab001/RegistroActivity;->binding:Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;
+
+    .line 28
+    invoke-virtual {p1}, Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;->getRoot()Landroidx/constraintlayout/widget/ConstraintLayout;
+
+    move-result-object p1
+
+    invoke-virtual {p0, p1}, Lbr/com/ehmob/lab001/RegistroActivity;->setContentView(Landroid/view/View;)V
+
+    .line 29
+    iget-object p1, p0, Lbr/com/ehmob/lab001/RegistroActivity;->binding:Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;
+
+    iget-object p1, p1, Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;->txvTimer:Landroid/widget/TextView;
+
+    iget-object v0, p0, Lbr/com/ehmob/lab001/RegistroActivity;->sdfWatchTime:Ljava/text/SimpleDateFormat;
+
+    new-instance v1, Ljava/util/Date;
+
+    invoke-direct {v1}, Ljava/util/Date;-><init>()V
+
+    invoke-virtual {v0, v1}, Ljava/text/SimpleDateFormat;->format(Ljava/util/Date;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {p1, v0}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 30
+    iget-object p1, p0, Lbr/com/ehmob/lab001/RegistroActivity;->binding:Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;
+
+    iget-object p1, p1, Lbr/com/ehmob/lab001/databinding/ActivityRegistroBinding;->button:Landroid/widget/Button;
+
+    new-instance v0, Lbr/com/ehmob/lab001/RegistroActivity$$ExternalSyntheticLambda0;
+
+    invoke-direct {v0, p0}, Lbr/com/ehmob/lab001/RegistroActivity$$ExternalSyntheticLambda0;-><init>(Lbr/com/ehmob/lab001/RegistroActivity;)V
+
+    invoke-virtual {p1, v0}, Landroid/widget/Button;->setOnClickListener(Landroid/view/View$OnClickListener;)V
+
+    # patch
+    .line 31
+    const-string v0, "ehmob"
+
+    const-string v1, "Registro criado com sucesso!"
+
+    invoke-static {v0, v1}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+    # patch
+
+    return-void
+.end method
+````
+
+````
+$ adb logcat -C ehmob:E *:S
+--------- beginning of system
+--------- beginning of main
+--------- beginning of kernel
+05-29 21:48:57.029 12439 12439 E ehmob   : Registro criado com sucesso!
+````
 
