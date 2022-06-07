@@ -26,12 +26,12 @@ Java.perform(function(){
     return MainActivity.onCreate.apply(this, arguments);
 });
 
-//not working
+//vanuti
 Java.perform(function() {
     var clazz = Java.use('br.com.ehmob.lab002.MainActivity');
-    clazz['onCreate$lambda-0'].implementation = function() {
+    clazz['onCreate$lambda-0'].implementation = function(mainActivity, view) {
 
-        //clazz.setRedirectActivity(true);
+		mainActivity.setRedirectActivity(true);
         return clazz['onCreate$lambda-0'].apply(this, arguments);
     }
 });
