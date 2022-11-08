@@ -9,7 +9,6 @@
 
 [![image](https://user-images.githubusercontent.com/44240720/130667779-c16910bc-fa14-4c8d-89fe-c53991ce0abc.png)](https://ibotpeaches.github.io/Apktool/documentation/)
 
-
 * Frida
 
 [![image](https://user-images.githubusercontent.com/44240720/130668692-7a4f9339-05c8-43b2-b97f-1eb0c613b246.png)](https://frida.re/)
@@ -22,11 +21,33 @@
 # Environment
 
 Android Virtual Device:
-* Nexus 5
+* Nexus 6P
 * x86 Images: R API 29 | x86
-* Target: Android 10.0
-* Google API: none
+* Target: Android API 29
+* Google APIs: Yes
+* Internal Storage: 6 GB
 
+Write-data:
+
+- https://developer.android.com/studio/run/emulator-commandline#system-filedir
+````
+$ /Users/samuel.almeida/Library/Android/sdk/emulator/emulator -list-avds
+
+$ /Users/samuel.almeida/Library/Android/sdk/emulator/emulator -avd Nexus_6P_API_29 -writable-system
+````
+
+````
+$ adb root
+restarting adbd as root
+
+$ adb remount
+Using overlayfs for /system
+Using overlayfs for /vendor
+Using overlayfs for /product
+Using overlayfs for /system_ext
+Now reboot your device for settings to take effect
+remount succeeded
+````
 
 Check:
 ````
